@@ -1,7 +1,7 @@
 # Hours
 | day | time | time used to   |
 | :----:|:-----| :-----|
-| yht   | 28   | | 
-| 18.2. | 3    | tutustuminen JavaFX:n |
+| total   | 0   | | 
+| 22.12.2020 | 2    | created repository, documents, run schedule |
 
 | | | | 
