@@ -7,7 +7,7 @@ User opens the application. After login a map of local area opens. There are red
 These dots are messages from other users. A message can be text, picture, video or voicemail.
 
 User can filter shown dots on the map using filter function. Filtering can be done by likes, location, date created or/and times viewed.
-![filter view](pictures\FilterView.PNG)
+![filter view](pictures/FilterView.PNG)
 
 When user is close enough to a message it turns green. Then the message is available to tuser to read. 
 
