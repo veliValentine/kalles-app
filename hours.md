@@ -7,3 +7,4 @@
 | 25.12.2020 | 1 | init server and client | 
 | 25.12.2020 | 1 | Message list |
 | 25.12.2020 | 1 | New message saves location |
+| 26.12.2020 | 1 | New message form |

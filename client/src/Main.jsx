@@ -21,30 +21,30 @@ const messages = [
     id: '0',
     text: 'This is first message',
     location: {
-      lat: 60.171712519065174,
-      long: 24.94059522394236
+      latitude: 60.171712519065174,
+      longitude: 24.94059522394236
     },
-    dist: 0.1,
+    distance: 0.1,
     username: 'Test user 1',
   },
   {
     id: '1',
     text: 'This is second message',
     location: {
-      lat: 60.2058235648218,
-      long: 24.963834277842142
+      latitude: 60.2058235648218,
+      longitude: 24.963834277842142
     },
-    dist: 20,
+    distance: 20,
     username: 'Test user 2',
   },
   {
     id: '2',
     text: 'This is third message',
     location: {
-      lat: 60.227737337935544,
-      long: 25.014474383948446
+      latitude: 60.227737337935544,
+      longitude: 25.014474383948446
     },
-    dist: 2,
+    distance: 2,
     username: 'Test user 3',
   }
 ];

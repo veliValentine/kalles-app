@@ -22,17 +22,26 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const Message = ({ message }) => {
-  const { text, dist, username } = message;
+  const { text, distance, username } = message;
+  if (distance > 0.1) {
+    return (
+      <View style={styles.messageContainer}>
+        <Text>Move closer to see the message</Text>
+        <Text>Distance: {distance} km</Text>
+        <Text>By: {username}</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.messageContainer}>
-      <Text style={styles.messageText} >{text}</Text>
-      <Text>Distance: {dist}km</Text>
+      <Text style={styles.messageText} >Message: {text}</Text>
+      <Text>Distance: {distance} km</Text>
       <Text>By: {username}</Text>
     </View>
   );
 };
 
-const MessageList = ({ messages }) => {
+const MessageList = ({ messages, }) => {
   return (
     <View style={styles.container}>
       <FlatList
