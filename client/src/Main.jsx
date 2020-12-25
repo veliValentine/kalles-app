@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import MessageList from './components/MessageList';
-
 import Constants from 'expo-constants';
+
+import MessageList from './components/MessageList';
+//import AppBar from './components/AppBar';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +52,7 @@ const Main = () => {
   const [data, setData] = useState(messages);
   return (
     <View style={styles.container}>
+      {/*<AppBar />*/}
       <MessageList messages={data} />
     </View>
   );
