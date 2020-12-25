@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-
-import Constants from 'expo-constants';
+import { Redirect, Route, Switch } from 'react-router-native';
 
 import MessageList from './components/MessageList';
 import MessageForm from './components/MessageForm';
-//import AppBar from './components/AppBar';
+import AppBar from './components/AppBar';
+import Message from './components/Message';
+
+import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const messages = [
+const data = [
   {
     id: '0',
     text: 'This is first message',
@@ -50,20 +52,30 @@ const messages = [
 ];
 
 const Main = () => {
-  const [data, setData] = useState(messages);
+  const [messages, setMessages] = useState(data);
 
   const addMessage = (message) => {
-    setData(data.concat({
+    setMessages(messages.concat({
       ...message,
-      id: (data.length + 1).toString()
+      id: (messages.length + 1).toString()
     }));
   };
 
   return (
     <View style={styles.container}>
-      {/*<AppBar />*/}
-      <MessageList messages={data} />
-      <MessageForm addMessage={addMessage} />
+      <AppBar />
+      <Switch>
+        <Route path="/message/:id" exact>
+          <Message messages={messages}/>
+        </Route>
+        <Route path="/messages" exact>
+          <MessageList messages={messages} />
+        </Route>
+        <Route path="/newMessage">
+          <MessageForm addMessage={addMessage} />
+        </Route>
+        <Redirect to="/messages" />
+      </Switch>
     </View>
   );
 };

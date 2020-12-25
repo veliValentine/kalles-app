@@ -1,29 +1,36 @@
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, ScrollView } from 'react-native';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
     flexDirection: 'row',
-    padding: 5,
+    padding: 10,
   },
   text: {
+    padding: 10,
     color: 'white',
-    marginLeft: 5
+    marginRight: 20,
+    fontWeight: 'bold',
   },
 });
 
-const AppBarTab = ({ children }) => {
+const AppBarTab = ({ to, children }) => {
   return (
-    <Text style={styles.text}>{children}</Text>
+    <Link to={to}>
+      <Text style={styles.text}>{children}</Text>
+    </Link>
   );
 };
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab>Moi</AppBarTab>
-      <AppBarTab>Hoi</AppBarTab>
+      <ScrollView horizontal>
+        <AppBarTab to="/messages">Messages</AppBarTab>
+        <AppBarTab to="/newMessage">New message</AppBarTab>
+      </ScrollView>
     </View>
   );
 };

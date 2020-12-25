@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useHistory } from 'react-router-native';
 
 import { filterByDistances, sortByDistances } from '../utils';
 
@@ -22,22 +23,27 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const Message = ({ message }) => {
-  const { text, distance, username } = message;
+  const history = useHistory();
+  const { distance, username, id } = message;
+
   if (distance > 0.1) {
     return (
       <View style={styles.messageContainer}>
         <Text>Move closer to see the message</Text>
         <Text>Distance: {distance} km</Text>
-        <Text>By: {username}</Text>
       </View>
     );
   }
   return (
-    <View style={styles.messageContainer}>
-      <Text style={styles.messageText} >Message: {text}</Text>
-      <Text>Distance: {distance} km</Text>
-      <Text>By: {username}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => history.push(`/message/${id}`)}
+    >
+      <View style={styles.messageContainer}>
+        <Text style={styles.messageText} >Click to see message</Text>
+        <Text>By: {username}</Text>
+        <Text>Distance: {distance} km</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

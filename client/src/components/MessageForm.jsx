@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, Button } from 'react-native';
+import { useHistory } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +26,7 @@ const MessageForm = ({ addMessage }) => {
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState(null);
+  const history = useHistory();
 
   const newError = (errorMessage) => {
     setError(errorMessage);
@@ -63,6 +65,7 @@ const MessageForm = ({ addMessage }) => {
       });
       setMessage('');
       setUsername('');
+      history.push('/messages');
     });
   };
 
