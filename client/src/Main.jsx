@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
 
 import MessageList from './components/MessageList';
+import MessageForm from './components/MessageForm';
 //import AppBar from './components/AppBar';
 
 const styles = StyleSheet.create({
@@ -50,10 +51,19 @@ const messages = [
 
 const Main = () => {
   const [data, setData] = useState(messages);
+
+  const addMessage = (message) => {
+    setData(data.concat({
+      ...message,
+      id: (data.length + 1).toString()
+    }));
+  };
+
   return (
     <View style={styles.container}>
       {/*<AppBar />*/}
       <MessageList messages={data} />
+      <MessageForm addMessage={addMessage} />
     </View>
   );
 };

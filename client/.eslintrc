@@ -13,6 +13,7 @@
   "rules": {
     "react/prop-types": "off",
     "semi": "error",
-    "eqeqeq": "error"
+    "eqeqeq": "error",
+    "no-trailing-spaces":"warn"
   }
 }
