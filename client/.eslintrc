@@ -12,6 +12,7 @@
   },
   "rules": {
     "react/prop-types": "off",
-    "semi": "error"
+    "semi": "error",
+    "eqeqeq": "error"
   }
 }
