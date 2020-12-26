@@ -30,6 +30,7 @@ const AppBar = () => {
       <ScrollView horizontal>
         <AppBarTab to="/messages">Messages</AppBarTab>
         <AppBarTab to="/newMessage">New message</AppBarTab>
+        <AppBarTab to="/map">Map</AppBarTab>
       </ScrollView>
     </View>
   );

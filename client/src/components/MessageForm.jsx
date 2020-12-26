@@ -8,10 +8,11 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   textInput: {
-    padding: 5,
+    padding: 10,
+    marginBottom:10,
   },
   button: {
-    padding: 5,
+    padding: 10,
     backgroundColor: 'blue',
   },
   error: {
@@ -71,7 +72,7 @@ const MessageForm = ({ addMessage }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ padding: 5 }}>Message form</Text>
+      <Text style={{ padding: 5 }}>Create message</Text>
       <TextInput
         onChangeText={(text) => setMessage(text)}
         placeholder="Message"

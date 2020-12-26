@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Redirect, Route, Switch } from 'react-router-native';
+
+import Constants from 'expo-constants';
 
 import MessageList from './components/MessageList';
 import MessageForm from './components/MessageForm';
 import AppBar from './components/AppBar';
 import Message from './components/Message';
-
-import Constants from 'expo-constants';
+import Map from './components/Map';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,6 +54,18 @@ const data = [
 
 const Main = () => {
   const [messages, setMessages] = useState(data);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  console.log('location', currentLocation);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      const { longitude, latitude } = coords;
+      setCurrentLocation({
+        longitude,
+        latitude
+      });
+    });
+  }, []);
 
   const addMessage = (message) => {
     setMessages(messages.concat({
@@ -66,13 +79,16 @@ const Main = () => {
       <AppBar />
       <Switch>
         <Route path="/message/:id" exact>
-          <Message messages={messages}/>
+          <Message messages={messages} />
         </Route>
         <Route path="/messages" exact>
           <MessageList messages={messages} />
         </Route>
         <Route path="/newMessage">
           <MessageForm addMessage={addMessage} />
+        </Route>
+        <Route path="/map">
+          <Map />
         </Route>
         <Redirect to="/messages" />
       </Switch>
