@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Redirect, Route, Switch } from 'react-router-native';
 
@@ -54,18 +54,6 @@ const data = [
 
 const Main = () => {
   const [messages, setMessages] = useState(data);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  console.log('location', currentLocation);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const { longitude, latitude } = coords;
-      setCurrentLocation({
-        longitude,
-        latitude
-      });
-    });
-  }, []);
 
   const addMessage = (message) => {
     setMessages(messages.concat({

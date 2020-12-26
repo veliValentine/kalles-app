@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, Button } from 'react-native';
 import { useHistory } from 'react-router-native';
 
+import useCurrentLocation from '../hooks/useCurrentLocation';
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -9,7 +11,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     padding: 10,
-    marginBottom:10,
+    marginBottom: 10,
   },
   button: {
     padding: 10,
@@ -27,7 +29,13 @@ const MessageForm = ({ addMessage }) => {
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState(null);
+
   const history = useHistory();
+  const [currentLocation] = useCurrentLocation();
+
+  if (!currentLocation) {
+    return <Text>loading</Text>;
+  }
 
   const newError = (errorMessage) => {
     setError(errorMessage);
@@ -52,22 +60,16 @@ const MessageForm = ({ addMessage }) => {
       newError('Username required');
       return;
     }
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const { latitude, longitude } = coords;
-      const location = {
-        latitude,
-        longitude
-      };
-      addMessage({
-        text: messageData,
-        location,
-        distance: 0,
-        username: usernameData,
-      });
-      setMessage('');
-      setUsername('');
-      history.push('/messages');
+
+    addMessage({
+      text: messageData,
+      location: currentLocation,
+      distance: 0,
+      username: usernameData,
     });
+    setMessage('');
+    setUsername('');
+    history.push('/messages');
   };
 
   return (
