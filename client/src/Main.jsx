@@ -9,6 +9,7 @@ import MessageForm from './components/MessageForm';
 import AppBar from './components/AppBar';
 import Message from './components/Message';
 import Map from './components/Map';
+import { filterByDistances, sortByDistances } from './utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +50,17 @@ const data = [
     },
     distance: 2,
     username: 'Test user 3',
-  }
+  },
+  {
+    id: '3',
+    text: 'This is 4 message',
+    location: {
+      latitude: 60.227737337935544,
+      longitude: 25.014474383948446
+    },
+    distance: 10,
+    username: 'Test user 4',
+  },
 ];
 
 const Main = () => {
@@ -62,23 +73,25 @@ const Main = () => {
     }));
   };
 
+  const filteredMessages = filterByDistances(messages, 15).sort(sortByDistances);
+
   return (
     <View style={styles.container}>
       <AppBar />
       <Switch>
         <Route path="/message/:id" exact>
-          <Message messages={messages} />
+          <Message messages={filteredMessages} />
         </Route>
         <Route path="/messages" exact>
-          <MessageList messages={messages} />
+          <MessageList messages={filteredMessages} />
         </Route>
         <Route path="/newMessage">
           <MessageForm addMessage={addMessage} />
         </Route>
         <Route path="/map">
-          <Map />
+          <Map messages={filteredMessages} />
         </Route>
-        <Redirect to="/messages" />
+        <Redirect to="/map" />
       </Switch>
     </View>
   );

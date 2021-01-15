@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
 
-import { filterByDistances, sortByDistances } from '../utils';
-
 const styles = StyleSheet.create({
   separator: {
     height: 10
