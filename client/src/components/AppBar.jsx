@@ -28,9 +28,9 @@ const AppBar = () => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
+        <AppBarTab to="/map">Map</AppBarTab>
         <AppBarTab to="/messages">Messages</AppBarTab>
         <AppBarTab to="/newMessage">New message</AppBarTab>
-        <AppBarTab to="/map">Map</AppBarTab>
       </ScrollView>
     </View>
   );
