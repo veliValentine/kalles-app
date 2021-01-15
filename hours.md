@@ -11,3 +11,4 @@
 | 26.12.2020 | 1 | Router and Message view |
 | 27.12.2020 | 1 | Map rendering and reading map-api |
 | 27.12.2020 | 1 | Current location hook. Reading location apis |
+| 15.1.2021 | ? | 07:00 | 
