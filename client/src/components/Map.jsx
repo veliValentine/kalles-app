@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Button } from 'react-native';
 import MapView, { Marker as MapMarker } from 'react-native-maps';
 
 import Constants from 'expo-constants';
@@ -18,49 +18,60 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white',
   },
-  footer: {
-    padding: 10,
-    backgroundColor: 'white',
+  reloadButtonContainer: {
+    borderRadius: 50,
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    backgroundColor: 'grey',
   }
 });
 
-const ownLocationMarker = (location) => (
+const OwnLocationMarker = ({ location }) => (
   <MapMarker
     coordinate={location}
     pinColor="aqua"
-    key="own"
+    title="You"
+    onCalloutPress={() => console.log('Redirect to user profile')}
   />
 );
-
-const convertToMarkersArray = (messages) => messages.map((message) => (
-  <Marker
-    key={message.id}
-    message={message}
-  />
-));
 
 const Marker = ({ message }) => {
   const history = useHistory();
   const { coordinate, close, id, username } = message;
 
   const redirectToMessageView = () => {
-    history.push(`/message/${id}`);
+    if (close) {
+      history.push(`/message/${id}`);
+    }
   };
 
-  return <MapMarker
-    coordinate={coordinate}
-    pinColor={close ? 'green' : 'yellow'}
-    key={id}
-    title={close ? 'View message' : null}
-    description={close ? `By ${username}` : null}
-    onCalloutPress={redirectToMessageView}
-  />;
+  return (
+    <MapMarker
+      coordinate={coordinate}
+      pinColor={close ? 'green' : 'yellow'}
+      key={id}
+      title={close ? 'View message' : 'Move closer to see the message'}
+      description={`By ${username}`}
+      onCalloutPress={redirectToMessageView}
+    />
+  );
 };
 
+const ReloadButton = ({ onPress }) => {
+  return (
+    <View style={styles.reloadButtonContainer}>
+      <Button
+        title="reload"
+        onPress={onPress}
+        color="transparent"
+      />
+    </View>
+  );
+};
 
 //https://github.com/react-native-maps/react-native-maps
 
-const Map = ({ messages }) => {
+const Map = ({ messages, reloadMessages }) => {
   const [location] = useCurrentLocation();
 
   if (!location) {
@@ -74,18 +85,20 @@ const Map = ({ messages }) => {
     longitudeDelta: 0.1,
   };
 
-  const markers = [ownLocationMarker(location)].concat(convertToMarkersArray(messages));
+  const markers = [<OwnLocationMarker key="own" location={location} />].concat(messages.map(message => <Marker message={message} key={message.id} />));
 
   return (
     <View>
-      <View style={styles.header} />
+      {/*<View style={styles.reloadContainer}>
+        <Text>Reload</Text>
+      </View>*/}
       <MapView style={styles.map}
         //minZoomLevel={13}
         initialRegion={initialRegion}
       >
         {markers}
       </MapView>
-      <View style={styles.footer} />
+      <ReloadButton onPress={reloadMessages} />
     </View>
   );
 };

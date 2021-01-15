@@ -9,6 +9,7 @@ import MessageForm from './components/MessageForm';
 import AppBar from './components/AppBar';
 import Message from './components/Message';
 import Map from './components/Map';
+
 import { filterByDistances, sortByDistances } from './utils';
 
 const styles = StyleSheet.create({
@@ -45,10 +46,10 @@ const data = [
     id: '2',
     text: 'This is third message',
     location: {
-      latitude: 60.227737337935544,
+      latitude: 60.22773733793554,
       longitude: 25.014474383948446
     },
-    distance: 2,
+    distance: 0,
     username: 'Test user 3',
   },
   {
@@ -65,6 +66,7 @@ const data = [
 
 const Main = () => {
   const [messages, setMessages] = useState(data);
+  console.log(`${messages.length} messages`);
 
   const addMessage = (message) => {
     setMessages(messages.concat({
@@ -73,8 +75,12 @@ const Main = () => {
     }));
   };
 
-  const filteredMessages = filterByDistances(messages, 15)
-    .sort(sortByDistances)
+  const reloadMessages = () => {
+    console.log('Reloaded messages');
+  };
+
+  const filteredMessages = //filterByDistances(messages, 15)
+    messages.sort(sortByDistances)
     .map(message => (
       {
         ...message,
@@ -97,7 +103,7 @@ const Main = () => {
           <MessageForm addMessage={addMessage} />
         </Route>
         <Route path="/map">
-          <Map messages={filteredMessages} />
+          <Map messages={filteredMessages} reloadMessages={reloadMessages}/>
         </Route>
         <Redirect to="/map" />
       </Switch>
