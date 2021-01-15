@@ -22,9 +22,8 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const Message = ({ message }) => {
   const history = useHistory();
-  const { distance, username, id } = message;
-
-  const tooFarAway = distance > 0.1;
+  const { distance, username, id, close } = message;
+  const tooFarAway = !close;
 
   return (
     <View style={styles.messageContainer}>

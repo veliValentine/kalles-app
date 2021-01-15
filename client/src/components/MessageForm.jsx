@@ -69,7 +69,7 @@ const MessageForm = ({ addMessage }) => {
     });
     setMessage('');
     setUsername('');
-    history.push('/messages');
+    history.push('/map');
   };
 
   return (

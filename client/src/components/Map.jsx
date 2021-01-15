@@ -2,9 +2,10 @@ import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
+import Constants from 'expo-constants';
+
 import useCurrentLocation from '../hooks/useCurrentLocation';
 
-import Constants from 'expo-constants';
 import LoadingScreen from './LoadingScreen';
 
 const styles = StyleSheet.create({
@@ -22,7 +23,19 @@ const styles = StyleSheet.create({
   }
 });
 
+const ownLocationMarker = (location) => <Marker coordinate={location} pinColor="aqua" key="own" />;
+
+const convertToMarkersArray = (messages) => messages.map(({ coordinate, close, id }) => (
+  <Marker
+    coordinate={coordinate}
+    pinColor={close ? 'green' : 'yellow'}
+    key={id}
+  />
+));
+
+
 //https://github.com/react-native-maps/react-native-maps
+
 const Map = ({ messages }) => {
   const [location] = useCurrentLocation();
 
@@ -37,17 +50,7 @@ const Map = ({ messages }) => {
     longitudeDelta: 0.1,
   };
 
-  //Colors aqua for own location, yellow for close one and green for available one
-  console.log(messages);
-  let markers = [<Marker coordinate={location} pinColor="aqua" key="own" />];
-  markers = markers.concat(
-    messages.map(message => ({
-      ...message,
-      pinColor: message.distance < 0.2 ? "green" : "yellow",
-      id: message.id,
-    }))
-      .map(({ location, pinColor, key }) => <Marker coordinate={location} pinColor={pinColor} key={key} />)
-  );
+  const markers = [ownLocationMarker(location)].concat(convertToMarkersArray(messages));
 
   return (
     <View>

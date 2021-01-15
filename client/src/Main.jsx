@@ -73,7 +73,15 @@ const Main = () => {
     }));
   };
 
-  const filteredMessages = filterByDistances(messages, 15).sort(sortByDistances);
+  const filteredMessages = filterByDistances(messages, 15)
+    .sort(sortByDistances)
+    .map(message => (
+      {
+        ...message,
+        close: message.distance > 0.1 ? false : true,
+        coordinate: message.location,
+      }
+    ));
 
   return (
     <View style={styles.container}>
