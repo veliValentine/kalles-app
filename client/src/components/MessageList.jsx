@@ -25,11 +25,11 @@ const Message = ({ message }) => {
   const { distance, username, id, close } = message;
 
   const handlePress = () => {
-    if (close) {
-      history.push(`/message/${id}`);
-    } else {
-      history.push(`/map/${id}`);
-    }
+    //if (close) {
+    //  history.push(`/message/${id}`);
+    //} else {
+    history.push(`/map/${id}`);
+    //}
   };
 
   return (
