@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 const Main = () => {
   const [, setCurrentLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages();
-  console.log(`${messages.length} messages`);
+  //console.log(`${messages.length} messages`);
 
   const reloadMessages = () => {
     setCurrentLocation();
@@ -45,7 +45,10 @@ const Main = () => {
         <Route path="/newMessage">
           <MessageForm addMessage={addMessage} />
         </Route>
-        <Route path="/map">
+        <Route path="/map" exact>
+          <Map messages={messages} reloadMessages={reloadMessages}/>
+        </Route>
+        <Route path="/map/:id">
           <Map messages={messages} reloadMessages={reloadMessages}/>
         </Route>
         <Redirect to="/map" />

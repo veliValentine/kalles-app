@@ -35,7 +35,6 @@ const useMessages = () => {
 
   const addMessage = async (message) => {
     const newMessage = { ...message, id: messages.length.toString() };
-    console.log(newMessage);
     await storage.addMessage(newMessage);
     getMessages();
   };

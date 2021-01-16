@@ -23,15 +23,19 @@ const ItemSeparator = () => <View style={styles.separator} />;
 const Message = ({ message }) => {
   const history = useHistory();
   const { distance, username, id, close } = message;
-  const tooFarAway = !close;
+
+  const handlePress = () => {
+    if (close) {
+      history.push(`/message/${id}`);
+    } else {
+      history.push(`/map/${id}`);
+    }
+  };
 
   return (
     <View style={styles.messageContainer}>
-      <TouchableOpacity
-        onPress={() => history.push(`/message/${id}`)}
-        disabled={tooFarAway}
-      >
-        {tooFarAway
+      <TouchableOpacity onPress={handlePress}>
+        {!close
           ? <Text>Move closer to see the message</Text>
           : <View>
             <Text style={styles.messageText} >Click to see message</Text>

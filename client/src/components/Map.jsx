@@ -7,12 +7,12 @@ import Constants from 'expo-constants';
 import useCurrentLocation from '../hooks/useCurrentLocation';
 
 import LoadingScreen from './LoadingScreen';
-import { useHistory } from 'react-router-native';
+import { useHistory, useParams } from 'react-router-native';
 
 const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height - Constants.statusBarHeight,
+    height: Dimensions.get('window').height - Constants.statusBarHeight - 60,
   },
   header: {
     padding: 10,
@@ -25,15 +25,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
   }
 });
-
-const OwnLocationMarker = ({ location }) => (
-  <MapMarker
-    coordinate={location}
-    pinColor="aqua"
-    title="You"
-    onCalloutPress={() => console.log('Redirect to user profile')}
-  />
-);
 
 const Marker = ({ message }) => {
   const history = useHistory();
@@ -61,7 +52,7 @@ const ReloadButton = ({ onPress }) => {
   return (
     <View style={styles.reloadButtonContainer}>
       <Button
-        title="reload"
+        title="reload map"
         onPress={onPress}
         color="transparent"
       />
@@ -73,19 +64,22 @@ const ReloadButton = ({ onPress }) => {
 
 const Map = ({ messages, reloadMessages }) => {
   const [location] = useCurrentLocation();
+  const { id } = useParams();
 
   if (!location) {
     return <LoadingScreen />;
   }
 
+  const coordinateOfMessage = id ? messages.find(message => message.id === id).coordinate : null;
+
   const initialRegion = {
-    latitude: location.latitude,
-    longitude: location.longitude,
+    latitude: coordinateOfMessage ? coordinateOfMessage.latitude : location.latitude,
+    longitude: coordinateOfMessage ? coordinateOfMessage.longitude : location.longitude,
     latitudeDelta: 0.1,
     longitudeDelta: 0.1,
   };
 
-  const markers = [<OwnLocationMarker key="own" location={location} />].concat(messages.map(message => <Marker message={message} key={message.id} />));
+  const markers = messages.map(message => <Marker message={message} key={message.id} />);
 
   return (
     <View>
@@ -95,6 +89,9 @@ const Map = ({ messages, reloadMessages }) => {
       <MapView style={styles.map}
         //minZoomLevel={13}
         initialRegion={initialRegion}
+        showsUserLocation
+        showsBuildings={false}
+        showsTraffic={false}
       >
         {markers}
       </MapView>
