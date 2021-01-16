@@ -13,7 +13,9 @@ export const calculateDistance = (coor1, coor2) => {
     Math.sin(dLong / 2) * Math.sin(dLong / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const d = 6371 * c;
-  return d;
+  return round100(d);
 };
 
 const deg2rad = (deg) => deg * (Math.PI / 180);
+
+const round100 = (number) => Math.round(number * 100) / 100;

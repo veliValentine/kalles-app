@@ -18,7 +18,6 @@ const useCurrentLocation = () => {
   };
 
   return [currentLocation, fetchCurrentLocation];
-
 };
 
 export default useCurrentLocation;

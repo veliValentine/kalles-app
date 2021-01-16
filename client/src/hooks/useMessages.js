@@ -9,14 +9,17 @@ const useMessages = () => {
   const [currentLocation] = useCurrentLocation();
   const [messages, setMessages] = useState([]);
 
+  useEffect(() => {
+    getMessages();
+  }, [currentLocation]);
+
   const getMessages = async () => {
     const messages = await storage.getMessages();
-    //simulates server
     const newMessages = messages
       .map(message => {
         return {
           ...message,
-          distance: calculateDistance(currentLocation, message.location)
+          distance: currentLocation ? calculateDistance(currentLocation, message.location) : 99,
         };
       })
       .sort(sortByDistances)
@@ -31,12 +34,11 @@ const useMessages = () => {
   };
 
   const addMessage = async (message) => {
-    await storage.addMessage({ ...message, id: messages.length });
-  };
-
-  useEffect(() => {
+    const newMessage = { ...message, id: messages.length.toString() };
+    console.log(newMessage);
+    await storage.addMessage(newMessage);
     getMessages();
-  }, []);
+  };
 
   return [messages, getMessages, addMessage];
 };

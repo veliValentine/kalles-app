@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
 const Message = ({ messages }) => {
   const { id } = useParams();
   const message = messages.find(item => item.id === id);
+  console.log('messages', messages);
+  console.log('id', id);
+  console.log('message', message);
   const { text, username } = message;
   return (
     <View style={styles.container}>

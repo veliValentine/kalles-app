@@ -37,7 +37,7 @@ const OwnLocationMarker = ({ location }) => (
 
 const Marker = ({ message }) => {
   const history = useHistory();
-  const { coordinate, close, id, username } = message;
+  const { coordinate, close, id, username, distance } = message;
 
   const redirectToMessageView = () => {
     if (close) {
@@ -48,7 +48,7 @@ const Marker = ({ message }) => {
   return (
     <MapMarker
       coordinate={coordinate}
-      pinColor={close ? 'green' : 'yellow'}
+      pinColor={close ? 'green' : distance < 15 ? 'yellow' : 'red'}
       key={id}
       title={close ? 'View message' : 'Move closer to see the message'}
       description={`By ${username}`}
