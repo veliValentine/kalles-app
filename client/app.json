@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
-    "version": "1.0.0",
+    "name": "kalles-studios",
+    "slug": "kalles-studios",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "privacy": "unlisted",
+    "description": ""
   }
 }

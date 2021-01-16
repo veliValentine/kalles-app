@@ -3,39 +3,30 @@ import AsyncStorage from '@react-native-community/async-storage';
 const data = [
   {
     id: '0',
-    text: 'This is first message',
+    text: 'Hello Helsinki',
     location: {
       latitude: 60.171712519065174,
       longitude: 24.94059522394236
     },
-    username: 'Test user 1',
+    username: 'Helsinki',
   },
   {
     id: '1',
-    text: 'This is second message',
+    text: 'Hello Kumpula',
     location: {
       latitude: 60.2058235648218,
       longitude: 24.963834277842142
     },
-    username: 'Test user 2',
+    username: 'Kumpula',
   },
   {
     id: '2',
-    text: 'This is third message',
+    text: 'Hello Viikki',
     location: {
       latitude: 60.22773733793554,
       longitude: 25.014474383948446
     },
-    username: 'Test user 3',
-  },
-  {
-    id: '3',
-    text: 'This is 4 message',
-    location: {
-      latitude: 60.227737337935544,
-      longitude: 25.014474383948446
-    },
-    username: 'Test user 4',
+    username: 'Testuser 3',
   },
 ];
 

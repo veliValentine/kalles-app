@@ -10,9 +10,12 @@ const storage = new Storage();
 const App = () => {
   useEffect(() => {
     const initStorage = async () => {
-      await storage.initMessages();
+      const messages = await storage.getMessages();
+      if (messages.length < 1) {
+        await storage.initMessages();
+      }
     };
-    //initStorage();
+    initStorage();
   }, []);
   return (
     <NativeRouter>
