@@ -15,7 +15,12 @@ const styles = StyleSheet.create({
   },
   messageText: {
 
-  }
+  },
+  missingContainer: {
+    marginTop: 5,
+    padding: 10,
+    backgroundColor: 'white',
+  },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
@@ -48,7 +53,24 @@ const Message = ({ message }) => {
   );
 };
 
-const MessageList = ({ messages, }) => {
+const MessageList = ({ messages }) => {
+  const history = useHistory();
+
+  if (!messages || messages.length < 1) {
+    const handlePress = () => {
+      history.push('/newMessage');
+    };
+
+    return (
+      <View style={styles.missingContainer}>
+        <TouchableOpacity onPress={handlePress}>
+          <Text>Messages not found!</Text>
+          <Text style={{ color: 'blue' }}>Add new message!</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
