@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useParams, useHistory } from 'react-router-native';
+import LoadingScreen from './LoadingScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +21,11 @@ const styles = StyleSheet.create({
 const Message = ({ messages }) => {
   const { id } = useParams();
   const history = useHistory();
+
+  if (!messages) {
+    return <LoadingScreen />;
+  }
+
   const message = messages.find(item => item.id === id);
 
   if (!message) {

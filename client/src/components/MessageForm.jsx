@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-native';
 
 import useCurrentLocation from '../hooks/useCurrentLocation';
 
+import LoadingScreen from './LoadingScreen';
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -34,7 +36,7 @@ const MessageForm = ({ addMessage }) => {
   const [currentLocation] = useCurrentLocation();
 
   if (!currentLocation) {
-    return <Text>loading</Text>;
+    return <LoadingScreen />;
   }
 
   const newError = (errorMessage) => {

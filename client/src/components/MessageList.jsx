@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
+import LoadingScreen from './LoadingScreen';
 
 const styles = StyleSheet.create({
   separator: {
@@ -56,7 +57,11 @@ const Message = ({ message }) => {
 const MessageList = ({ messages }) => {
   const history = useHistory();
 
-  if (!messages || messages.length < 1) {
+  if (!messages) {
+    return <LoadingScreen />;
+  }
+
+  if (messages.length < 1) {
     const handlePress = () => {
       history.push('/newMessage');
     };
