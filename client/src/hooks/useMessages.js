@@ -3,7 +3,7 @@ import StorageContext from '../contexts/StorageContext';
 import useCurrentLocation from './useCurrentLocation';
 
 import { sortByDistances, calculateDistance } from '../utils';
-
+let i = -5;
 const useMessages = () => {
   const storage = useContext(StorageContext);
   const [currentLocation] = useCurrentLocation();
@@ -15,7 +15,6 @@ const useMessages = () => {
 
   const getMessages = async () => {
     const messages = await storage.getMessages();
-    console.log('getMessages');
     const newMessages = messages
       .map(message => {
         return {
