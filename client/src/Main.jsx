@@ -23,12 +23,15 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
-  const [location, setCurrentLocation] = useCurrentLocation();
+  const [location, fetchCurrentLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages();
   //console.log(`${messages.length} messages`);
-
+  if (messages && messages.length > 0) {
+    console.log(messages[0].distance);
+    console.log(location);
+  }
   const reloadMessages = () => {
-    setCurrentLocation();
+    fetchCurrentLocation();
     getMessages();
   };
 

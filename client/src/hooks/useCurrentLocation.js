@@ -8,6 +8,7 @@ const useCurrentLocation = () => {
   }, []);
 
   const fetchCurrentLocation = () => {
+    console.log('get new location');
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       const { longitude, latitude } = coords;
       setCurrentLocation({

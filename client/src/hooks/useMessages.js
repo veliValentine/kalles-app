@@ -15,6 +15,7 @@ const useMessages = () => {
 
   const getMessages = async () => {
     const messages = await storage.getMessages();
+    console.log('getMessages');
     const newMessages = messages
       .map(message => {
         return {
