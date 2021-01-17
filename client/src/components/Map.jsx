@@ -9,7 +9,7 @@ import { useHistory, useParams } from 'react-router-native';
 
 const styles = StyleSheet.create({
   map: {
-    width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width-1,
     height: Dimensions.get('window').height - Constants.statusBarHeight - 60,
   },
   header: {
@@ -94,6 +94,7 @@ const Map = ({ messages, reloadMessages, location }) => {
         showsUserLocation
         showsBuildings={false}
         showsTraffic={false}
+        toolbarEnabled={false}
       >
         {markers}
       </MapView>
