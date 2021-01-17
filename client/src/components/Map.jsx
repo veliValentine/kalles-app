@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions, Button } from 'react-native';
+import { View, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker as MapMarker } from 'react-native-maps';
 
 import Constants from 'expo-constants';
@@ -18,12 +18,22 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white',
   },
-  reloadButtonContainer: {
-    borderRadius: 50,
+  reloadContainer: {
     position: 'absolute',
-    alignSelf: 'flex-end',
-    backgroundColor: 'grey',
-  }
+    alignSelf: 'center',
+    padding: 20,
+  },
+  reloadButton: {
+    backgroundColor: 'white',
+    borderRadius: 50,
+    padding: 5,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  reloadText: {
+    padding: 1
+  },
 });
 
 const Marker = ({ message }) => {
@@ -50,13 +60,11 @@ const Marker = ({ message }) => {
 
 const ReloadButton = ({ onPress }) => {
   return (
-    <View style={styles.reloadButtonContainer}>
-      <Button
-        title="reload map"
-        onPress={onPress}
-        color="transparent"
-      />
-    </View>
+    <TouchableOpacity onPress={onPress} style={styles.reloadContainer}>
+      <View style={styles.reloadButton}>
+        <Text style={styles.reloadText}>Reload</Text>
+      </View>
+    </TouchableOpacity >
   );
 };
 
@@ -83,9 +91,6 @@ const Map = ({ messages, reloadMessages }) => {
 
   return (
     <View>
-      {/*<View style={styles.reloadContainer}>
-        <Text>Reload</Text>
-      </View>*/}
       <MapView style={styles.map}
         //minZoomLevel={13}
         initialRegion={initialRegion}
