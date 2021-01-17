@@ -1,13 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import StorageContext from '../contexts/StorageContext';
-import useCurrentLocation from './useCurrentLocation';
-
 import { sortByDistances, calculateDistance } from '../utils';
-let i = -5;
-const useMessages = () => {
+
+const useMessages = (currentLocation) => {
   const storage = useContext(StorageContext);
-  const [currentLocation] = useCurrentLocation();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(null);
 
   useEffect(() => {
     getMessages();

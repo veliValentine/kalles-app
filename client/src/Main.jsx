@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   const [location, fetchCurrentLocation] = useCurrentLocation();
-  const [messages, getMessages, addMessage] = useMessages();
+  const [messages, getMessages, addMessage] = useMessages(location);
 
   const reloadMessages = () => {
     fetchCurrentLocation();
