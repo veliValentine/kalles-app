@@ -19,3 +19,11 @@ export const calculateDistance = (coor1, coor2) => {
 const deg2rad = (deg) => deg * (Math.PI / 180);
 
 const round100 = (number) => Math.round(number * 100) / 100;
+
+let timeoutID;
+export const redirectToMain = (s, history) => {
+  timeoutID = setTimeout(() => {
+    clearTimeout(timeoutID);
+    history.push('/');
+  }, s * 1000);
+};

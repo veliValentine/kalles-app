@@ -17,6 +17,7 @@ const App = () => {
     };
     initStorage();
   }, []);
+
   return (
     <NativeRouter>
       <StorageContext.Provider value={storage} >
