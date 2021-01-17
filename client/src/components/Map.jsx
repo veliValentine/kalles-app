@@ -4,8 +4,6 @@ import MapView, { Marker as MapMarker } from 'react-native-maps';
 
 import Constants from 'expo-constants';
 
-import useCurrentLocation from '../hooks/useCurrentLocation';
-
 import LoadingScreen from './LoadingScreen';
 import { useHistory, useParams } from 'react-router-native';
 
@@ -70,8 +68,7 @@ const ReloadButton = ({ onPress }) => {
 
 //https://github.com/react-native-maps/react-native-maps
 
-const Map = ({ messages, reloadMessages }) => {
-  const [location] = useCurrentLocation();
+const Map = ({ messages, reloadMessages, location }) => {
   const { id } = useParams();
 
   if (!location) {

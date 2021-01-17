@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useParams, useHistory } from 'react-router-native';
+
 import LoadingScreen from './LoadingScreen';
 
 const styles = StyleSheet.create({

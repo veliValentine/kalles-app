@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, Button } from 'react-native';
 import { useHistory } from 'react-router-native';
 
-import useCurrentLocation from '../hooks/useCurrentLocation';
-
 import LoadingScreen from './LoadingScreen';
 
 const styles = StyleSheet.create({
@@ -27,13 +25,12 @@ const styles = StyleSheet.create({
 
 let timeoutID;
 
-const MessageForm = ({ addMessage }) => {
+const MessageForm = ({ addMessage, currentLocation }) => {
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState(null);
 
   const history = useHistory();
-  const [currentLocation] = useCurrentLocation();
 
   if (!currentLocation) {
     return <LoadingScreen />;
