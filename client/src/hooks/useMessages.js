@@ -38,16 +38,3 @@ const useMessages = (currentLocation) => {
 };
 
 export default useMessages;
-
-
-/*
-const filteredMessages = //filterByDistances(messages, 15)
-    messages.sort(sortByDistances)
-    .map(message => (
-      {
-        ...message,
-        close: message.distance > 0.1 ? false : true,
-        coordinate: message.location,
-      }
-    ));
-*/
