@@ -23,3 +23,4 @@
 | 17.1.2021 | 1 | Modified Map reload button and refactoring |
 | 17.1.2021 | 1 | Debugging map-component. Show user location button not showing | 
 | 17.1.2021 | 1 | Fixed bug. Map reload button works | 
+| 3.3.20201 | | 18:00- | 
