@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
-  const [location, fetchCurrentLocation] = useCurrentLocation();
+  const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages(location);
 
   const reloadMessages = () => {
@@ -45,10 +45,10 @@ const Main = () => {
           <MessageForm addMessage={addMessage} currentLocation={location} />
         </Route>
         <Route path="/map" exact>
-          <Map messages={messages} reloadMessages={reloadMessages} location={location} />
+          <Map messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
         </Route>
         <Route path="/map/:id">
-          <Map messages={messages} reloadMessages={reloadMessages} location={location} />
+          <Map messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation}/>
         </Route>
         <Redirect to="/map" />
       </Switch>

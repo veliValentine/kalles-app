@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import StorageContext from '../contexts/StorageContext';
 import { sortByDistances, calculateDistance } from '../utils';
 
-const useMessages = currentLocation => {
+const useMessages = (currentLocation) => {
   const storage = useContext(StorageContext);
   const [messages, setMessages] = useState(null);
 
@@ -13,12 +13,12 @@ const useMessages = currentLocation => {
   const getMessages = async () => {
     const messages = await storage.getMessages();
     const newMessages = messages
-      .map(message => ({
+      .map((message) => ({
         ...message,
         distance: currentLocation ? calculateDistance(currentLocation, message.location) : 99,
       }))
       .sort(sortByDistances)
-      .map(message => (
+      .map((message) => (
         {
           ...message,
           close: message.distance > 0.1 ? false : true,
@@ -28,7 +28,7 @@ const useMessages = currentLocation => {
     setMessages(newMessages);
   };
 
-  const addMessage = async message => {
+  const addMessage = async (message) => {
     const newMessage = { ...message, id: messages.length.toString() };
     await storage.addMessage(newMessage);
     getMessages();

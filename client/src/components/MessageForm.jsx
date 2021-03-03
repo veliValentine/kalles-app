@@ -36,7 +36,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
     return <LoadingScreen />;
   }
 
-  const newError = errorMessage => {
+  const newError = (errorMessage) => {
     setError(errorMessage);
     clearTimeout(timeoutID);
     timeoutID = setTimeout(() => {
@@ -75,7 +75,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
     <View style={styles.container}>
       <Text style={{ padding: 5 }}>Create message</Text>
       <TextInput
-        onChangeText={text => setMessage(text)}
+        onChangeText={(text) => setMessage(text)}
         placeholder="Message"
         multiline
         style={styles.textInput}
@@ -83,7 +83,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
         value={message}
       />
       <TextInput
-        onChangeText={text => setUsername(text)}
+        onChangeText={(text) => setUsername(text)}
         placeholder="Username"
         style={styles.textInput}
         blurOnSubmit

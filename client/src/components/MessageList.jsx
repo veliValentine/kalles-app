@@ -73,7 +73,7 @@ const MessageList = ({ messages }) => {
     <View style={styles.container}>
       <FlatList
         data={messages}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={({ item }) => <Message message={item} />}
       />

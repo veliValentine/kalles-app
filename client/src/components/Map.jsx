@@ -66,40 +66,47 @@ const ReloadButton = ({ onPress }) => (
 
 // https://github.com/react-native-maps/react-native-maps
 
-const Map = ({ messages, reloadMessages, location }) => {
+const Map = ({ messages, reloadMessages, location, changeLocation }) => {
   const { id } = useParams();
   if (!location) {
     return <LoadingScreen />;
   }
-  const messageCoordinates = id ? messages.find(message => message.id === id).coordinate : null;
+  const messageCoordinates = id ? messages.find((message) => message.id === id).coordinate : null;
   const initialRegion = messageCoordinates
     ? {
       latitude: messageCoordinates.latitude,
       longitude: messageCoordinates.longitude,
       latitudeDelta: 0.005,
       longitudeDelta: 0.005,
-    }
-    : {
+    } : {
       latitude: location.latitude,
       longitude: location.longitude,
       latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     };
-  const markers = messages.map(message => <Marker message={message} key={message.id} />);
+  const markers = messages.map((message) => <Marker message={message} key={message.id} />);
+
+  const handleLocationChange = (event) => {
+    if (event && event.nativeEvent && event.nativeEvent.coordinate) {
+      changeLocation(event.nativeEvent.coordinate);
+    } else {
+      console.log('No location available');
+    }
+  };
   return (
     <View>
       <MapView style={styles.map}
         //minZoomLevel={13}
         initialRegion={initialRegion}
-        showsUserLocation
         showsBuildings={false}
         showsTraffic={false}
         toolbarEnabled={false}
+        onUserLocationChange={handleLocationChange}
       >
         {markers}
       </MapView>
       <ReloadButton onPress={reloadMessages} />
-    </View>
+    </View >
   );
 };
 

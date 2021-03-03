@@ -45,10 +45,7 @@
     ],
     "prefer-arrow-callback": "warn",
     "arrow-spacing": "warn",
-    "arrow-parens": [
-      "warn",
-      "as-needed"
-    ],
+    "arrow-parens": "warn",
     "arrow-body-style": [
       "warn",
       "as-needed"
