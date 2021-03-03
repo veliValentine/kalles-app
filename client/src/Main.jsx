@@ -44,10 +44,7 @@ const Main = () => {
         <Route path="/newMessage">
           <MessageForm addMessage={addMessage} currentLocation={location} />
         </Route>
-        <Route path="/map" exact key="default-map">
-          <Map messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
-        </Route>
-        <Route path="/map/:id" key="focused-map">
+        <Route path={['/map','/map/:latitude/:longitude']} exact key="default-map">
           <Map messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
         </Route>
         <Redirect to="/map" />

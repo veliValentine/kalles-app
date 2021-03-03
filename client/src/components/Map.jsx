@@ -64,18 +64,32 @@ const ReloadButton = ({ onPress }) => (
   </TouchableOpacity >
 );
 
+const OwnLocationButton = ({ coordinates }) => {
+  const history = useHistory();
+  const handleClick = (event) => {
+    event.preventDefault();
+
+  };
+  return (
+    <TouchableOpacity onPress={handleClick}>
+      <View>
+        <Text style={styles.reloadText}>Own location</Text>
+      </View>
+    </TouchableOpacity >
+  );
+};
+
 // https://github.com/react-native-maps/react-native-maps
 
 const Map = ({ messages, reloadMessages, location, changeLocation }) => {
-  const { id } = useParams();
+  const { latitude, longitude } = useParams();
   if (!location) {
     return <LoadingScreen />;
   }
-  const messageCoordinates = id ? messages.find((message) => message.id === id).coordinate : null;
-  const initialRegion = messageCoordinates
+  const initialRegion = (latitude && longitude)
     ? {
-      latitude: messageCoordinates.latitude,
-      longitude: messageCoordinates.longitude,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
       latitudeDelta: 0.005,
       longitudeDelta: 0.005,
     } : {
@@ -96,6 +110,8 @@ const Map = ({ messages, reloadMessages, location, changeLocation }) => {
   return (
     <View>
       <MapView style={styles.map}
+        showsUserLocation={true}
+        showsMyLocationButton={false}
         //minZoomLevel={13}
         initialRegion={initialRegion}
         showsBuildings={false}
@@ -106,6 +122,7 @@ const Map = ({ messages, reloadMessages, location, changeLocation }) => {
         {markers}
       </MapView>
       <ReloadButton onPress={reloadMessages} />
+      <OwnLocationButton />
     </View >
   );
 };

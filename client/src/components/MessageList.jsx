@@ -31,7 +31,8 @@ const Message = ({ message }) => {
     if (close) {
       history.push(`/message/${id}`);
     } else {
-      history.push(`/map/${id}`);
+      const { latitude, longitude } = message.coordinate;
+      history.push(`/map/${latitude}/${longitude}`);
     }
   };
 
@@ -57,7 +58,8 @@ const MessageList = ({ messages }) => {
     return <LoadingScreen />;
   }
   if (messages.length < 1) {
-    const handlePress = () => {
+    const handlePress = (event) => {
+      event.preventDefault();
       history.push('/newMessage');
     };
     return (
