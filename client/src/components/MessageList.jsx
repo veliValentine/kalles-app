@@ -14,9 +14,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 5,
   },
-  messageText: {
-
-  },
   missingContainer: {
     marginTop: 5,
     padding: 10,
@@ -44,7 +41,7 @@ const Message = ({ message }) => {
         {!close
           ? <Text>Move closer to see the message</Text>
           : <View>
-            <Text style={styles.messageText} >Click to see message</Text>
+            <Text>Click to see message</Text>
             <Text>By: {username}</Text>
           </View>
         }
@@ -56,16 +53,13 @@ const Message = ({ message }) => {
 
 const MessageList = ({ messages }) => {
   const history = useHistory();
-
   if (!messages) {
     return <LoadingScreen />;
   }
-
   if (messages.length < 1) {
     const handlePress = () => {
       history.push('/newMessage');
     };
-
     return (
       <View style={styles.missingContainer}>
         <TouchableOpacity onPress={handlePress}>
@@ -75,7 +69,6 @@ const MessageList = ({ messages }) => {
       </View>
     );
   }
-
   return (
     <View style={styles.container}>
       <FlatList

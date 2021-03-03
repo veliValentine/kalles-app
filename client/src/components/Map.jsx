@@ -9,7 +9,7 @@ import { useHistory, useParams } from 'react-router-native';
 
 const styles = StyleSheet.create({
   map: {
-    width: Dimensions.get('window').width-1,
+    width: Dimensions.get('window').width - 1,
     height: Dimensions.get('window').height - Constants.statusBarHeight - 60,
   },
   header: {
@@ -66,26 +66,28 @@ const ReloadButton = ({ onPress }) => {
   );
 };
 
-//https://github.com/react-native-maps/react-native-maps
+// https://github.com/react-native-maps/react-native-maps
 
 const Map = ({ messages, reloadMessages, location }) => {
   const { id } = useParams();
-
   if (!location) {
     return <LoadingScreen />;
   }
-
-  const coordinateOfMessage = id ? messages.find(message => message.id === id).coordinate : null;
-
-  const initialRegion = {
-    latitude: coordinateOfMessage ? coordinateOfMessage.latitude : location.latitude,
-    longitude: coordinateOfMessage ? coordinateOfMessage.longitude : location.longitude,
-    latitudeDelta: 0.1,
-    longitudeDelta: 0.1,
-  };
-
+  const messageCoordinates = id ? messages.find(message => message.id === id).coordinate : null;
+  const initialRegion = messageCoordinates
+    ? {
+      latitude: messageCoordinates.latitude,
+      longitude: messageCoordinates.longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005,
+    }
+    : {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    };
   const markers = messages.map(message => <Marker message={message} key={message.id} />);
-
   return (
     <View>
       <MapView style={styles.map}
