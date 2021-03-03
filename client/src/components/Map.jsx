@@ -56,15 +56,13 @@ const Marker = ({ message }) => {
   );
 };
 
-const ReloadButton = ({ onPress }) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.reloadContainer}>
-      <View style={styles.reloadButton}>
-        <Text style={styles.reloadText}>Reload</Text>
-      </View>
-    </TouchableOpacity >
-  );
-};
+const ReloadButton = ({ onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.reloadContainer}>
+    <View style={styles.reloadButton}>
+      <Text style={styles.reloadText}>Reload</Text>
+    </View>
+  </TouchableOpacity >
+);
 
 // https://github.com/react-native-maps/react-native-maps
 

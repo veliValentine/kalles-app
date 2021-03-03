@@ -16,16 +16,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ to, children }) => {
-  return (
-    <Link to={to}>
-      <Text style={styles.text}>{children}</Text>
-    </Link>
-  );
-};
+const AppBarTab = ({ to, children }) => (
+  <Link to={to}>
+    <Text style={styles.text}>{children}</Text>
+  </Link>
+);
 
-const AppBar = () => {
-  return (
+const AppBar = () => (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab to="/map">Map</AppBarTab>
@@ -34,6 +31,5 @@ const AppBar = () => {
       </ScrollView>
     </View>
   );
-};
 
 export default AppBar;
