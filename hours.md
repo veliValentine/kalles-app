@@ -1,8 +1,10 @@
-# Hours
 | | | | 
+# Hours
+Total 29h (4.3.2021)
+## Client
 | day | time | time used to   |
 | :----:|:-----| :-----|
-| total   | 27  | 3.3.2021 | 
+| total   | 29  | 4.3.2021 | 
 | 22.12.2020 | 2 | created repository, documents, run schedule |
 | 25.12.2020 | 1 | init server and client | 
 | 25.12.2020 | 1 | Message list |
@@ -25,7 +27,13 @@
 | 17.1.2021 | 1 | Modified Map reload button and refactoring |
 | 17.1.2021 | 1 | Debugging map-component. Show user location button not showing | 
 | 17.1.2021 | 1 | Fixed bug. Map reload button works | 
-| 3.3.20201 | 1 | Updated trello backlog | 
-| 3.3.20201 | 1 | Chores (Eslint, node_modules) | 
-| 3.3.20201 | 1 | zoomin level on specific location | 
-| 3.3.20201 | 1 | location updates on change (finally) | 
+| 3.3.2021 | 1 | Updated trello backlog | 
+| 3.3.2021 | 1 | Chores (Eslint, node_modules) | 
+| 3.3.2021 | 1 | zoomin level on specific location | 
+| 3.3.2021 | 1 | location updates on change (finally) | 
+| 4.3.2021 | 1 | Move region to user location
+| 4.3.2021 | 1 | Version number to appBar and publish 0.1.2
+## Server
+| day | time | time used to   |
+| :----:|:-----| :-----|
+| | | | 
