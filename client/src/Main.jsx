@@ -8,7 +8,7 @@ import MessageList from './components/MessageList';
 import MessageForm from './components/MessageForm';
 import AppBar from './components/AppBar';
 import Message from './components/Message';
-import Map from './components/Map';
+import MapPage from './components/MapPage';
 
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
@@ -49,7 +49,7 @@ const Main = () => {
           <MessageForm addMessage={addMessage} currentLocation={location} />
         </Route>
         <Route path={['/map', '/map/:latitude/:longitude']} exact key="default-map">
-          <Map messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
+          <MapPage messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
         </Route>
         <Redirect to="/map" />
       </Switch>
