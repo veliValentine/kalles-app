@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, StyleSheet, View, ScrollView } from 'react-native';
 import { Link } from 'react-router-native';
 
+import Constants from 'expo-constants';
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
@@ -28,6 +30,7 @@ const AppBar = () => (
         <AppBarTab to="/map">Map</AppBarTab>
         <AppBarTab to="/messages">Messages</AppBarTab>
         <AppBarTab to="/newMessage">New message</AppBarTab>
+        <AppBarTab>{Constants.manifest.version}</AppBarTab>
       </ScrollView>
     </View>
   );
