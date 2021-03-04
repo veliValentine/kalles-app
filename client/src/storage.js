@@ -45,7 +45,7 @@ class Storage {
   async getMessage(id) {
     //console.log('get a message from storage');
     const messages = await this.getMessages();
-    return messages.find(message => message.id === id);
+    return messages.find((message) => message.id === id);
   }
 
   async addMessage(message) {

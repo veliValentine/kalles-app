@@ -27,7 +27,7 @@ const Message = ({ messages }) => {
     return <LoadingScreen />;
   }
 
-  const message = messages.find(item => item.id === id);
+  const message = messages.find((item) => item.id === id);
 
   if (!message) {
     console.log(`Error getting message --- Message.jsx --- Message not found. ID: ${id}`);

@@ -1,11 +1,16 @@
 {
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "settings": {
     "react": {
       "version": "detect"
     }
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parser": "babel-eslint",
   "env": {
     "browser": true
@@ -14,6 +19,48 @@
     "react/prop-types": "off",
     "semi": "error",
     "eqeqeq": "error",
-    "no-trailing-spaces":"warn"
+    "no-trailing-spaces": "warn",
+    "no-unused-vars": "warn",
+    "prefer-const": "error",
+    "no-new-object": "error",
+    "object-shorthand": "warn",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "no-prototype-builtins": "warn",
+    "prefer-object-spread": "warn",
+    "no-array-constructor": "error",
+    "array-callback-return": "warn",
+    "prefer-destructuring": "error",
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "default-param-last": "error",
+    "no-param-reassign": "error",
+    "function-paren-newline": [
+      "warn",
+      "multiline"
+    ],
+    "prefer-arrow-callback": "warn",
+    "arrow-spacing": "warn",
+    "arrow-parens": "warn",
+    "arrow-body-style": [
+      "warn",
+      "as-needed"
+    ],
+    "no-confusing-arrow": "warn",
+    "implicit-arrow-linebreak": "warn",
+    "one-var": [
+      "error",
+      "never"
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ]
   }
 }

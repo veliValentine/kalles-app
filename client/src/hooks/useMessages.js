@@ -13,14 +13,12 @@ const useMessages = (currentLocation) => {
   const getMessages = async () => {
     const messages = await storage.getMessages();
     const newMessages = messages
-      .map(message => {
-        return {
-          ...message,
-          distance: currentLocation ? calculateDistance(currentLocation, message.location) : 99,
-        };
-      })
+      .map((message) => ({
+        ...message,
+        distance: currentLocation ? calculateDistance(currentLocation, message.location) : 99,
+      }))
       .sort(sortByDistances)
-      .map(message => (
+      .map((message) => (
         {
           ...message,
           close: message.distance > 0.1 ? false : true,
@@ -40,16 +38,3 @@ const useMessages = (currentLocation) => {
 };
 
 export default useMessages;
-
-
-/*
-const filteredMessages = //filterByDistances(messages, 15)
-    messages.sort(sortByDistances)
-    .map(message => (
-      {
-        ...message,
-        close: message.distance > 0.1 ? false : true,
-        coordinate: message.location,
-      }
-    ));
-*/

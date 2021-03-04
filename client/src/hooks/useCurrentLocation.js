@@ -9,15 +9,17 @@ const useCurrentLocation = () => {
 
   const fetchCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const { longitude, latitude } = coords;
-      setCurrentLocation({
-        longitude,
-        latitude
-      });
+      updateLocation(coords);
     });
   };
 
-  return [currentLocation, fetchCurrentLocation];
+  const updateLocation = ({ longitude, latitude }) => {
+    if (longitude && latitude) {
+      setCurrentLocation({ longitude, latitude });
+    }
+  };
+
+  return [currentLocation, fetchCurrentLocation, updateLocation];
 };
 
 export default useCurrentLocation;

@@ -8,10 +8,11 @@ import MessageList from './components/MessageList';
 import MessageForm from './components/MessageForm';
 import AppBar from './components/AppBar';
 import Message from './components/Message';
-import Map from './components/Map';
+import MapPage from './components/MapPage';
 
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
+import LoadingScreen from './components/LoadingScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,8 +24,11 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
-  const [location, fetchCurrentLocation] = useCurrentLocation();
+  const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages(location);
+  if (!location) {
+    return <LoadingScreen />;
+  }
 
   const reloadMessages = () => {
     fetchCurrentLocation();
@@ -44,11 +48,8 @@ const Main = () => {
         <Route path="/newMessage">
           <MessageForm addMessage={addMessage} currentLocation={location} />
         </Route>
-        <Route path="/map" exact>
-          <Map messages={messages} reloadMessages={reloadMessages} location={location} />
-        </Route>
-        <Route path="/map/:id">
-          <Map messages={messages} reloadMessages={reloadMessages} location={location} />
+        <Route path={['/map', '/map/:latitude/:longitude']} exact key="default-map">
+          <MapPage messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
         </Route>
         <Redirect to="/map" />
       </Switch>
