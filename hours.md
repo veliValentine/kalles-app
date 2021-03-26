@@ -1,8 +1,18 @@
-| | | | 
 # Hours
-Total 29h (4.3.2021)
+[//]: # (| | | | )
+- [Hours](#hours)
+  - [Total](#total)
+  - [Client](#client)
+  - [Server](#server)
+## Total
+| day | time | time used to |
+| :----:|:-----| :-----|
+| Total | 31 | 21.3.2021 |
+| Client | 29 | 4.3.2021 | 
+| Server | 2 | 21.3.2021 | 
+
 ## Client
-| day | time | time used to   |
+| day | time | time used to |
 | :----:|:-----| :-----|
 | total   | 29  | 4.3.2021 | 
 | 22.12.2020 | 2 | created repository, documents, run schedule |
@@ -13,8 +23,7 @@ Total 29h (4.3.2021)
 | 26.12.2020 | 1 | Router and Message view |
 | 27.12.2020 | 1 | Map rendering |
 | 27.12.2020 | 1 | Current location hook |
-| 15.1.2021 | 1 | Reading react-native-maps api| 
-| sum | 10 | sum | 
+| 15.1.2021 | 1 | Reading react-native-maps api|
 | 15.1.2021 | 1 | Reading about different local storage options and Async storage API | 
 | 15.1.2021 | 2 | refactoring | 
 | 15.1.2021 | 1 | Map marker | 
@@ -36,4 +45,7 @@ Total 29h (4.3.2021)
 ## Server
 | day | time | time used to   |
 | :----:|:-----| :-----|
-| | | | 
+| total   | 2 | 21.3.2021 | 
+| 21.3.2021 | 1 | init eslint, jest, structure | 
+| 21.3.2021 | 1 | distance & test | 
+| 26.3.2021 | 1 | Moved backlog to github | 
