@@ -1,0 +1,13 @@
+const currentTimeStamp = () => {
+  const date = new Date();
+  const year = date.getUTCFullYear();
+  const month = date.getMonth();
+  const day = date.getUTCDate();
+  const hours = date.getUTCHours();
+  const minutes = date.getMinutes();
+  return `${year}/${month}/${day}-${hours}:${minutes}`;
+};
+
+exports.module = {
+  currentTimeStamp,
+};
