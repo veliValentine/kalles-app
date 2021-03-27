@@ -1,6 +1,7 @@
 const messageRouter = require('express').Router();
+const { isTestEnvironment } = require('../utils/environment');
 
-const messages = [
+const messages = isTestEnvironment ? [] : [
   {
     id: '0',
     text: 'Hello Helsinki',
