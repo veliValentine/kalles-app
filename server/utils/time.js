@@ -8,6 +8,6 @@ const currentTimeStamp = () => {
   return `${year}/${month}/${day}-${hours}:${minutes}`;
 };
 
-exports.module = {
+module.exports = {
   currentTimeStamp,
 };
