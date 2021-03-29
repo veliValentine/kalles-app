@@ -1,7 +1,8 @@
 const messageRouter = require('express').Router();
 const { isTestEnvironment } = require('../utils/environment');
+const { currentTimeStamp } = require('../utils/time');
 
-const messages = isTestEnvironment ? [] : [
+let MESSAGES_DATA = isTestEnvironment ? [] : [
   {
     id: '0',
     text: 'Hello Helsinki',
@@ -32,7 +33,21 @@ const messages = isTestEnvironment ? [] : [
 ];
 
 messageRouter.get('/', (_req, res) => {
-  res.json(messages);
+  res.json(MESSAGES_DATA);
+});
+
+messageRouter.post('/', (req, res) => {
+  const { body = {} } = req;
+  const id = Math.max(...MESSAGES_DATA.map((message) => message.id)) + 1;
+  const now = currentTimeStamp();
+  const message = {
+    id,
+    ...body,
+    created: now,
+    likes: 0,
+  };
+  MESSAGES_DATA = MESSAGES_DATA.concat(message);
+  res.status(201).json(message);
 });
 
 module.exports = messageRouter;
