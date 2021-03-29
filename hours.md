@@ -7,9 +7,9 @@
 ## Total
 | day | time | time used to |
 | :----:|:-----| :-----|
-| Total | 33 | 27.3.2021 |
+| Total | 35 | 29.3.2021 |
 | Client | 29 | 4.3.2021 | 
-| Server | 4 | 27.3.2021 | 
+| Server | 6 | 29.3.2021 | 
 
 ## Client
 | day | time | time used to |
@@ -45,8 +45,10 @@
 ## Server
 | day | time | time used to   |
 | :----:|:-----| :-----|
-| total   | 4 | 27.3.2021 | 
+| total   | 6 | 29.3.2021 | 
 | 21.3.2021 | 1 | init eslint, jest, structure | 
 | 21.3.2021 | 1 | distance & test | 
 | 26.3.2021 | 1 | Moved backlog to github | 
 | 27.3.2021 | 1 | Enviroment modes, Logger, Messages test |
+| 29.3.2021 | 1 | lint debuggin | 
+| 29.3.2021 | 1 | POST message - TDD style | 
