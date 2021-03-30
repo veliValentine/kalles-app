@@ -50,4 +50,11 @@ messageRouter.post('/', (req, res) => {
   res.status(201).json(message);
 });
 
+messageRouter.delete('/test', (_req, res) => {
+  if (isTestEnvironment) {
+    MESSAGES_DATA = [];
+    res.status(204);
+  }
+});
+
 module.exports = messageRouter;
