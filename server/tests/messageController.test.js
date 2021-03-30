@@ -70,6 +70,7 @@ describe('message', () => {
     });
 
     test('missing username response 400', async () => {
+      const messagesBefore = await getMessages(api);
       const missingUsername = {
         message: 'testMessage',
         location: {
@@ -82,9 +83,13 @@ describe('message', () => {
         .send(missingUsername)
         .set('Accept', 'application/json')
         .expect(400);
+
+      const messagesAfter = await getMessages(api);
+      expect(messagesBefore.length).toBe(messagesAfter.length);
     });
 
     test('missing message response 400', async () => {
+      const messagesBefore = await getMessages(api);
       const missingMessage = {
         username: 'testUsername',
         location: {
@@ -97,9 +102,13 @@ describe('message', () => {
         .send(missingMessage)
         .set('Accept', 'application/json')
         .expect(400);
+
+      const messagesAfter = await getMessages(api);
+      expect(messagesBefore.length).toBe(messagesAfter.length);
     });
 
     test('invalid location response 400', async () => {
+      const messagesBefore = await getMessages(api);
       const missinglocation = {
         username: 'testUsername',
         message: 'testMessage',
@@ -109,6 +118,46 @@ describe('message', () => {
         .send(missinglocation)
         .set('Accept', 'application/json')
         .expect(400);
+
+      const emptyLocation = {
+        username: 'testUsername',
+        message: 'testMessage',
+        location: {},
+      };
+      await api
+        .post(MESSAGES_ENDPOINT)
+        .send(emptyLocation)
+        .set('Accept', 'application/json')
+        .expect(400);
+
+      const missingLatitude = {
+        username: 'testUsername',
+        message: 'testMessage',
+        location: {
+          longitude: 0.0,
+        },
+      };
+      await api
+        .post(MESSAGES_ENDPOINT)
+        .send(missingLatitude)
+        .set('Accept', 'application/json')
+        .expect(400);
+
+      const missingLongitude = {
+        username: 'testUsername',
+        message: 'testMessage',
+        location: {
+          latitude: 0.0,
+        },
+      };
+      await api
+        .post(MESSAGES_ENDPOINT)
+        .send(missingLongitude)
+        .set('Accept', 'application/json')
+        .expect(400);
+
+      const messagesAfter = await getMessages(api);
+      expect(messagesBefore.length).toBe(messagesAfter.length);
     });
 
     // TODO check missing attributes in request body => status 400
