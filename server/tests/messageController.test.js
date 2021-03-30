@@ -1,6 +1,7 @@
 const supertest = require('supertest');
 const app = require('../app');
 const { currentTimeStamp } = require('../utils/time');
+const { getMessages } = require('./testHelper');
 
 const api = supertest(app);
 
@@ -46,9 +47,7 @@ describe('message', () => {
     });
 
     test('valid message added', async () => {
-      const { body: messagesBefore } = await api
-        .get(MESSAGES_ENDPOINT)
-        .expect(200);
+      const messagesBefore = await getMessages(api);
 
       const created = currentTimeStamp();
       const { body: addedMessage } = await api
@@ -56,18 +55,17 @@ describe('message', () => {
         .send(validMessage)
         .set('Accept', 'application/json')
         .expect(201);
+      expect(addedMessage).toEqual(
+        {
+          id: addedMessage.id,
+          ...validMessage,
+          created,
+          expires: 24,
+          likes: 0,
+        },
+      );
 
-      expect(addedMessage).toEqual({
-        id: addedMessage.id,
-        ...validMessage,
-        created,
-        expires: 24,
-        likes: 0,
-      });
-
-      const { body: messagesAfter } = await api
-        .get(MESSAGES_ENDPOINT)
-        .expect(200);
+      const messagesAfter = await getMessages(api);
       expect(messagesAfter.length).toBe(messagesBefore.length + 1);
     });
 
@@ -79,7 +77,6 @@ describe('message', () => {
           longitude: 0.00,
         },
       };
-
       await api
         .post(MESSAGES_ENDPOINT)
         .send(missingUsername)
@@ -95,7 +92,6 @@ describe('message', () => {
           longitude: 0.00,
         },
       };
-
       await api
         .post(MESSAGES_ENDPOINT)
         .send(missingMessage)
@@ -108,7 +104,6 @@ describe('message', () => {
         username: 'testUsername',
         message: 'testMessage',
       };
-
       await api
         .post(MESSAGES_ENDPOINT)
         .send(missinglocation)
