@@ -15,5 +15,6 @@ module.exports = {
   rules: {
     'linebreak-style': 'off',
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'no-use-before-define': ['error', { variables: false }],
   },
 };
