@@ -1,4 +1,5 @@
 const messageRouter = require('express').Router();
+const { calculateDistance } = require('../utils/distance');
 const { isTestEnvironment } = require('../utils/environment');
 const { currentTimeStamp } = require('../utils/time');
 const { biggestId } = require('../utils/utils');
@@ -34,24 +35,33 @@ let MESSAGES_DATA = isTestEnvironment ? [] : [
   },
 ];
 
-messageRouter.get('/', (_req, res) => {
-  res.json(MESSAGES_DATA);
+messageRouter.get('/', (req, res) => {
+  const { body = {} } = req;
+  const { location = {} } = body;
+  if (!isLocationObject(location)) {
+    return res.status(200).json(MESSAGES_DATA);
+  }
+  const messagesWithDistance = MESSAGES_DATA.map((message) => ({
+    ...message,
+    distance: calculateDistance(location, message.location),
+  }));
+  return res.json(messagesWithDistance);
 });
 
 messageRouter.post('/', (req, res) => {
   const { body } = req;
   if (!body) {
-    return res.status(400).json('Error: Missing request body');
+    return handleError400(res, 'Missing request body');
   }
   const { message, username, location } = body;
   if (!isString(message)) {
-    return res.status(400).json('Error: Invalid message');
+    return handleError400(res, 'Invalid message');
   }
   if (!isString(username)) {
-    return res.status(400).json('Error: Invalid username');
+    return handleError400(res, 'Invalid username');
   }
   if (!isLocationObject(location)) {
-    return res.status(400).json('Error: Invalid location');
+    return handleError400(res, 'Invalid location');
   }
   const { latitude, longitude } = location;
   const id = biggestId(MESSAGES_DATA.map((m) => m.id)) + 1;
@@ -72,5 +82,7 @@ messageRouter.post('/', (req, res) => {
   MESSAGES_DATA = MESSAGES_DATA.concat(newMessage);
   return res.status(201).json(newMessage);
 });
+
+const handleError400 = (res, message) => res.status(400).json(`Error: ${message}`);
 
 module.exports = messageRouter;
