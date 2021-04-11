@@ -90,7 +90,7 @@ describe('message', () => {
         expect(messagesBefore).toEqual(messagesAfter);
       });
 
-      test('missing message response 400', async () => {
+      test('missing message', async () => {
         const messagesBefore = await getMessages(api);
         const missingMessage = {
           username: 'testUsername',
@@ -123,9 +123,8 @@ describe('message', () => {
             .expect(400);
           expect(errorMessage).toBe('Error: Invalid location');
           const messagesAfter = await getMessages(api);
-          expect(messagesBefore).toEquel(messagesAfter);
+          expect(messagesBefore).toEqual(messagesAfter);
         });
-
         test('empty location', async () => {
           const messagesBefore = await getMessages(api);
           const emptyLocation = {
@@ -162,34 +161,41 @@ describe('message', () => {
         });
         test('missing longitude', async () => {
           const messagesBefore = await getMessages(api);
-
-          const { body: errorMessage } =
-
-            expect(errorMessage).toBe('Error: Invalid location');
+          const missingLongitude = {
+            username: 'testUsername',
+            message: 'testMessage',
+            location: {
+              latitude: 0.0,
+            },
+          };
+          const { body: errorMessage } = await api
+            .post(MESSAGES_ENDPOINT)
+            .send(missingLongitude)
+            .set('Accept', 'application/json')
+            .expect(400);
+          expect(errorMessage).toBe('Error: Invalid location');
           const messagesAfter = await getMessages(api);
           expect(messagesBefore).toEqual(messagesAfter);
         });
-      });
-
-      test('invalid location response 400', async () => {
-
-
-
-        const missingLongitude = {
-          username: 'testUsername',
-          message: 'testMessage',
-          location: {
-            latitude: 0.0,
-          },
-        };
-        await api
-          .post(MESSAGES_ENDPOINT)
-          .send(missingLongitude)
-          .set('Accept', 'application/json')
-          .expect(400);
-
-        const messagesAfter = await getMessages(api);
-        expect(messagesBefore.length).toBe(messagesAfter.length);
+        test('invalid location', async () => {
+          const messagesBefore = await getMessages(api);
+          const invalidLocation = {
+            username: 'testUsername',
+            message: 'testMessage',
+            location: {
+              latitude: 'String',
+              longitude: [],
+            },
+          };
+          const { body: errorMessage } = await api
+            .post(MESSAGES_ENDPOINT)
+            .send(invalidLocation)
+            .set('Accept', 'application/json')
+            .expect(400);
+          expect(errorMessage).toBe('Error: Invalid location');
+          const messagesAfter = await getMessages(api);
+          expect(messagesBefore).toEqual(messagesAfter);
+        });
       });
     });
 
