@@ -67,6 +67,7 @@ messageRouter.post('/', (req, res) => {
     created: now,
     expires: 24,
     likes: 0,
+    distance: 0,
   };
   MESSAGES_DATA = MESSAGES_DATA.concat(newMessage);
   return res.status(201).json(newMessage);

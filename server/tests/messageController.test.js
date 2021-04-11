@@ -48,7 +48,6 @@ describe('message', () => {
 
     test('valid message added', async () => {
       const messagesBefore = await getMessages(api);
-
       const created = currentTimeStamp();
       const { body: addedMessage } = await api
         .post(MESSAGES_ENDPOINT)
@@ -62,9 +61,9 @@ describe('message', () => {
           created,
           expires: 24,
           likes: 0,
+          distance: 0,
         },
       );
-
       const messagesAfter = await getMessages(api);
       expect(messagesAfter.length).toBe(messagesBefore.length + 1);
     });
@@ -161,7 +160,6 @@ describe('message', () => {
     });
 
     // TODO check missing attributes in request body => status 400
-    // - Not saved
     // - valid input. message &username => String, location object containing latitude & longitude
 
     // TODO check extra attributes not saved. Like id
