@@ -36,11 +36,10 @@ let MESSAGES_DATA = isTestEnvironment ? [] : [
 ];
 
 messageRouter.get('/', (req, res) => {
-  const { body = {} } = req;
-  const { location = {} } = body;
-  if (!isLocationObject(location)) {
+  if (!reqBodyContainsvalidLocation(req)) {
     return res.status(200).json(MESSAGES_DATA);
   }
+  const { location } = req.body;
   const messagesWithDistance = MESSAGES_DATA.map((message) => ({
     ...message,
     distance: calculateDistance(location, message.location),
@@ -65,7 +64,6 @@ messageRouter.post('/', (req, res) => {
   }
   const { latitude, longitude } = location;
   const id = biggestId(MESSAGES_DATA.map((m) => m.id)) + 1;
-  const now = currentTimeStamp();
   const newMessage = {
     id,
     message,
@@ -74,7 +72,7 @@ messageRouter.post('/', (req, res) => {
       latitude,
       longitude,
     },
-    created: now,
+    created: currentTimeStamp(),
     expires: 24,
     likes: 0,
     distance: 0,
@@ -83,6 +81,29 @@ messageRouter.post('/', (req, res) => {
   return res.status(201).json(newMessage);
 });
 
+messageRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+  const message = MESSAGES_DATA.find((m) => m.id === id);
+  if (!message) {
+    return res.status(404).json(`Message with ID: ${id} not found`);
+  }
+  if (!reqBodyContainsvalidLocation(req)) {
+    return res.status(200).json(message);
+  }
+  const { location } = req.body;
+  const messageWithDistance = {
+    ...message,
+    distance: calculateDistance(location, message.location),
+  };
+  return res.status(200).json(messageWithDistance);
+});
+
 const handleError400 = (res, message) => res.status(400).json(`Error: ${message}`);
+
+const reqBodyContainsvalidLocation = (req) => {
+  const { body } = req;
+  const { location = {} } = body;
+  return isLocationObject(location);
+};
 
 module.exports = messageRouter;
