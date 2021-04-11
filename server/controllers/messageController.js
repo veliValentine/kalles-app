@@ -101,8 +101,7 @@ messageRouter.get('/:id', (req, res) => {
 const handleError400 = (res, message) => res.status(400).json(`Error: ${message}`);
 
 const reqBodyContainsvalidLocation = (req) => {
-  const { body } = req;
-  const { location = {} } = body;
+  const { location = {} } = req.body;
   return isLocationObject(location);
 };
 
