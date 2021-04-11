@@ -7,11 +7,11 @@ const api = supertest(app);
 
 const MESSAGES_ENDPOINT = '/api/v1/messages';
 
-describe('message', () => {
+describe('messages', () => {
   describe('GET messages', () => {
     test('content JSON', async () => {
       await api
-        .get(`${MESSAGES_ENDPOINT}`)
+        .get(MESSAGES_ENDPOINT)
         .expect('Content-type', /application\/json/);
     });
 
@@ -68,10 +68,40 @@ describe('message', () => {
         const messagesAfter = await getMessages(api);
         expect(messagesAfter).toHaveLength(messagesBefore.length + 1);
       });
+
+      test('extra attributes not saved', async () => {
+        const messagesBefore = await getMessages(api);
+        const extraAttributesMessage = {
+          ...validMessage,
+          id: '42',
+          location: {
+            ...validMessage.location,
+            message: '42 again',
+          },
+        };
+        const created = currentTimeStamp();
+        const { body: addedMessage } = await api
+          .post(MESSAGES_ENDPOINT)
+          .send(extraAttributesMessage)
+          .set('Accept', 'application/json')
+          .expect(201);
+        expect(addedMessage).toEqual(
+          {
+            id: addedMessage.id,
+            ...validMessage,
+            created,
+            expires: 24,
+            likes: 0,
+            distance: 0,
+          },
+        );
+        const messagesAfter = await getMessages(api);
+        expect(messagesAfter).toHaveLength(messagesBefore.length + 1);
+      });
     });
 
     describe('invalid messages', () => {
-      test('missing username response 400', async () => {
+      test('missing username', async () => {
         const messagesBefore = await getMessages(api);
         const missingUsername = {
           message: 'testMessage',
