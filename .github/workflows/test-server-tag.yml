@@ -11,5 +11,5 @@ jobs:
         run: echo "ma $isMajor mi $isMinor"
         env:
           isMajor: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
-          isMinor: contains(join(github.event.commits.*.message, ' '), '#minor')
+          isMinor: ${{contains(join(github.event.commits.*.message, ' '), '#minor')}}
 
