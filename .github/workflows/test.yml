@@ -12,4 +12,5 @@ jobs:
         working-directory: ./server
         run: |
           npm install
+          npm run lint -- --fix
           npm run test
