@@ -1,31 +1,10 @@
-const express = require('express');
-const app = express();
+const http = require('http');
+const app = require('./app');
+const logger = require('./utils/logger');
 
-const messages = [
-  /*
-  messages to test client side
-  message: {
-    created
-    id
-    userId
-    location: {
-      lat
-      long
-    }
-  }
-  */
-];
-
-app.get('/health', (_req, res) => {
-  res.send('ok')
-});
-
-app.get('/api/messages', (_req, res) => {
-  res.json(messages);
-});
+const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-})
-
+server.listen(PORT, () => {
+  logger.logConsole(`Server running on port: ${PORT}`);
+});
