@@ -21,3 +21,7 @@ jobs:
           checkstring: ok
           delay: 3
           rollbackonhealthcheckfailed: true
+  update-server-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "update tag"
