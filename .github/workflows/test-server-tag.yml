@@ -17,11 +17,11 @@ jobs:
         with:
           fetch-depth: "1"
       - name: major
-        if: ${{isMajor && !isminor}}
+        if: ${{env.isMajor && !env.isMinor}}
         run: echo "major"
       - name: minor
-        if: ${{!isMajor && isminor}}
+        if: ${{!env.isMajor && env.isMinor}}
         run: echo "minor"
       - name: patch
-        if: ${{!isMajor && !isminor}}
+        if: ${{!env.isMajor && !env.isMinor}}
         run: echo "patch"
