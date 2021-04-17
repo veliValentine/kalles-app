@@ -16,7 +16,7 @@ jobs:
           node-version: '12'
       - name: npm install
         working-directory: ./server
-        run: npm install --production
+        run: npm install
       - name: npm lint
         working-directory: ./server
         run: npm run lint -- --fix
