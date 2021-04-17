@@ -36,4 +36,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
-          CUSTOM_TAG: patch
+          CUSTOM_TAG: patch ${{env.isMajor}} ${{env.isMinor}}
