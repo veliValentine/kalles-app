@@ -9,19 +9,31 @@ jobs:
       - run: echo "Hello tags"
   update-server-tag:
     runs-on: ubuntu-latest
-    env:
-      isMajor: contains(join(github.event.commits.*.message, ' '), '#major')
-      isMinor: contains(join(github.event.commits.*.message, ' '), '#minor')
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "1"
+        env:
+          isMajor: contains(join(github.event.commits.*.message, ' '), '#major')
+          isMinor: contains(join(github.event.commits.*.message, ' '), '#minor')
       - name: major
         if: ${{env.isMajor && !env.isMinor}}
-        run: echo "major"
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: true
+          CUSTOM_TAG: major
       - name: minor
         if: ${{!env.isMajor && env.isMinor}}
-        run: echo "minor"
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: true
+          CUSTOM_TAG: minor
       - name: patch
         if: ${{!env.isMajor && !env.isMinor}}
-        run: echo "patch"
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: true
+          CUSTOM_TAG: patch
