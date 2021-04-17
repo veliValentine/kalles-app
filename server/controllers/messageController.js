@@ -64,7 +64,7 @@ messageRouter.post('/', (req, res) => {
   }
   const { latitude, longitude } = location;
   const id = `${biggestId(MESSAGES_DATA.map((m) => m.id)) + 1}`;
-  const newMessage = {
+  const baseMessage = {
     id,
     message,
     username,
@@ -75,9 +75,12 @@ messageRouter.post('/', (req, res) => {
     created: currentTimeStamp(),
     expires: 24,
     likes: 0,
+  };
+  MESSAGES_DATA = MESSAGES_DATA.concat(baseMessage);
+  const newMessage = {
+    ...baseMessage,
     distance: 0,
   };
-  MESSAGES_DATA = MESSAGES_DATA.concat(newMessage);
   return res.status(201).json(newMessage);
 });
 
