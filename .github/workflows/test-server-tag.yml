@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
+        if: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
         run: echo "ma $isMajor mi $isMinor"
         env:
-          isMajor: contains(join(github.event.commits.*.message, ' '), '#major')
+          isMajor: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
           isMinor: contains(join(github.event.commits.*.message, ' '), '#minor')
 
