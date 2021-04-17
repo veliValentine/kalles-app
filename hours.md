@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 46   | ---          |
+| Total  | 47   | ---          |
 | Client | 29   | 4.3.2021     |
-| Server | 17   | 17.4.2021    |
+| Server | 18   | 17.4.2021    |
 
 ## Client
 |    day     | time | time used to                                                         |
@@ -48,7 +48,7 @@
 ## Server
 |    day    | time | time used to                                                              |
 | :-------: | :--- | :------------------------------------------------------------------------ |
-|   total   | 17   | 30.3.2021                                                                 |
+|   total   | 18   | 30.3.2021                                                                 |
 | 21.3.2021 | 1    | init eslint, jest, structure                                              |
 | 21.3.2021 | 1    | distance & test                                                           |
 | 26.3.2021 | 1    | Moved backlog to github                                                   |
@@ -66,5 +66,6 @@
 | 17.4.2021 | 1    | Server pipelines                                                          |
 | 17.4.2021 | 2    | Custom version tag. Didn't work                                           |
 | 17.4.2021 | 1    | Test: GET single message                                                  |
+| 17.4.2021 | 1    | server v0.1.0 & refactoring                                               |
 
 | | | |
