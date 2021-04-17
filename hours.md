@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 40   | ---          |
+| Total  | 43   | ---          |
 | Client | 29   | 4.3.2021     |
-| Server | 11   | 30.3.2021    |
+| Server | 14   | 30.3.2021    |
 
 ## Client
 |    day     | time | time used to                                                         |
@@ -46,23 +46,24 @@
 [//]: # (| | | | |)
 | | | |
 ## Server
-|    day    | time | time used to                              |
-| :-------: | :--- | :---------------------------------------- |
-|   total   | 11   | 30.3.2021                                 |
-| 21.3.2021 | 1    | init eslint, jest, structure              |
-| 21.3.2021 | 1    | distance & test                           |
-| 26.3.2021 | 1    | Moved backlog to github                   |
-| 27.3.2021 | 1    | Enviroment modes, Logger, Messages test   |
-| 29.3.2021 | 1    | lint debuggin                             |
-| 29.3.2021 | 1    | POST message - TDD style                  |
-| 30.3.2021 | 1    | Trying to clear messages before each test |
-| 30.3.2021 | 1    | Missing message attributes response 400   |
-| 30.3.2021 | 1    | refactoring                               |
-| 11.4.2021 | 1    | refactor, message testing                 |
-|    sum    | 10   | ---------- sum ----------                 |
-| 11.4.2021 | 1    | Message distance, GET message             |
-| 17.4.2021 | 12:30 | |
-| 17.4.2021 | 1 | Maintaining backlog, Setting up heroku & docker |
-
+|    day    | time | time used to                                                              |
+| :-------: | :--- | :------------------------------------------------------------------------ |
+|   total   | 14   | 30.3.2021                                                                 |
+| 21.3.2021 | 1    | init eslint, jest, structure                                              |
+| 21.3.2021 | 1    | distance & test                                                           |
+| 26.3.2021 | 1    | Moved backlog to github                                                   |
+| 27.3.2021 | 1    | Enviroment modes, Logger, Messages test                                   |
+| 29.3.2021 | 1    | lint debuggin                                                             |
+| 29.3.2021 | 1    | POST message - TDD style                                                  |
+| 30.3.2021 | 1    | Trying to clear messages before each test                                 |
+| 30.3.2021 | 1    | Missing message attributes response 400                                   |
+| 30.3.2021 | 1    | refactoring                                                               |
+| 11.4.2021 | 1    | refactor, message testing                                                 |
+|    sum    | 10   | ---------- sum ----------                                                 |
+| 11.4.2021 | 1    | Message distance, GET message                                             |
+| 17.4.2021 | 1    | Maintaining backlog, reading github actions, reading docker documentation |
+| 17.4.2021 | 1    | Setting up heroku & docker                                                |
+| 17.4.2021 | 1    | Server pipelines                                                          |
+| 17.4.2021 | | brake 15:30- |
 
 | | | |
