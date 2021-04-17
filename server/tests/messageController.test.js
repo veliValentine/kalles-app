@@ -241,7 +241,7 @@ describe('messages', () => {
     // TODO check endDate>created
   });
 
-  describe('GET single message', () => {
+  describe('GET message', () => {
     let addedMessage;
     test('setup', async () => {
       const validMessage = {
@@ -257,7 +257,24 @@ describe('messages', () => {
         .send(validMessage)
         .set('Accept', 'application/json')
         .expect(201);
-      addedMessage = newMessage;
+      const {
+        id,
+        message,
+        username,
+        location,
+        created,
+        expires,
+        likes,
+      } = newMessage;
+      addedMessage = {
+        id,
+        message,
+        username,
+        location,
+        created,
+        expires,
+        likes,
+      };
     });
     describe('valid request', () => {
       test('status 200', async () => {
@@ -270,10 +287,21 @@ describe('messages', () => {
           .expect('Content-type', /application\/json/);
       });
 
-      test('return correct message', async () => {
+      test('return correct message - no location', async () => {
         const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
           .expect(200);
         expect(message).toEqual(addedMessage);
+        expect(message.distance).not.toBeDefined();
+      });
+
+      test('return correctmessage - with location', async () => {
+        const location = { ...addedMessage.location };
+        const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
+          .send({ location })
+          .set('Accept', 'application/json')
+          .expect(200);
+        expect(message.distance).toBeDefined();
+        expect(message.distance).toBe(0);
       });
     });
     describe('invalid request', () => {
