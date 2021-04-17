@@ -18,5 +18,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: patch
         TAG_CONTEXT: branch
+        CUSTOM_TAG: poop
         DRY_RUN: true
         
