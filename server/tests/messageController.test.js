@@ -9,16 +9,16 @@ const MESSAGES_ENDPOINT = '/api/v1/messages';
 
 describe('messages', () => {
   describe('GET messages', () => {
-    test('content JSON', async () => {
-      await api
-        .get(MESSAGES_ENDPOINT)
-        .expect('Content-type', /application\/json/);
-    });
-
     test('status 200', async () => {
       await api
         .get(MESSAGES_ENDPOINT)
         .expect(200);
+    });
+
+    test('content JSON', async () => {
+      await api
+        .get(MESSAGES_ENDPOINT)
+        .expect('Content-type', /application\/json/);
     });
 
     test('returns array', async () => {
@@ -242,5 +242,47 @@ describe('messages', () => {
   });
 
   describe('GET single message', () => {
+    let addedMessage;
+    test('setup', async () => {
+      const validMessage = {
+        username: 'testUsername',
+        message: 'testMessage',
+        location: {
+          latitude: 60.171712519065174,
+          longitude: 24.94059522394236,
+        },
+      };
+      const { body: newMessage } = await api
+        .post(MESSAGES_ENDPOINT)
+        .send(validMessage)
+        .set('Accept', 'application/json')
+        .expect(201);
+      addedMessage = newMessage;
+    });
+    describe('valid request', () => {
+      test('status 200', async () => {
+        await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
+          .expect(200);
+      });
+
+      test('content JSON', async () => {
+        await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
+          .expect('Content-type', /application\/json/);
+      });
+
+      test('return correct message', async () => {
+        const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
+          .expect(200);
+        expect(message).toEqual(addedMessage);
+      });
+    });
+    describe('invalid request', () => {
+      test('fail with 404 ', async () => {
+        const id = addedMessage.id + 1;
+        const { body: errorMessage } = await api.get(`${MESSAGES_ENDPOINT}/${id}`)
+          .expect(404);
+        expect(errorMessage).toBe(`Message with ID: ${id} not found`);
+      });
+    });
   });
 });
