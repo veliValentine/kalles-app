@@ -5,11 +5,10 @@ on:
 jobs:
   update-server-tag:
     runs-on: ubuntu-latest
+    env:
+      isMajor: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
+      isMinor: ${{contains(join(github.event.commits.*.message, ' '), '#minor')}}
     steps:
       - name: test
-        if: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
+        if: ${{env.isMajor}}
         run: echo "ma $isMajor mi $isMinor"
-        env:
-          isMajor: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
-          isMinor: ${{contains(join(github.event.commits.*.message, ' '), '#minor')}}
-
