@@ -9,15 +9,22 @@ jobs:
       - run: echo "Hello tags"
   update-server-tag:
     runs-on: ubuntu-latest
-    needs: poop
+    env:
+      isMajor: contains(join(github.event.commits.*.message, ' '), '#major')
+      isMinor: contains(join(github.event.commits.*.message, ' '), '#minor')
     steps:
-    - uses: actions/checkout@v2
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.26.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEFAULT_BUMP: patch
-        TAG_CONTEXT: branch
-        CUSTOM_TAG: poop
-        DRY_RUN: true
-        
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "1"
+      - name: major
+        uses: anothrNick/github-tag-action@1.34.0
+        if: ${{isMajor && !isminor}}
+        run: echo "major"
+      - name: minor
+        uses: anothrNick/github-tag-action@1.34.0
+        if: ${{!isMajor && isminor}}
+        run: echo "minor"
+      - name: patch
+        uses: anothrNick/github-tag-action@1.34.0
+        if: ${{!isMajor && !isminor}}
+        run: echo "patch"
