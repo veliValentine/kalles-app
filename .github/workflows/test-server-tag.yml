@@ -5,27 +5,16 @@ on:
 jobs:
   update-server-tag:
     runs-on: ubuntu-latest
-    env:
-      isMajor: ${{contains(join(github.event.commits.*.message, ' '), '#major')}}
-      isMinor: ${{contains(join(github.event.commits.*.message, ' '), '#minor')}}
     steps:
-      - name: major
-        if: ${{(env.isMajor) && (!env.isMinor)}}
-        run: echo "major"
-      - name: minor
-        if: ${{(!env.isMajor) && (env.isMinor)}}
-        run: echo "minor"
-      - name: patch
-        if: ${{(!env.isMajor) && (!env.isMinor)}}
-        run: echo "patch"
-      - name: isMajor
-        if: ${{env.isMajor}}
-        run: echo "major"
-      - name: isMinor
-        if: ${{env.isMinor}}
-        run: echo "minor"
-      - name: isMajor not minor
-        if: ${{(env.isMajor) && (!env.isMinor) }}
-        run: echo "major"
-      - name: print
-        run: echo "$isMajor $isMinor"
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.26.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEFAULT_BUMP: patch
+        WITH_V: true
+        INITIAL_VERSION: 0.1.0
+        DRY_RUN: true
+  
