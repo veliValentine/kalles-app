@@ -3,10 +3,6 @@ on:
   push:
   workflow_dispatch:
 jobs:
-  poop:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello tags"
   update-server-tag:
     runs-on: ubuntu-latest
     steps:
@@ -22,18 +18,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
-          CUSTOM_TAG: major
+          CUSTOM_TAG: major $isMajor $isMinor
       - name: minor
         if: ${{!env.isMajor && env.isMinor}}
         uses: anothrNick/github-tag-action@1.26.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
-          CUSTOM_TAG: minor
+          CUSTOM_TAG: minor $isMajor $isMinor
       - name: patch
         if: ${{!env.isMajor && !env.isMinor}}
         uses: anothrNick/github-tag-action@1.26.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
-          CUSTOM_TAG: patch ${{env.isMajor}} ${{env.isMinor}}
+          CUSTOM_TAG: patch $isMajor $isMinor
