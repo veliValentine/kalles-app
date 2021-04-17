@@ -61,5 +61,8 @@
 | 11.4.2021 | 1    | refactor, message testing                 |
 |    sum    | 10   | ---------- sum ----------                 |
 | 11.4.2021 | 1    | Message distance, GET message             |
+| 17.4.2021 | 12:30 | |
+| 17.4.2021 | 1 | Maintaining backlog, Setting up heroku & docker |
+
 
 | | | |
