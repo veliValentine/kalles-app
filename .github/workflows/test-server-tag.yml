@@ -10,11 +10,22 @@ jobs:
       isMinor: ${{contains(join(github.event.commits.*.message, ' '), '#minor')}}
     steps:
       - name: major
-        if: ${{env.isMajor && !env.isMinor}}
+        if: ${{(env.isMajor) && (!env.isMinor)}}
         run: echo "major"
       - name: minor
-        if: ${{!env.isMajor && env.isMinor}}
+        if: ${{(!env.isMajor) && (env.isMinor)}}
         run: echo "minor"
       - name: patch
-        if: ${{!env.isMajor && !env.isMinor}}
+        if: ${{(!env.isMajor) && (!env.isMinor)}}
         run: echo "patch"
+      - name: isMajor
+        if: ${{env.isMajor}}
+        run: echo "major"
+      - name: isMinor
+        if: ${{env.isMinor}}
+        run: echo "minor"
+      - name: isMajor not minor
+        if: ${{(env.isMajor) && (!env.isMinor) }}
+        run: echo "major"
+      - name: print
+        run: echo "$isMajor $isMinor"
