@@ -9,27 +9,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "1"
+        run: echo "ma $isMajor mi $isMinor"
         env:
           isMajor: contains(join(github.event.commits.*.message, ' '), '#major')
           isMinor: contains(join(github.event.commits.*.message, ' '), '#minor')
-      - name: major
-        if: ${{env.isMajor && !env.isMinor}}
-        uses: anothrNick/github-tag-action@1.26.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DRY_RUN: true
-          CUSTOM_TAG: "major $isMajor $isMinor"
-      - name: minor
-        if: ${{!env.isMajor && env.isMinor}}
-        uses: anothrNick/github-tag-action@1.26.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DRY_RUN: true
-          CUSTOM_TAG: "minor $isMajor $isMinor"
-      - name: patch
-        if: ${{!env.isMajor && !env.isMinor}}
-        uses: anothrNick/github-tag-action@1.26.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DRY_RUN: true
-          CUSTOM_TAG: "patch $isMajor $isMinor"
+
