@@ -63,7 +63,7 @@ messageRouter.post('/', (req, res) => {
     return handleError400(res, 'Invalid location');
   }
   const { latitude, longitude } = location;
-  const id = biggestId(MESSAGES_DATA.map((m) => m.id)) + 1;
+  const id = `${biggestId(MESSAGES_DATA.map((m) => m.id)) + 1}`;
   const newMessage = {
     id,
     message,
