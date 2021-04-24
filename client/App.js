@@ -9,13 +9,11 @@ const storage = new Storage();
 
 const App = () => {
   useEffect(() => {
-    const initStorage = async () => {
-      const messages = await storage.getMessages();
-      if (messages.length < 1) {
-        await storage.initMessages();
-      }
+    console.log('Clear storage');
+    const clearStorage = async () => {
+      await storage.clearMessages();
     };
-    initStorage();
+    clearStorage();
   }, []);
 
   return (
