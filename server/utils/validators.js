@@ -13,6 +13,9 @@ const isNumber = (input = null) => {
   if (input === null || typeof input !== 'number') {
     return false;
   }
+  if (Number.isNaN(input)) {
+    return false;
+  }
   return true;
 };
 
