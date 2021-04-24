@@ -294,11 +294,10 @@ describe('messages', () => {
         expect(message.distance).not.toBeDefined();
       });
 
-      test('return correctmessage - with location', async () => {
-        const location = { ...addedMessage.location };
-        const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
-          .send({ location })
-          .set('Accept', 'application/json')
+      test('return correct message - with location', async () => {
+        const { latitude, longitude } = { ...addedMessage.location };
+        const query = `?latitude=${latitude}&longitude=${longitude}`;
+        const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}${query}`)
           .expect(200);
         expect(message.distance).toBeDefined();
         expect(message.distance).toBe(0);
