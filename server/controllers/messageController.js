@@ -39,7 +39,7 @@ messageRouter.get('/', (req, res) => {
   if (!requestQueryContainsValidLocation(req)) {
     return res.status(200).json(MESSAGES_DATA);
   }
-  const { location } = req.body;
+  const location = getQueryLocation(req);
   const messagesWithDistance = MESSAGES_DATA.map((message) => ({
     ...message,
     distance: calculateDistance(location, message.location),
