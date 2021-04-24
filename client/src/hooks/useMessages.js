@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import StorageContext from '../contexts/StorageContext';
-import { SERVER_URL_BASE } from '../utils/URL';
-import { calculateDistance } from '../utils';
+import { fetchMessages } from '../service/messageService';
 
 const useMessages = (currentLocation) => {
   const storage = useContext(StorageContext);
@@ -12,32 +11,9 @@ const useMessages = (currentLocation) => {
   }, [currentLocation]);
 
   const getMessages = async () => {
-    try {
-      if (!currentLocation) {
-        throw new Error('No location');
-      }
-      const { latitude, longitude } = currentLocation;
-      const query = `?latitude=${latitude}&longitude=${longitude}`;
-      console.log(`${SERVER_URL_BASE}/messages${query}`);
-      const response = await fetch(`${SERVER_URL_BASE}/messages${query}`);
-      const serverMessages = await response.json();
-      setMessages(parseServerMessages(serverMessages));
-    } catch (e) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      } else {
-        throw e;
-      }
-    }
+    const messages = await fetchMessages(currentLocation);
+    setMessages(messages);
   };
-
-  const parseServerMessages = (messages = []) => (
-    messages.map((message) => ({
-      ...message,
-      coordinate: message.location,
-      distance: calculateDistance(message.location, currentLocation)
-    }))
-  );
 
   // TODO POST message to server
   const addMessage = async (message) => {
@@ -46,7 +22,7 @@ const useMessages = (currentLocation) => {
     getMessages();
   };
 
-  return [messages, getMessages, addMessage];
+  return [messages, fetchMessages, addMessage];
 };
 
 export default useMessages;
