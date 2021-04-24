@@ -3,9 +3,6 @@ on:
   pull_request:
     paths:
       - 'server/**'
-  push:
-    paths:
-      - 'server/**'
 jobs:
   Run-server-tests:
     runs-on: ubuntu-latest
