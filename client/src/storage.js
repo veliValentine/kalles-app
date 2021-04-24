@@ -41,7 +41,6 @@ class Storage {
     return rawMessages ? JSON.parse(rawMessages) : [];
   }
 
-
   async getMessage(id) {
     //console.log('get a message from storage');
     const messages = await this.getMessages();
@@ -58,6 +57,10 @@ class Storage {
   async initMessages() {
     //console.log('add messages');
     await AsyncStorage.setItem(`${this.namespace}:messages`, JSON.stringify(data));
+  }
+
+  async clearMessages() {
+    await AsyncStorage.removeItem(`${this.namespace}:messages`);
   }
 }
 
