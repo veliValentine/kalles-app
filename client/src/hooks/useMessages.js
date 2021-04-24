@@ -9,12 +9,17 @@ const useMessages = (currentLocation) => {
 
   useEffect(() => {
     getMessages();
-  }, []);
+  }, [currentLocation]);
 
   const getMessages = async () => {
     try {
-      // TODO add location info to request
-      const response = await fetch(`${SERVER_URL_BASE}/messages`);
+      if (!currentLocation) {
+        throw new Error('No location');
+      }
+      const { latitude, longitude } = currentLocation;
+      const query = `?latitude=${latitude}&longitude=${longitude}`;
+      console.log(`${SERVER_URL_BASE}/messages${query}`);
+      const response = await fetch(`${SERVER_URL_BASE}/messages${query}`);
       const serverMessages = await response.json();
       setMessages(parseServerMessages(serverMessages));
     } catch (e) {
