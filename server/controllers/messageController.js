@@ -36,10 +36,10 @@ let MESSAGES_DATA = isTestEnvironment ? [] : [
 ];
 
 messageRouter.get('/', (req, res) => {
-  if (!reqBodyContainsvalidLocation(req)) {
+  if (!requestQueryContainsValidLocation(req)) {
     return res.status(200).json(MESSAGES_DATA);
   }
-  const { location } = req.body;
+  const location = getQueryLocation(req);
   const messagesWithDistance = MESSAGES_DATA.map((message) => ({
     ...message,
     distance: calculateDistance(location, message.location),
@@ -84,16 +84,17 @@ messageRouter.post('/', (req, res) => {
   return res.status(201).json(newMessage);
 });
 
+// TODO add distance for single message
 messageRouter.get('/:id', (req, res) => {
   const { id } = req.params;
   const message = MESSAGES_DATA.find((m) => m.id === id);
   if (!message) {
     return res.status(404).json(`Message with ID: ${id} not found`);
   }
-  if (!reqBodyContainsvalidLocation(req)) {
+  if (!requestQueryContainsValidLocation(req)) {
     return res.status(200).json(message);
   }
-  const { location } = req.body;
+  const location = getQueryLocation(req);
   const messageWithDistance = {
     ...message,
     distance: calculateDistance(location, message.location),
@@ -103,9 +104,17 @@ messageRouter.get('/:id', (req, res) => {
 
 const handleError400 = (res, message) => res.status(400).json(`Error: ${message}`);
 
-const reqBodyContainsvalidLocation = (req) => {
-  const { location = {} } = req.body;
+const requestQueryContainsValidLocation = (req) => {
+  const location = getQueryLocation(req);
   return isLocationObject(location);
+};
+
+const getQueryLocation = (req) => {
+  const { latitude, longitude } = req.query;
+  return {
+    latitude: parseFloat(latitude),
+    longitude: parseFloat(longitude),
+  };
 };
 
 module.exports = messageRouter;
