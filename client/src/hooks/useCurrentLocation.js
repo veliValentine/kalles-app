@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { calculateDistance } from '../utils';
 
 const useCurrentLocation = () => {
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState();
 
   useEffect(() => {
     fetchCurrentLocation();
@@ -9,13 +10,21 @@ const useCurrentLocation = () => {
 
   const fetchCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
-      updateLocation(coords);
+      setLocation(coords);
     });
   };
 
+  const setLocation = ({ latitude, longitude }) => {
+    if (latitude && longitude) {
+      setCurrentLocation({ latitude, longitude });
+    }
+  };
+
   const updateLocation = ({ longitude, latitude }) => {
-    if (longitude && latitude) {
-      setCurrentLocation({ longitude, latitude });
+    const newLocation = { longitude, latitude };
+    const distance = calculateDistance(newLocation, currentLocation);
+    if (longitude && latitude && distance > 0.01) {
+      setCurrentLocation(newLocation);
     }
   };
 
