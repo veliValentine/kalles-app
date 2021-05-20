@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { calculateDistance } from '../utils';
 
+const DISTANCE_THRESHOLD = 0.01;
+
 const useCurrentLocation = () => {
   const [currentLocation, setCurrentLocation] = useState();
 
@@ -20,10 +22,10 @@ const useCurrentLocation = () => {
     }
   };
 
-  const updateLocation = ({ longitude, latitude }) => {
-    const newLocation = { longitude, latitude };
+  const updateLocation = ({ latitude, longitude }) => {
+    const newLocation = { latitude, longitude };
     const distance = calculateDistance(newLocation, currentLocation);
-    if (longitude && latitude && distance > 0.01) {
+    if (longitude && latitude && distance > DISTANCE_THRESHOLD) {
       setCurrentLocation(newLocation);
     }
   };
