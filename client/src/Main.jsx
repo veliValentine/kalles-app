@@ -27,7 +27,7 @@ const Main = () => {
   const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages(location);
   if (!location) {
-    return <LoadingScreen />;
+    return <LoadingScreen message={'No location available'}/>;
   }
 
   const reloadMessages = () => {
