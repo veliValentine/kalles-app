@@ -1,3 +1,5 @@
+const DISTNACE_TRESHOLD = 0.1;
+export const isReadable = (distance = 99) => distance < DISTNACE_TRESHOLD;
 
 export const parseLocation = (location, source = 'no source given') => {
   if (!location) {
