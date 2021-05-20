@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 53   | ---          |
-| Client | 33   | 24.4.2021    |
+| Total  | 55   | ---          |
+| Client | 35   | 20.5.2021    |
 | Server | 20   | 24.4.2021    |
 
 ## Client
@@ -46,6 +46,7 @@
 | 24.4.2021  | 1    | GET messages from server                                            |
 | 24.4.2021  | 1    | getting messages from server                                        |
 | 24.4.2021  | 1    | refactor map component                                              |
+| 20.5.2021  | 2    | refactroring                                                        |
 
 [//]: # (| | | | |)
 | | | |
