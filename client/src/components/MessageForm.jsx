@@ -63,6 +63,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
     addMessage({
       text: messageData,
       location: currentLocation,
+      coordinate:currentLocation,
       distance: 0,
       username: usernameData,
     });

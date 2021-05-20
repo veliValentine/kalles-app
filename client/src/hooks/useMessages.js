@@ -1,9 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
-import StorageContext from '../contexts/StorageContext';
+import { useState, useEffect } from 'react';
 import { fetchMessages } from '../service/messageService';
 
 const useMessages = (currentLocation) => {
-  const storage = useContext(StorageContext);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -18,8 +16,7 @@ const useMessages = (currentLocation) => {
   // TODO POST message to server
   const addMessage = async (message) => {
     const newMessage = { ...message, id: messages.length.toString() };
-    await storage.addMessage(newMessage);
-    getMessages();
+    setMessages(messages.concat(newMessage));
   };
 
   return [messages, getMessages, addMessage];
