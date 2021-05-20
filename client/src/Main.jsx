@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 const Main = () => {
   const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages(location);
+
   if (!location) {
     return <LoadingScreen message={'No location available'}/>;
   }
@@ -49,7 +50,12 @@ const Main = () => {
           <MessageForm addMessage={addMessage} currentLocation={location} />
         </Route>
         <Route path={['/map', '/map/:latitude/:longitude']} exact key="default-map">
-          <MapPage messages={messages} reloadMessages={reloadMessages} location={location} changeLocation={changeLocation} />
+          <MapPage
+            messages={messages}
+            reloadMessages={reloadMessages}
+            location={location}
+            changeLocation={changeLocation}
+          />
         </Route>
         <Redirect to="/map" />
       </Switch>

@@ -1,6 +1,14 @@
-export const sortByDistances = (item1, item2) => item1.distance - item2.distance;
 
-export const filterByDistances = (arr, dist) => arr.filter((item) => item.distance < dist);
+export const parseLocation = (location, source = 'no source given') => {
+  if (!location) {
+    throw new Error(`No location available - ${source}`);
+  }
+  const { latitude, longitude } = location;
+  if (!latitude || !longitude) {
+    throw new Error(`Invalid location - ${source}`);
+  }
+  return { latitude, longitude };
+};
 
 export const calculateDistance = (coor1, coor2) => {
   const { latitude: lat1, longitude: long1 } = coor1;

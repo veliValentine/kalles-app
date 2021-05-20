@@ -1,3 +1,5 @@
+import { parseLocation } from '../utils';
+import { handleError } from '../utils/errors';
 import { SERVER_URL_BASE } from '../utils/URL';
 
 export const fetchMessages = async (location) => {
@@ -8,16 +10,13 @@ export const fetchMessages = async (location) => {
     const messages = await parseServerResponse(response);
     return messages;
   } catch (e) {
-    handleError(e);
+    handleError(e, 'Error handling server request');
     return [];
   }
 };
 
-const coordinateQuery = (location = {}) => {
-  const { latitude, longitude } = location;
-  if (!latitude || !longitude) {
-    throw new Error('Invalid location');
-  }
+const coordinateQuery = (location) => {
+  const { latitude, longitude } = parseLocation(location, 'messageService.js');
   return `latitude=${latitude}&longitude=${longitude}`;
 };
 
@@ -36,12 +35,3 @@ const parseMessages = (messages) => (
   }))
 );
 
-const handleError = (e) => {
-  console.log('Error handling server request');
-  if (e instanceof Error) {
-    console.log(e.message);
-  } else {
-    console.log('Error thrown at messageService.js');
-    throw e;
-  }
-};
