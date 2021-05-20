@@ -22,7 +22,7 @@ const useMessages = (currentLocation) => {
     getMessages();
   };
 
-  return [messages, fetchMessages, addMessage];
+  return [messages, getMessages, addMessage];
 };
 
 export default useMessages;
