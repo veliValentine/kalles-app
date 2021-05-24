@@ -25,13 +25,6 @@ const parseServerResponse = async (response) => {
   if (!Array.isArray(messages)) {
     throw new Error('messages not an array');
   }
-  return parseMessages(messages);
+  return messages;
 };
-
-const parseMessages = (messages) => (
-  messages.map((message) => ({
-    ...message,
-    coordinate: message.location
-  }))
-);
 
