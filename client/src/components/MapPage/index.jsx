@@ -42,12 +42,11 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
     const seconds = 1 * 1000;
     mapRef.animateToRegion(userRegion, seconds);
   };
-
   return (
     <View>
       <Map
         markers={markers}
-        initialRegion={region}
+        region={region}
         handleLocationChange={handleLocationChange}
       />
       <ReloadButton onPress={reloadMessages} />
@@ -57,15 +56,16 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
 };
 
 let mapRef;
-const Map = ({ markers, initialRegion, handleLocationChange }) => (
-  <MapView style={styles.map}
+const Map = ({ region, handleLocationChange, markers }) => (
+  <MapView
+    style={styles.map}
     ref={(map) => { mapRef = map; }}
     showsUserLocation={true}
     showsMyLocationButton={false}//minZoomLevel={13}
     showsBuildings={false}
     showsTraffic={false}
     toolbarEnabled={false}
-    initialRegion={initialRegion}
+    initialRegion={region}
     onUserLocationChange={handleLocationChange}
   >
     {markers}
@@ -76,10 +76,6 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width - 1,
     height: Dimensions.get('window').height - Constants.statusBarHeight - 60,
-  },
-  header: {
-    padding: 10,
-    backgroundColor: 'white',
   },
 });
 

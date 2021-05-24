@@ -30,7 +30,6 @@ const Marker = ({ message }) => {
   };
   return (
     <ViewMarker
-      key={id}
       location={location}
       pinColor={pinColor}
       title={title}
