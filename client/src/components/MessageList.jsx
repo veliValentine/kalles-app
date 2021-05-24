@@ -5,11 +5,13 @@ import { isReadable } from '../utils';
 import LoadingScreen from './LoadingScreen';
 
 const MessageList = ({ messages }) => {
+  const history = useHistory();
+  const redirect = (url) => history.push(url);
   if (!messages) {
     return <LoadingScreen message={'Loading messages...'} />;
   }
   if (messages.length < 1) {
-    return <NoMessages />;
+    return <NoMessages redirect={redirect} />;
   }
   return (
     <View style={styles.container}>
@@ -17,41 +19,37 @@ const MessageList = ({ messages }) => {
         data={messages}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ItemSeparator}
-        renderItem={({ item }) => <ListMessage message={item} />}
+        renderItem={({ item }) => <ListItem message={item} redirect={redirect} />}
       />
     </View>
   );
 };
 
-const NoMessages = () => {
-  const history = useHistory();
-  const handlePress = (event) => {
-    event.preventDefault();
-    history.push('/newMessage');
+const NoMessages = ({ redirect }) => {
+  const handlePress = () => {
+    redirect('/newMessage');
   };
   return (
     <View style={styles.missingContainer}>
       <TouchableOpacity onPress={handlePress}>
         <Text>Messages not found!</Text>
-        <Text style={{ color: 'blue' }}>Add new message!</Text>
+        <Text style={{ color: 'blue' }}>Add a new message!</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const ListMessage = ({ message }) => {
-  const history = useHistory();
+const ListItem = ({ message, redirect }) => {
   const { distance, id, username } = message;
   const isClose = isReadable(distance);
   const handlePress = () => {
     if (isClose) {
-      history.push(`/message/${id}`);
+      redirect(`/message/${id}`);
     } else {
-      const { latitude, longitude } = message.coordinate;
-      history.push(`/map/${latitude}/${longitude}`);
+      const { latitude, longitude } = message.location;
+      redirect(`/map/${latitude}/${longitude}`);
     }
   };
   return (
@@ -59,7 +57,7 @@ const ListMessage = ({ message }) => {
       <TouchableOpacity onPress={handlePress}>
         {isClose ?
           <View>
-            <Text>Click to see message</Text>
+            <Text>Click to see the message</Text>
             <Text>By: {username}</Text>
           </View>
           : <Text>Move closer to see the message</Text>
@@ -69,7 +67,6 @@ const ListMessage = ({ message }) => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   separator: {
