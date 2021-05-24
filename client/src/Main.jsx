@@ -9,19 +9,10 @@ import MessageForm from './components/MessageForm';
 import AppBar from './components/AppBar';
 import Message from './components/Message';
 import MapPage from './components/MapPage';
+import LoadingScreen from './components/LoadingScreen';
 
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
-import LoadingScreen from './components/LoadingScreen';
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Constants.statusBarHeight,
-    flexGrow: 1,
-    flexShrink: 1,
-    backgroundColor: '#F0EAD6'
-  },
-});
 
 const Main = () => {
   const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
@@ -62,5 +53,14 @@ const Main = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: Constants.statusBarHeight,
+    flexGrow: 1,
+    flexShrink: 1,
+    backgroundColor: '#F0EAD6'
+  },
+});
 
 export default Main;
