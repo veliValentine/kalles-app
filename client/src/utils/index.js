@@ -1,5 +1,5 @@
 export const YELLOW_MESSAGE_THRESHOLD = 15;
-const READABLE_TRESHOLD = 0.1;
+export const READABLE_TRESHOLD = 0.1;
 export const isReadable = (distance = READABLE_TRESHOLD) => distance < READABLE_TRESHOLD;
 
 export const parseLocation = (location, fileLocation = 'no file location given') => {
