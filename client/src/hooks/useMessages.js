@@ -15,7 +15,12 @@ const useMessages = (currentLocation) => {
 
   // TODO POST message to server
   const addMessage = async (message) => {
-    const newMessage = { ...message, id: messages.length.toString() };
+    const newMessage = {
+      ...message,
+      id: messages.length.toString(),
+      location: currentLocation,
+      distance: 0
+    };
     setMessages(messages.concat(newMessage));
   };
 
