@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 55   | ---          |
-| Client | 35   | 20.5.2021    |
+| Total  | 58   | ---          |
+| Client | 38   | 24.5.2021    |
 | Server | 20   | 24.4.2021    |
 
 ## Client
@@ -47,6 +47,8 @@
 | 24.4.2021  | 1    | getting messages from server                                        |
 | 24.4.2021  | 1    | refactor map component                                              |
 | 20.5.2021  | 2    | refactroring                                                        |
+| 24.5.2021  | 2    | Refactor MapPage, Main, message service and MessageForm             |
+| 24.5.2021  | 1    | Fix: Changed component error message after it was unmounted         |
 
 [//]: # (| | | | |)
 | | | |
