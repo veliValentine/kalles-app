@@ -1,14 +1,14 @@
 export const YELLOW_MESSAGE_THRESHOLD = 15;
 const READABLE_TRESHOLD = 0.1;
-export const isReadable = (distance = 99) => distance < READABLE_TRESHOLD;
+export const isReadable = (distance = READABLE_TRESHOLD) => distance < READABLE_TRESHOLD;
 
-export const parseLocation = (location, source = 'no source given') => {
+export const parseLocation = (location, fileLocation = 'no file location given') => {
   if (!location) {
-    throw new Error(`No location available - ${source}`);
+    throw new Error(`No location available - ${fileLocation}`);
   }
   const { latitude, longitude } = location;
   if (!latitude || !longitude) {
-    throw new Error(`Invalid location - ${source}`);
+    throw new Error(`Invalid location - ${fileLocation}`);
   }
   return { latitude, longitude };
 };
