@@ -73,7 +73,7 @@ messageRouter.post('/', (req, res) => {
       longitude,
     },
     created: currentTimeStamp(),
-    expires: 24,
+    expires: currentTimeStamp(24),
     likes: 0,
   };
   MESSAGES_DATA = MESSAGES_DATA.concat(baseMessage);
