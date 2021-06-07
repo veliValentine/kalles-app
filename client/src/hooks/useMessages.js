@@ -24,8 +24,7 @@ const useMessages = (currentLocation) => {
       const addedMessage = await postMessage(newMessage);
       setMessages(messages
         .concat(addedMessage)
-        .sort(sortByDistances)
-      );
+        .sort(sortByDistances));
     }
   };
 
