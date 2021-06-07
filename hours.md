@@ -7,51 +7,51 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 60   | ---          |
-| Client | 40   | 7.6.2021     |
+| Total  | 61   | ---          |
+| Client | 41   | 7.6.2021     |
 | Server | 20   | 24.4.2021    |
 
 ## Client
-|    day     | time  | time used to                                                        |
-| :--------: | :---- | :------------------------------------------------------------------ |
-|   total    | 40    | 4.3.2021                                                            |
-| 22.12.2020 | 2     | created repository, documents, run schedule                         |
-| 25.12.2020 | 1     | init server and client                                              |
-| 25.12.2020 | 1     | Message list                                                        |
-| 25.12.2020 | 1     | New message saves location                                          |
-| 26.12.2020 | 1     | New message form                                                    |
-| 26.12.2020 | 1     | Router and Message view                                             |
-| 27.12.2020 | 1     | Map rendering                                                       |
-| 27.12.2020 | 1     | Current location hook                                               |
-| 15.1.2021  | 1     | Reading react-native-maps api                                       |
-| 15.1.2021  | 1     | Reading about different local storage options and Async storage API |
-| 15.1.2021  | 2     | refactoring                                                         |
-| 15.1.2021  | 1     | Map marker                                                          |
-| 15.1.2021  | 2     | Storage                                                             |
-| 16.1.2021  | 1     | Fixed bugs                                                          |
-| 16.1.2021  | 1     | Message list shows location of message on map                       |
-| 16.1.2021  | 1     | expo documents and publish                                          |
-| 17.1.2021  | 1     | Handle View when no messages (Message list and single message)      |
-| 17.1.2021  | 1     | Modified Map reload button and refactoring                          |
-| 17.1.2021  | 1     | Debugging map-component. Show user location button not showing      |
-| 17.1.2021  | 1     | Fixed bug. Map reload button works                                  |
-|  3.3.2021  | 1     | Updated trello backlog                                              |
-|  3.3.2021  | 1     | Chores (Eslint, node_modules)                                       |
-|  3.3.2021  | 1     | zoomin level on specific location                                   |
-|  3.3.2021  | 1     | location updates on change (finally)                                |
-|  4.3.2021  | 1     | Move region to user location                                        |
-|  4.3.2021  | 1     | Version number to appBar and publish 0.1.2                          |
-| 24.4.2021  | 1     | expo documentation & setting up production mode                     |
-| 24.4.2021  | 1     | GET messages from server                                            |
-| 24.4.2021  | 1     | getting messages from server                                        |
-| 24.4.2021  | 1     | refactor map component                                              |
-| 20.5.2021  | 2     | refactroring                                                        |
-| 24.5.2021  | 2     | Refactor MapPage, Main, message service and MessageForm             |
-| 24.5.2021  | 1     | Fix: Changed component error message after it was unmounted         |
-|  7.6.2021  | 19:00 |                                                                     |
-|  7.6.2021  | 1     | Refactor: Storage                                                   |
-|  7.6.2021  | 1     | Send new message to server                                          |
-|    sum     | 40    | ----------- sum --------------                                      |
+|    day     | time | time used to                                                        |
+| :--------: | :--- | :------------------------------------------------------------------ |
+|   total    | 41   | 7.6.2021                                                            |
+| 22.12.2020 | 2    | created repository, documents, run schedule                         |
+| 25.12.2020 | 1    | init server and client                                              |
+| 25.12.2020 | 1    | Message list                                                        |
+| 25.12.2020 | 1    | New message saves location                                          |
+| 26.12.2020 | 1    | New message form                                                    |
+| 26.12.2020 | 1    | Router and Message view                                             |
+| 27.12.2020 | 1    | Map rendering                                                       |
+| 27.12.2020 | 1    | Current location hook                                               |
+| 15.1.2021  | 1    | Reading react-native-maps api                                       |
+| 15.1.2021  | 1    | Reading about different local storage options and Async storage API |
+| 15.1.2021  | 2    | refactoring                                                         |
+| 15.1.2021  | 1    | Map marker                                                          |
+| 15.1.2021  | 2    | Storage                                                             |
+| 16.1.2021  | 1    | Fixed bugs                                                          |
+| 16.1.2021  | 1    | Message list shows location of message on map                       |
+| 16.1.2021  | 1    | expo documents and publish                                          |
+| 17.1.2021  | 1    | Handle View when no messages (Message list and single message)      |
+| 17.1.2021  | 1    | Modified Map reload button and refactoring                          |
+| 17.1.2021  | 1    | Debugging map-component. Show user location button not showing      |
+| 17.1.2021  | 1    | Fixed bug. Map reload button works                                  |
+|  3.3.2021  | 1    | Updated trello backlog                                              |
+|  3.3.2021  | 1    | Chores (Eslint, node_modules)                                       |
+|  3.3.2021  | 1    | zoomin level on specific location                                   |
+|  3.3.2021  | 1    | location updates on change (finally)                                |
+|  4.3.2021  | 1    | Move region to user location                                        |
+|  4.3.2021  | 1    | Version number to appBar and publish 0.1.2                          |
+| 24.4.2021  | 1    | expo documentation & setting up production mode                     |
+| 24.4.2021  | 1    | GET messages from server                                            |
+| 24.4.2021  | 1    | getting messages from server                                        |
+| 24.4.2021  | 1    | refactor map component                                              |
+| 20.5.2021  | 2    | refactroring                                                        |
+| 24.5.2021  | 2    | Refactor MapPage, Main, message service and MessageForm             |
+| 24.5.2021  | 1    | Fix: Changed component error message after it was unmounted         |
+|  7.6.2021  | 1    | Refactor: Storage                                                   |
+|  7.6.2021  | 1    | Send new message to server                                          |
+|    sum     | 40   | ----------- sum --------------                                      |
+|  7.6.2021  | 1    | Style message popup and view                                        |
 
 [//]: # (| | | | |)
 | | | |
