@@ -50,8 +50,7 @@ describe('messages', () => {
       test('valid message added', async () => {
         const messagesBefore = await getMessages(api);
         const created = currentTimeStamp();
-        const expires = new Date(created);
-        expires.setHours(expires.getHours() + 24);
+        const expires = currentTimeStamp(24);
         const { body: addedMessage } = await api
           .post(MESSAGES_ENDPOINT)
           .send(validMessage)
