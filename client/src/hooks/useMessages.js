@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchMessages, postMessage } from '../service/messageService';
+import { sortByDistances } from '../utils/arrayHelpers';
 
 const useMessages = (currentLocation) => {
   const [messages, setMessages] = useState([]);
@@ -10,7 +11,7 @@ const useMessages = (currentLocation) => {
 
   const getMessages = async () => {
     const messages = await fetchMessages(currentLocation);
-    setMessages(messages);
+    setMessages(messages.sort(sortByDistances));
   };
 
   // TODO POST message to server
@@ -21,7 +22,10 @@ const useMessages = (currentLocation) => {
         location: currentLocation
       };
       const addedMessage = await postMessage(newMessage);
-      setMessages(messages.concat(addedMessage));
+      setMessages(messages
+        .concat(addedMessage)
+        .sort(sortByDistances)
+      );
     }
   };
 
