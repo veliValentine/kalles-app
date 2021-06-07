@@ -16,7 +16,7 @@ export const fetchMessages = async (location) => {
     if (responseStatus !== HTTP_OK) {
       throw new Error(`Server responded with status: ${responseStatus}`);
     }
-    const messages = await parseServerResponse(response);
+    const messages = await response.json();
     return messages;
   } catch (e) {
     handleError(e, 'Error handling server request');
@@ -29,15 +29,7 @@ const coordinateQuery = (location) => {
   return `latitude=${latitude}&longitude=${longitude}`;
 };
 
-const parseServerResponse = async (response) => {
-  const messages = await response.json();
-  if (!Array.isArray(messages)) {
-    throw new Error('messages not an array');
-  }
-  return messages;
-};
-
-export const addMessage = async (message) => {
+export const postMessage = async (message) => {
   const response = await fetch(MESSAGE_URL, {
     method: 'POST',
     headers: {
@@ -48,7 +40,8 @@ export const addMessage = async (message) => {
   const responseJSON = await response.json();
   const responseStatus = response.status;
   if (responseStatus !== HTTP_CREATED) {
-    throw new Error(`Server responded with status: ${responseStatus}`, responseJSON);
+    console.error(`Server responded with status: ${responseStatus}`);
+    throw new Error(responseJSON);
   }
   return responseJSON;
 };

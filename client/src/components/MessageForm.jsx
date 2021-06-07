@@ -23,7 +23,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
     if (!usernameData) return updateError('Username required');
 
     addMessage({
-      text: messageData,
+      message: messageData,
       username: usernameData,
     });
     setMessage('');

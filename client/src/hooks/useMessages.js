@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchMessages } from '../service/messageService';
+import { fetchMessages, postMessage } from '../service/messageService';
 
 const useMessages = (currentLocation) => {
   const [messages, setMessages] = useState([]);
@@ -15,13 +15,14 @@ const useMessages = (currentLocation) => {
 
   // TODO POST message to server
   const addMessage = async (message) => {
-    const newMessage = {
-      ...message,
-      id: messages.length.toString(),
-      location: currentLocation,
-      distance: 0
-    };
-    setMessages(messages.concat(newMessage));
+    if (currentLocation) {
+      const newMessage = {
+        ...message,
+        location: currentLocation
+      };
+      const addedMessage = await postMessage(newMessage);
+      setMessages(messages.concat(addedMessage));
+    }
   };
 
   return [messages, getMessages, addMessage];
