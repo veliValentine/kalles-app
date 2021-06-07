@@ -13,6 +13,11 @@ export const parseLocation = (location, fileLocation = 'no file location given')
   return { latitude, longitude };
 };
 
+export const readableDistance = (distance) => {
+  if (distance >= 1.0) return `${distance}km`;
+  return `${Math.round(distance * 1000)}m`;
+};
+
 export const calculateDistance = (coor1, coor2) => {
   const { latitude: lat1, longitude: long1 } = coor1;
   const { latitude: lat2, longitude: long2 } = coor2;

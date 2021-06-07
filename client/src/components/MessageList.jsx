@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
-import { isReadable } from '../utils';
+import { isReadable, readableDistance } from '../utils';
 import LoadingScreen from './LoadingScreen';
 
 const MessageList = ({ messages }) => {
@@ -62,7 +62,7 @@ const ListItem = ({ message, redirect }) => {
           </View>
           : <Text>Move closer to see the message</Text>
         }
-        <Text>Distance: {distance} km</Text>
+        <Text>Distance: {readableDistance(distance)}</Text>
       </TouchableOpacity>
     </View>
   );
