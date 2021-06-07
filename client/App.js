@@ -2,23 +2,23 @@ import React, { useEffect } from 'react';
 import Main from './src/Main';
 
 import { NativeRouter } from 'react-router-native';
-import Storage from './src/storage';
+import StorageService from './src/service/storageService';
 import StorageContext from './src/contexts/StorageContext';
 
-const storage = new Storage();
+const storageService = new StorageService();
 
 const App = () => {
   useEffect(() => {
     console.log('Clear storage');
     const clearStorage = async () => {
-      await storage.clearMessages();
+      await storageService.clearMessages();
     };
     clearStorage();
   }, []);
 
   return (
     <NativeRouter>
-      <StorageContext.Provider value={storage} >
+      <StorageContext.Provider value={storageService} >
         <Main />
       </StorageContext.Provider>
     </NativeRouter>

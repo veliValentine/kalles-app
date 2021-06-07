@@ -30,7 +30,7 @@ const data = [
   },
 ];
 
-class Storage {
+class StorageService {
   constructor(namespace = 'storageForMessages') {
     this.namespace = namespace;
   }
@@ -64,4 +64,4 @@ class Storage {
   }
 }
 
-export default Storage;
+export default StorageService;
