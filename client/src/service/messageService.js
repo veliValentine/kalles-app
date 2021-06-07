@@ -2,10 +2,14 @@ import { parseLocation } from '../utils';
 import { handleError } from '../utils/errors';
 import { SERVER_URL_BASE } from '../utils/URL';
 
+const MESSAGE_URL = `${SERVER_URL_BASE}/messages`;
+
+const STATUS_CREATED = 201;
+
 export const fetchMessages = async (location) => {
   try {
     const query = coordinateQuery(location);
-    const URL = `${SERVER_URL_BASE}/messages?${query}`;
+    const URL = `${MESSAGE_URL}?${query}`;
     const response = await fetch(URL);
     const messages = await parseServerResponse(response);
     return messages;
@@ -28,3 +32,17 @@ const parseServerResponse = async (response) => {
   return messages;
 };
 
+export const addMessage = async (message) => {
+  const response = await fetch(MESSAGE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  });
+  const responseJSON = await response.json();
+  if (response.status !== STATUS_CREATED) {
+    throw new Error(responseJSON);
+  }
+  return responseJSON;
+};
