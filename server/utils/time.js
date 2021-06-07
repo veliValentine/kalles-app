@@ -1,11 +1,8 @@
-const currentTimeStamp = () => {
+const currentTimeStamp = (hourOffset = 0) => {
   const date = new Date();
-  const year = date.getUTCFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getUTCDate();
-  const hours = date.getUTCHours();
-  const minutes = date.getMinutes();
-  return `${year}/${month}/${day}-${hours}:${minutes}`;
+  date.setHours(date.getHours() + hourOffset);
+  date.setMilliseconds(0);
+  return date;
 };
 
 module.exports = {
