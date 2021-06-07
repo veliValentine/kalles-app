@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useParams, useHistory } from 'react-router-native';
+import { readableTime } from '../utils';
 
 import LoadingScreen from './LoadingScreen';
 
@@ -32,15 +33,19 @@ const MessageNotFound = ({ id }) => {
 };
 
 const MessageFound = ({ message }) => {
-  const { text, username } = message;
+  const { message: text, username, likes, created } = message;
+  const dateString = readableTime(created);
   return (
     <View style={styles.container}>
-      <Text style={styles.username}>{username}</Text>
-      <Text style={styles.text}>Created @ ...</Text>
       <Text style={styles.text}>{text}</Text>
+      <Text style={styles.username}>By: {username}</Text>
+      <Text style={styles.text}>Created: {dateString}</Text>
+      <Text style={styles.text}>Likes: {likes}</Text>
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {

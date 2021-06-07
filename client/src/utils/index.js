@@ -18,6 +18,14 @@ export const readableDistance = (distance) => {
   return `${Math.round(distance * 1000)}m`;
 };
 
+export const readableTime = (time = new Date()) => {
+  const timeStamp = new Date(time);
+  const date = timeStamp.toDateString();
+  const hours = timeStamp.getHours();
+  const minutes = timeStamp.getMinutes();
+  return `${date} ${hours}:${doubleDigits(minutes)}`;
+};
+
 export const calculateDistance = (coor1, coor2) => {
   const { latitude: lat1, longitude: long1 } = coor1;
   const { latitude: lat2, longitude: long2 } = coor2;
@@ -35,3 +43,14 @@ export const calculateDistance = (coor1, coor2) => {
 const deg2rad = (deg) => deg * (Math.PI / 180);
 
 const round100 = (number) => Math.round(number * 100) / 100;
+
+export const doubleDigits = (value) => {
+  if (typeof value !== 'number') throw new TypeError('Not a number');
+  if (value >= 0) {
+    if (value < 10) {
+      return `0${value}`;
+    }
+    return value;
+  }
+  throw new Error(`Value less than 0. Value: ${value}`);
+};
