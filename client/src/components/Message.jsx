@@ -32,20 +32,18 @@ const MessageNotFound = ({ id }) => {
   );
 };
 
-const MessageFound = ({ message }) => {
-  const { message: text, username, likes, created } = message;
-  const dateString = readableTime(created);
+const MessageFound = ({ message: messageObject }) => {
+  const { message, username, likes, created } = messageObject;
+  const dateString = created ? readableTime(created) : null;
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.message}>{message}</Text>
       <Text style={styles.username}>By: {username}</Text>
-      <Text style={styles.text}>Created: {dateString}</Text>
+      {dateString && <Text style={styles.text}>Created: {dateString}</Text>}
       <Text style={styles.text}>Likes: {likes}</Text>
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -56,6 +54,11 @@ const styles = StyleSheet.create({
   username: {
     padding: 5,
     fontWeight: 'bold',
+  },
+  message: {
+    padding: 5,
+    backgroundColor: 'rgb(240,240,240)',
+    borderRadius: 5
   },
   text: {
     padding: 5,
