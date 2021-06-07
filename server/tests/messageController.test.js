@@ -50,6 +50,8 @@ describe('messages', () => {
       test('valid message added', async () => {
         const messagesBefore = await getMessages(api);
         const created = currentTimeStamp();
+        const expires = new Date(created);
+        expires.setHours(expires.getHours() + 24);
         const { body: addedMessage } = await api
           .post(MESSAGES_ENDPOINT)
           .send(validMessage)
@@ -59,8 +61,8 @@ describe('messages', () => {
           {
             id: addedMessage.id,
             ...validMessage,
-            created,
-            expires: 24,
+            created: created.toISOString(),
+            expires: expires.toISOString(),
             likes: 0,
             distance: 0,
           },
@@ -80,6 +82,7 @@ describe('messages', () => {
           },
         };
         const created = currentTimeStamp();
+        const expires = currentTimeStamp(24);
         const { body: addedMessage } = await api
           .post(MESSAGES_ENDPOINT)
           .send(extraAttributesMessage)
@@ -89,8 +92,8 @@ describe('messages', () => {
           {
             id: addedMessage.id,
             ...validMessage,
-            created,
-            expires: 24,
+            created: created.toISOString(),
+            expires: expires.toISOString(),
             likes: 0,
             distance: 0,
           },
@@ -232,11 +235,7 @@ describe('messages', () => {
     // TODO check missing attributes in request body => status 400
     // - valid input. message &username => String, location object containing latitude & longitude
 
-    // TODO check extra attributes not saved. Like id
-
     // TODO check returned object contains right attributes
-
-    // TODO check endDate default value +1 day
 
     // TODO check endDate>created
   });
