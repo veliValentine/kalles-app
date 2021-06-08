@@ -13,7 +13,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
   const history = useHistory();
 
   if (!currentLocation) {
-    return <LoadingScreen />;
+    return <LoadingScreen message="location not available"/>;
   }
 
   const newMessage = () => {
