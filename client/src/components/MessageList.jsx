@@ -1,7 +1,72 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
+import { isReadable, readableDistance } from '../utils';
 import LoadingScreen from './LoadingScreen';
+
+const MessageList = ({ messages }) => {
+  const history = useHistory();
+  const redirect = (url) => history.push(url);
+  if (!messages) {
+    return <LoadingScreen message={'Loading messages...'} />;
+  }
+  if (messages.length < 1) {
+    return <NoMessages redirect={redirect} />;
+  }
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={messages}
+        keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({ item }) => <ListItem message={item} redirect={redirect} />}
+      />
+    </View>
+  );
+};
+
+const NoMessages = ({ redirect }) => {
+  const handlePress = () => {
+    redirect('/newMessage');
+  };
+  return (
+    <View style={styles.missingContainer}>
+      <TouchableOpacity onPress={handlePress}>
+        <Text>Messages not found!</Text>
+        <Text style={{ color: 'blue' }}>Add a new message!</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const ItemSeparator = () => <View style={styles.separator} />;
+
+const ListItem = ({ message, redirect }) => {
+  const { distance, id, username } = message;
+  const isClose = isReadable(distance);
+  const handlePress = () => {
+    if (isClose) {
+      redirect(`/message/${id}`);
+    } else {
+      const { latitude, longitude } = message.location;
+      redirect(`/map/${latitude}/${longitude}`);
+    }
+  };
+  return (
+    <View style={styles.messageContainer}>
+      <TouchableOpacity onPress={handlePress}>
+        {isClose ?
+          <View>
+            <Text>Click to see the message</Text>
+            <Text>By: {username}</Text>
+          </View>
+          : <Text>Move closer to see the message</Text>
+        }
+        <Text>Distance: {readableDistance(distance)}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   separator: {
@@ -20,67 +85,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
-
-const ItemSeparator = () => <View style={styles.separator} />;
-
-const Message = ({ message }) => {
-  const history = useHistory();
-  const { distance, username, id, close } = message;
-
-  const handlePress = () => {
-    if (close) {
-      history.push(`/message/${id}`);
-    } else {
-      const { latitude, longitude } = message.coordinate;
-      history.push(`/map/${latitude}/${longitude}`);
-    }
-  };
-
-  return (
-    <View style={styles.messageContainer}>
-      <TouchableOpacity onPress={handlePress}>
-        {!close
-          ? <Text>Move closer to see the message</Text>
-          : <View>
-            <Text>Click to see message</Text>
-            <Text>By: {username}</Text>
-          </View>
-        }
-        <Text>Distance: {distance} km</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const MessageList = ({ messages }) => {
-  const history = useHistory();
-  if (!messages) {
-    return <LoadingScreen />;
-  }
-  if (messages.length < 1) {
-    const handlePress = (event) => {
-      event.preventDefault();
-      history.push('/newMessage');
-    };
-    return (
-      <View style={styles.missingContainer}>
-        <TouchableOpacity onPress={handlePress}>
-          <Text>Messages not found!</Text>
-          <Text style={{ color: 'blue' }}>Add new message!</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={ItemSeparator}
-        renderItem={({ item }) => <Message message={item} />}
-      />
-    </View>
-  );
-};
 
 export default MessageList;

@@ -1,37 +1,36 @@
-import { useState, useEffect, useContext } from 'react';
-import StorageContext from '../contexts/StorageContext';
-import { sortByDistances, calculateDistance } from '../utils';
+import { useState, useEffect } from 'react';
+import { fetchMessages, postMessage } from '../service/messageService';
+import { sortByDistances } from '../utils/arrayHelpers';
+import { handleError } from '../utils/errors';
 
 const useMessages = (currentLocation) => {
-  const storage = useContext(StorageContext);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     getMessages();
   }, [currentLocation]);
 
   const getMessages = async () => {
-    const messages = await storage.getMessages();
-    const newMessages = messages
-      .map((message) => ({
-        ...message,
-        distance: currentLocation ? calculateDistance(currentLocation, message.location) : 99,
-      }))
-      .sort(sortByDistances)
-      .map((message) => (
-        {
-          ...message,
-          close: message.distance > 0.1 ? false : true,
-          coordinate: message.location,
-        }
-      ));
-    setMessages(newMessages);
+    const messages = await fetchMessages(currentLocation);
+    setMessages(messages.sort(sortByDistances));
   };
 
   const addMessage = async (message) => {
-    const newMessage = { ...message, id: messages.length.toString() };
-    await storage.addMessage(newMessage);
-    getMessages();
+    if (currentLocation) {
+      const newMessage = {
+        ...message,
+        location: currentLocation
+      };
+      try {
+        const addedMessage = await postMessage(newMessage);
+        setMessages(messages
+          .concat(addedMessage)
+          .sort(sortByDistances));
+      } catch (e) {
+        const errorMessage = handleError(e);
+        console.warn(errorMessage);
+      }
+    }
   };
 
   return [messages, getMessages, addMessage];
