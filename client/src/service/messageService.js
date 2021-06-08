@@ -1,21 +1,15 @@
+import { HTTP_CREATED, throwInvalidresponse, postJsonOption } from './serviceHelper';
 import { parseLocation } from '../utils';
 import { handleError } from '../utils/errors';
 import { SERVER_URL_BASE } from '../utils/URL';
 
 const MESSAGE_URL = `${SERVER_URL_BASE}/messages`;
 
-const HTTP_OK = 200;
-const HTTP_CREATED = 201;
-
 export const fetchMessages = async (location) => {
   try {
-    const query = coordinateQuery(location);
-    const URL = `${MESSAGE_URL}?${query}`;
+    const URL = coordinateQueryURL(location);
     const response = await fetch(URL);
-    const responseStatus = response.status;
-    if (responseStatus !== HTTP_OK) {
-      throw new Error(`Server responded with status: ${responseStatus}`);
-    }
+    throwInvalidresponse(response);
     const messages = await response.json();
     return messages;
   } catch (e) {
@@ -24,24 +18,19 @@ export const fetchMessages = async (location) => {
   }
 };
 
-const coordinateQuery = (location) => {
+const coordinateQueryURL = (location) => {
   const { latitude, longitude } = parseLocation(location, 'messageService.js');
-  return `latitude=${latitude}&longitude=${longitude}`;
+  return `${MESSAGE_URL}?latitude=${latitude}&longitude=${longitude}`;
 };
 
 export const postMessage = async (message) => {
-  const response = await fetch(MESSAGE_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(message)
-  });
-  const responseJSON = await response.json();
-  const responseStatus = response.status;
-  if (responseStatus !== HTTP_CREATED) {
-    console.error(`Server responded with status: ${responseStatus}`);
+  let responseJSON;
+  try {
+    const response = await fetch(MESSAGE_URL, postJsonOption(message));
+    responseJSON = await response.json();
+    throwInvalidresponse(response, HTTP_CREATED);
+    return responseJSON;
+  } catch (e) {
     throw new Error(responseJSON);
   }
-  return responseJSON;
 };
