@@ -7,14 +7,14 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 61   | ---          |
-| Client | 41   | 7.6.2021     |
+| Total  | 63   | ---          |
+| Client | 43   | 8.6.2021     |
 | Server | 20   | 24.4.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 41   | 7.6.2021                                                            |
+|   total    | 43   | 8.6.2021                                                            |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -52,6 +52,7 @@
 |  7.6.2021  | 1    | Send new message to server                                          |
 |    sum     | 40   | ----------- sum --------------                                      |
 |  7.6.2021  | 1    | Style message popup and view                                        |
+|  8.6.2021  | 2    | Refactoring, client-0.2.0                                           |
 
 [//]: # (| | | | |)
 | | | |
