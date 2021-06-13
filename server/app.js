@@ -8,6 +8,8 @@ app.use(express.json());
 morgan.token('request-body', (req) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :response-time ms - :request-body'));
 
+require('./mongo');
+
 const messageRouter = require('./controllers/messageController');
 const utilController = require('./controllers/utilController');
 
