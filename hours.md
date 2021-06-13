@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 63   | ---          |
+| Total  | 66   | ---          |
 | Client | 43   | 8.6.2021     |
-| Server | 20   | 24.4.2021    |
+| Server | 23   | 13.6.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -59,7 +59,7 @@
 ## Server
 |    day    | time | time used to                                                              |
 | :-------: | :--- | :------------------------------------------------------------------------ |
-|   total   | 20   | 24.4.2021                                                                 |
+|   total   | 23   | 13.6.2021                                                                 |
 | 21.3.2021 | 1    | init eslint, jest, structure                                              |
 | 21.3.2021 | 1    | distance & test                                                           |
 | 26.3.2021 | 1    | Moved backlog to github                                                   |
@@ -79,6 +79,9 @@
 | 17.4.2021 | 1    | server v0.1.0 & refactoring                                               |
 | 24.4.2021 | 1    | Use query params to get location for message                              |
 | 24.4.2021 | 1    | Debugging: location query not working                                     |
-|    sum    | 20   | ---------- sum ----------                                                 |
+|    sum    | 23   | ---------- sum ----------                                                 |
+| 13.6.2021 | 1    | problems with git bash, Use morgan for logging                            |
+| 13.6.2021 | 2    | Mongo, Mongoose documentation. Setting up mongoose connection             |
+
 
 | | | |
