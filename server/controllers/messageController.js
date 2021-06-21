@@ -1,7 +1,7 @@
 const messageRouter = require('express').Router();
 const { calculateDistance } = require('../utils/distance');
 const { isTestEnvironment } = require('../utils/environment');
-const { currentTimeStamp } = require('../utils/time');
+const { timeStamp } = require('../utils/time');
 const { biggestId } = require('../utils/utils');
 const { isString, isLocationObject } = require('../utils/validators');
 
@@ -72,8 +72,8 @@ messageRouter.post('/', (req, res) => {
       latitude,
       longitude,
     },
-    created: currentTimeStamp(),
-    expires: currentTimeStamp(24),
+    created: timeStamp(),
+    expires: timeStamp(24),
     likes: 0,
   };
   MESSAGES_DATA = MESSAGES_DATA.concat(baseMessage);
