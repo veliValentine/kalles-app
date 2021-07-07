@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { MONGODB_URI } = require('./utils/config');
+const { handleError } = require('./utils/errorHandler');
 
 const logger = require('./utils/logger');
 
@@ -14,14 +15,7 @@ const connected = () => {
   logger.logConsole('Connected to MongoDB');
 };
 
-const notConnected = (error) => {
-  logger.errorConsole('Error connecting to MongoDB');
-  if (error instanceof Error) {
-    logger.errorConsole(error.message);
-  } else {
-    throw error;
-  }
-};
+const notConnected = (error) => handleError(error, 'Error connecting to MongoDB');
 
 mongoose.connect(MONGODB_URI, options)
   .then(connected)
