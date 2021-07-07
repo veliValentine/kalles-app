@@ -4,6 +4,7 @@ const { biggestId } = require('../utils/utils');
 const { isString, isLocationObject } = require('../utils/validators');
 
 const { getAllMessages, findMessageById } = require('../service/messageService');
+const { handleError400, handeError404 } = require('./controllerHelpers');
 
 /*
 const messages = Message.find({}).then((r) => console.log(r));
@@ -72,11 +73,5 @@ messageRouter.get('/:id', async (req, res) => {
   }
   return res.status(200).json(message);
 });
-
-const handleError400 = (res, message) => handleErrorStatus(400, res, message);
-
-const handeError404 = (res, message) => handleErrorStatus(404, res, message);
-
-const handleErrorStatus = (status, res, message) => res.status(status).json({ error: message });
 
 module.exports = messageRouter;
