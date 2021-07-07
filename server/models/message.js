@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const { timeStamp: currentTimeStamp } = require('../utils/time');
+const { timeStamp } = require('../utils/time');
+
+const DELETE_TIME = 30 * 7 * 24;
 
 const messageSchema = new mongoose.Schema({
   username: {
@@ -20,8 +22,8 @@ const messageSchema = new mongoose.Schema({
       required: true,
     },
   },
-  createDay: { type: Date, default: currentTimeStamp() },
-  endDay: { type: Date, default: currentTimeStamp(7 * 24) },
+  createDay: { type: Date, default: timeStamp() },
+  endDay: { type: Date, default: timeStamp(DELETE_TIME) },
   likes: { type: Number, default: 0 },
 });
 
