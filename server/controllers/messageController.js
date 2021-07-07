@@ -1,50 +1,31 @@
 const messageRouter = require('express').Router();
 const { calculateDistance } = require('../utils/distance');
-const { isTestEnvironment } = require('../utils/environment');
 const { timeStamp } = require('../utils/time');
 const { biggestId } = require('../utils/utils');
 const { isString, isLocationObject } = require('../utils/validators');
 
-let MESSAGES_DATA = isTestEnvironment ? [] : [
-  {
-    id: '0',
-    text: 'Hello Helsinki',
-    location: {
-      latitude: 60.171712519065174,
-      longitude: 24.94059522394236,
-    },
-    username: 'Helsinki',
-  },
-  {
-    id: '1',
-    text: 'Hello Kumpula',
-    location: {
-      latitude: 60.2058235648218,
-      longitude: 24.963834277842142,
-    },
-    username: 'Kumpula',
-  },
-  {
-    id: '2',
-    text: 'Hello Viikki',
-    location: {
-      latitude: 60.22773733793554,
-      longitude: 25.014474383948446,
-    },
-    username: 'Testuser 3',
-  },
-];
+const { getAllMessages } = require('../service/messageService');
 
-messageRouter.get('/', (req, res) => {
-  if (!requestQueryContainsValidLocation(req)) {
-    return res.status(200).json(MESSAGES_DATA);
-  }
-  const location = getQueryLocation(req);
-  const messagesWithDistance = MESSAGES_DATA.map((message) => ({
-    ...message,
-    distance: calculateDistance(location, message.location),
-  }));
-  return res.json(messagesWithDistance);
+/*
+const messages = Message.find({}).then((r) => console.log(r));
+console.log({ messages });
+
+const m = new Message({
+  username: 'testUser1',
+  message: 'im a message',
+  location: {
+    latitude: 60.171712519065174,
+    longitude: 24.94059522394236,
+  },
+});
+m.save().then((r) => console.log(`message saved: ${r.toJSON()}`))
+  .catch((r) => console.log(`error saving message: ${r}`));
+*/
+let MESSAGES_DATA = [];
+
+messageRouter.get('/', async (req, res) => {
+  const messages = await getAllMessages(req);
+  return res.status(200).json(messages);
 });
 
 messageRouter.post('/', (req, res) => {
