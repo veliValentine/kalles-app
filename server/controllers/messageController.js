@@ -1,10 +1,9 @@
 const messageRouter = require('express').Router();
-const { calculateDistance } = require('../utils/distance');
 const { timeStamp } = require('../utils/time');
 const { biggestId } = require('../utils/utils');
 const { isString, isLocationObject } = require('../utils/validators');
 
-const { getAllMessages } = require('../service/messageService');
+const { getAllMessages, findMessageById } = require('../service/messageService');
 
 /*
 const messages = Message.find({}).then((r) => console.log(r));
@@ -65,36 +64,19 @@ messageRouter.post('/', (req, res) => {
   return res.status(201).json(newMessage);
 });
 
-messageRouter.get('/:id', (req, res) => {
+messageRouter.get('/:id', async (req, res) => {
+  const message = await findMessageById(req);
   const { id } = req.params;
-  const message = MESSAGES_DATA.find((m) => m.id === id);
   if (!message) {
-    return res.status(404).json(`Message with ID: ${id} not found`);
+    return handeError404(res, `Message with ID: ${id} not found`);
   }
-  if (!requestQueryContainsValidLocation(req)) {
-    return res.status(200).json(message);
-  }
-  const location = getQueryLocation(req);
-  const messageWithDistance = {
-    ...message,
-    distance: calculateDistance(location, message.location),
-  };
-  return res.status(200).json(messageWithDistance);
+  return res.status(200).json(message);
 });
 
-const handleError400 = (res, message) => res.status(400).json(`Error: ${message}`);
+const handleError400 = (res, message) => handleErrorStatus(400, res, message);
 
-const requestQueryContainsValidLocation = (req) => {
-  const location = getQueryLocation(req);
-  return isLocationObject(location);
-};
+const handeError404 = (res, message) => handleErrorStatus(404, res, message);
 
-const getQueryLocation = (req) => {
-  const { latitude, longitude } = req.query;
-  return {
-    latitude: parseFloat(latitude),
-    longitude: parseFloat(longitude),
-  };
-};
+const handleErrorStatus = (status, res, message) => res.status(status).json({ error: message });
 
 module.exports = messageRouter;

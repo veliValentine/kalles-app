@@ -8,6 +8,15 @@ const getAllMessages = (req) => {
   return getAllMongoMessagesDistance(req);
 };
 
+const findMessageById = async (req) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new Error('No id given');
+  }
+  const messages = await getAllMessages(req);
+  return messages.find((message) => message.id === id);
+};
+
 const getAllMongoMessages = async () => {
   const mongoMessages = await Message.find({});
   return mongoMessages.map((message) => message.toJSON());
@@ -23,4 +32,5 @@ const getAllMongoMessagesDistance = async (req) => {
 
 module.exports = {
   getAllMessages,
+  findMessageById,
 };
