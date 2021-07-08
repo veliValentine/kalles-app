@@ -9,6 +9,8 @@ logger.logConsole(`Connecting to MongoDB - ${MONGODB_URI}`);
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 };
 
 const connected = () => {
