@@ -8,18 +8,9 @@ const getAllMessages = (req) => {
   return getAllMongoMessagesDistance(req);
 };
 
-const findMessageById = async (req) => {
-  const { id } = req.params;
-  if (!id) {
-    throw new Error('No id given');
-  }
-  const messages = await getAllMessages(req);
-  return messages.find((message) => message.id === id);
-};
-
 const getAllMongoMessages = async () => {
   const mongoMessages = await Message.find({});
-  return mongoMessages.map((message) => message.toJSON());
+  return mongoMessages.map(toJson);
 };
 
 const getAllMongoMessagesDistance = async (req) => {
@@ -29,6 +20,24 @@ const getAllMongoMessagesDistance = async (req) => {
     addDistance(message, location)));
   return messagesWithDistance;
 };
+
+const findMessageById = async (req) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new Error('No id given');
+  }
+  const mongoMessage = await Message.findById(id);
+  if (!mongoMessage) {
+    throw new Error('Message with id not found');
+  }
+  const message = toJson(mongoMessage);
+  if (!requestContainsValidLocation(req)) {
+    return message;
+  }
+  return addDistance(message, getQueryLocation(req));
+};
+
+const toJson = (object) => object.toJSON();
 
 module.exports = {
   getAllMessages,
