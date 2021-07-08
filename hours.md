@@ -1,5 +1,4 @@
 # Hours
-[//]: # (| | | | )
 - [Hours](#hours)
   - [Total](#total)
   - [Client](#client)
@@ -7,9 +6,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 70   | ---          |
+| Total  | 71   | ---          |
 | Client | 43   | 8.6.2021     |
-| Server | 27   | 7.7.2021     |
+| Server | 28   | 8.7.2021     |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -59,7 +58,7 @@
 ## Server
 |    day    | time | time used to                                                              |
 | :-------: | :--- | :------------------------------------------------------------------------ |
-|   total   | 27   | 7.7.2021                                                                  |
+|   total   | 28   | 8.7.2021                                                                  |
 | 21.3.2021 | 1    | init eslint, jest, structure                                              |
 | 21.3.2021 | 1    | distance & test                                                           |
 | 26.3.2021 | 1    | Moved backlog to github                                                   |
@@ -84,6 +83,7 @@
 | 13.6.2021 | 2    | Mongo, Mongoose documentation. Setting up mongoose connection             |
 | 21.6.2021 | 2    | Message schema                                                            |
 | 7.7.2021  | 1    | Maintaining backlog and tickets. Refactoring                              |
-| 7.7.2021  | 1    | GET messages from mongo                                                   |
+| 7.7.2021  | 1    | GET messages/message from mongo                                           |
+| 8.7.2021  | 1    | Use mongo expire feature                                                  |
 
 | | | |
