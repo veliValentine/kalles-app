@@ -1,3 +1,5 @@
+const BadRequestError = require('../models/errors/badRequestError');
+const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
 const { getQueryLocation, addDistance, requestContainsValidLocation } = require('./serviceHelpers');
 
@@ -24,11 +26,11 @@ const getAllMongoMessagesDistance = async (req) => {
 const findMessageById = async (req) => {
   const { id } = req.params;
   if (!id) {
-    throw new Error('No id given');
+    throw new BadRequestError('No id given');
   }
   const mongoMessage = await Message.findById(id);
   if (!mongoMessage) {
-    throw new Error('Message with id not found');
+    throw new NotFoundError('Message with id not found');
   }
   const message = toJson(mongoMessage);
   if (!requestContainsValidLocation(req)) {

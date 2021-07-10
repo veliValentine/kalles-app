@@ -4,7 +4,7 @@ const { biggestId } = require('../utils/utils');
 const { isString, isLocationObject } = require('../utils/validators');
 
 const { getAllMessages, findMessageById } = require('../service/messageService');
-const { handleError400, handleError404 } = require('./controllerHelpers');
+const BadRequestError = require('../models/errors/badRequestError');
 
 /*
 const messages = Message.find({}).then((r) => console.log(r));
@@ -31,17 +31,17 @@ messageRouter.get('/', async (req, res) => {
 messageRouter.post('/', (req, res) => {
   const { body } = req;
   if (!body) {
-    return handleError400(res, 'Missing request body');
+    throw new BadRequestError('Missing request body');
   }
   const { message, username, location } = body;
   if (!isString(message)) {
-    return handleError400(res, 'Invalid message');
+    throw new BadRequestError('Invalid message');
   }
   if (!isString(username)) {
-    return handleError400(res, 'Invalid username');
+    throw new BadRequestError('Invalid username');
   }
   if (!isLocationObject(location)) {
-    return handleError400(res, 'Invalid location');
+    throw new BadRequestError('Invalid location');
   }
   const { latitude, longitude } = location;
   const id = `${biggestId(MESSAGES_DATA.map((m) => m.id)) + 1}`;
@@ -66,15 +66,8 @@ messageRouter.post('/', (req, res) => {
 });
 
 messageRouter.get('/:id', async (req, res) => {
-  try {
-    const message = await findMessageById(req);
-    return res.status(200).json(message);
-  } catch (error) {
-    if (error instanceof Error) {
-      return handleError404(res, error.message);
-    }
-    throw error;
-  }
+  const message = await findMessageById(req);
+  return res.status(200).json(message);
 });
 
 module.exports = messageRouter;
