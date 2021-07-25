@@ -6,9 +6,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 73   | ---          |
+| Total  | 77   | ---          |
 | Client | 43   | 8.6.2021     |
-| Server | 30   | 10.7.2021     |
+| Server | 34   | 25.7.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -61,7 +61,7 @@
 ## Server
 |    day    | time | time used to                                                              |
 | :-------: | :--- | :------------------------------------------------------------------------ |
-|   total   | 30   | 10.7.2021                                                                  |
+|   total   | 34   | 25.7.2021                                                                  |
 | 21.3.2021 | 1    | init eslint, jest, structure                                              |
 | 21.3.2021 | 1    | distance & test                                                           |
 | 26.3.2021 | 1    | Moved backlog to github                                                   |
@@ -92,6 +92,10 @@
 | 10.7.2021 | 1    | Error middleware                                                          |
 | 10.7.2021 | 1    | bug throwing Errors from async function                                   |
 |    sum    | 30   | ---------- sum ----------                                                 |
-
+| 25.7.2021 | 1 | Throw async errors |
+| 25.7.2021 | 1 | Save new message to Mongo |
+| 25.7.2021 | 1 | DeleteMessage by id |
+| 25.7.2021 | 1 | Like message |
+|    sum    | 34   | ---------- sum ----------                                                 |
 
 | | | |
