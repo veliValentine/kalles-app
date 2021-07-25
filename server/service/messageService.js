@@ -43,7 +43,7 @@ const findMessageById = async (req) => {
 };
 
 const saveMessage = async (req) => {
-  const newMessage = getRequestMessage(req);
+  const newMessage = new Message(getRequestMessage(req));
   const savedMessage = await newMessage.save();
   return toJson(savedMessage);
 };
@@ -61,9 +61,19 @@ const messageWithIdExists = async (req) => {
   return false;
 };
 
+const likeMessage = async (req) => {
+  const id = getRequestId(req);
+  const message = await findMessageById(req);
+  const likedMessage = { ...message, likes: message.likes + 1 };
+  const savedMessage = await Message.findByIdAndUpdate(id, likedMessage, { new: true });
+  return savedMessage;
+};
+
 module.exports = {
   getAllMessages,
   findMessageById,
   saveMessage,
   deleteMessageById,
+  messageWithIdExists,
+  likeMessage,
 };

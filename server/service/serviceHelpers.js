@@ -1,7 +1,6 @@
 const BadRequestError = require('../models/errors/badRequestError');
 const { calculateDistance } = require('../utils/distance');
 const { isLocationObject, isString } = require('../utils/validators');
-const Message = require('../models/message');
 
 const requestContainsValidLocation = (req) => {
   const location = getQueryLocation(req);
@@ -34,14 +33,14 @@ const getRequestMessage = (req) => {
     throw new BadRequestError('Invalid location');
   }
   const { latitude, longitude } = location;
-  return new Message({
+  return {
     message,
     username,
     location: {
       latitude,
       longitude,
     },
-  });
+  };
 };
 
 const getRequestId = (req) => {
