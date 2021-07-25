@@ -7,7 +7,7 @@ const errorMiddleware = (error, _req, res, next) => {
   if (error instanceof RestError) {
     return handleRestErrors(res, error);
   }
-  return next(error); 
+  return next(error);
 };
 
 const handleRestErrors = (res, error) => {

@@ -1,7 +1,13 @@
 const BadRequestError = require('../models/errors/badRequestError');
 const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
-const { getQueryLocation, addDistance, requestContainsValidLocation } = require('./serviceHelpers');
+const {
+  getQueryLocation,
+  addDistance,
+  requestContainsValidLocation,
+  toJson,
+  getRequestMessage,
+} = require('./serviceHelpers');
 
 const getAllMessages = (req) => {
   if (!requestContainsValidLocation(req)) {
@@ -39,9 +45,14 @@ const findMessageById = async (req) => {
   return addDistance(message, getQueryLocation(req));
 };
 
-const toJson = (object) => object.toJSON();
+const saveMessage = async (req) => {
+  const newMessage = getRequestMessage(req);
+  const savedMessage = await newMessage.save();
+  return toJson(savedMessage);
+};
 
 module.exports = {
   getAllMessages,
   findMessageById,
+  saveMessage,
 };
