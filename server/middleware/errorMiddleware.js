@@ -1,5 +1,3 @@
-const BadRequestError = require('../models/errors/badRequestError');
-const NotFoundError = require('../models/errors/notFoundError');
 const RestError = require('../models/errors/restError');
 const logger = require('../utils/logger');
 
