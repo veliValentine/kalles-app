@@ -50,8 +50,15 @@ const saveMessage = async (req) => {
 
 const deleteMessageById = async (req) => {
   const id = getRequestId(req);
-  const { deletedCount } = await Message.deleteOne({ _id: id });
-  return deletedCount > 0;
+  const messageFound = await messageWithIdExists(req);
+  if (!messageFound) throw new NotFoundError(`Message with id:${id} not found`);
+  await Message.findByIdAndDelete(id);
+};
+
+const messageWithIdExists = async (req) => {
+  const message = await findMessageById(req);
+  if (message) return true;
+  return false;
 };
 
 module.exports = {

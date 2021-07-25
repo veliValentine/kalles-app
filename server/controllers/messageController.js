@@ -24,11 +24,8 @@ messageRouter.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 messageRouter.delete('/:id', asyncHandler(async (req, res) => {
-  const deleted = await deleteMessageById(req);
-  if (deleted) {
-    return res.status(204).end();
-  }
-  return res.status(404).end();
+  await deleteMessageById(req);
+  return res.status(204).end();
 }));
 
 module.exports = messageRouter;
