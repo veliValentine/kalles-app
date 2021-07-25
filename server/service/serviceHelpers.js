@@ -44,6 +44,14 @@ const getRequestMessage = (req) => {
   });
 };
 
+const getRequestId = (req) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new BadRequestError('No id given');
+  }
+  return id;
+};
+
 const toJson = (object) => object.toJSON();
 
 module.exports = {
@@ -52,4 +60,5 @@ module.exports = {
   addDistance,
   getRequestMessage,
   toJson,
+  getRequestId,
 };

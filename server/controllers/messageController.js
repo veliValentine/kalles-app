@@ -1,7 +1,12 @@
 const messageRouter = require('express').Router();
 const asyncHandler = require('express-async-handler');
 
-const { getAllMessages, findMessageById, saveMessage } = require('../service/messageService');
+const {
+  getAllMessages,
+  findMessageById,
+  saveMessage,
+  deleteMessageById,
+} = require('../service/messageService');
 
 messageRouter.get('/', asyncHandler(async (req, res) => {
   const messages = await getAllMessages(req);
@@ -10,12 +15,20 @@ messageRouter.get('/', asyncHandler(async (req, res) => {
 
 messageRouter.post('/', asyncHandler(async (req, res) => {
   const savedMessage = await saveMessage(req);
-  return res.status(201).json(savedMessage);
+  return res.status(201).json({ ...savedMessage, distance: 0 });
 }));
 
 messageRouter.get('/:id', asyncHandler(async (req, res) => {
   const message = await findMessageById(req);
   return res.status(200).json(message);
+}));
+
+messageRouter.delete('/:id', asyncHandler(async (req, res) => {
+  const deleted = await deleteMessageById(req);
+  if (deleted) {
+    return res.status(204).end();
+  }
+  return res.status(404).end();
 }));
 
 module.exports = messageRouter;

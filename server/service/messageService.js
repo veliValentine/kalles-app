@@ -1,4 +1,3 @@
-const BadRequestError = require('../models/errors/badRequestError');
 const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
 const {
@@ -7,6 +6,7 @@ const {
   requestContainsValidLocation,
   toJson,
   getRequestMessage,
+  getRequestId,
 } = require('./serviceHelpers');
 
 const getAllMessages = (req) => {
@@ -30,10 +30,7 @@ const getAllMongoMessagesDistance = async (req) => {
 };
 
 const findMessageById = async (req) => {
-  const { id } = req.params;
-  if (!id) {
-    throw new BadRequestError('No id given');
-  }
+  const id = getRequestId(req);
   const mongoMessage = await Message.findById(id);
   if (!mongoMessage) {
     throw new NotFoundError(`Message with id: ${id} not found`);
@@ -51,8 +48,15 @@ const saveMessage = async (req) => {
   return toJson(savedMessage);
 };
 
+const deleteMessageById = async (req) => {
+  const id = getRequestId(req);
+  const { deletedCount } = await Message.deleteOne({ _id: id });
+  return deletedCount > 0;
+};
+
 module.exports = {
   getAllMessages,
   findMessageById,
   saveMessage,
+  deleteMessageById,
 };
