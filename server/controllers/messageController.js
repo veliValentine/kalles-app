@@ -5,7 +5,7 @@ const { isString, isLocationObject } = require('../utils/validators');
 
 const { getAllMessages, findMessageById } = require('../service/messageService');
 const BadRequestError = require('../models/errors/badRequestError');
-
+const asyncHandler = require('express-async-handler')
 /*
 const messages = Message.find({}).then((r) => console.log(r));
 console.log({ messages });
@@ -23,10 +23,10 @@ m.save().then((r) => console.log(`message saved: ${r.toJSON()}`))
 */
 let MESSAGES_DATA = [];
 
-messageRouter.get('/', async (req, res) => {
+messageRouter.get('/', asyncHandler(async (req, res) => {
   const messages = await getAllMessages(req);
   return res.status(200).json(messages);
-});
+}));
 
 messageRouter.post('/', (req, res) => {
   const { body } = req;
@@ -65,9 +65,9 @@ messageRouter.post('/', (req, res) => {
   return res.status(201).json(newMessage);
 });
 
-messageRouter.get('/:id', async (req, res) => {
+messageRouter.get('/:id', asyncHandler(async (req, res) => {
   const message = await findMessageById(req);
   return res.status(200).json(message);
-});
+}));
 
-module.exports = messageRouter;
+module.exports = messageRouter; 

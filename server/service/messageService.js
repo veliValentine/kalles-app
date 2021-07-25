@@ -30,7 +30,7 @@ const findMessageById = async (req) => {
   }
   const mongoMessage = await Message.findById(id);
   if (!mongoMessage) {
-    throw new NotFoundError('Message with id not found');
+    throw new NotFoundError(`Message with id: ${id} not found`);
   }
   const message = toJson(mongoMessage);
   if (!requestContainsValidLocation(req)) {
