@@ -1,11 +1,37 @@
+const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
+const Message = require('../models/message');
+
 const { currentTimeStamp } = require('../utils/time');
-const { getMessages } = require('./testHelper');
+const { getMessages, initDb } = require('./testHelper');
 
 const api = supertest(app);
 
 const MESSAGES_ENDPOINT = '/api/v1/messages';
+
+const INITIAL_MESSAGES = [
+  {
+    username: 'testUser1',
+    message: 'testMessage1',
+    location: {
+      latitude: 60.205636,
+      longitude: 24.96295,
+    },
+  },
+  {
+    username: 'testUser2',
+    message: 'testMessage2',
+    location: {
+      latitude: 60.216411,
+      longitude: 24.980939,
+    },
+  },
+];
+
+beforeEach(async () => {
+  await initDb(Message, INITIAL_MESSAGES);
+});
 
 describe('messages', () => {
   describe('GET messages', () => {
@@ -310,4 +336,8 @@ describe('messages', () => {
       });
     });
   });
+});
+
+afterAll(() => {
+  mongoose.connection.close();
 });

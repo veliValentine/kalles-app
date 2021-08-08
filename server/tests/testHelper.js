@@ -6,6 +6,12 @@ const getMessages = async (api) => {
   return messages;
 };
 
+const initDb = async (model, initialContent = []) => {
+  await model.deleteMany({});
+  await model.insertMany(initialContent);
+};
+
 module.exports = {
   getMessages,
+  initDb,
 };
