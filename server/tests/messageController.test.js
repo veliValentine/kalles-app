@@ -35,22 +35,32 @@ beforeEach(async () => {
 
 describe('messages', () => {
   describe('GET messages', () => {
-    test('status 200', async () => {
-      await api
+    test('API returns messages as correct type', async () => {
+      const { body } = await api
         .get(MESSAGES_ENDPOINT)
-        .expect(200);
-    });
-
-    test('content JSON', async () => {
-      await api
-        .get(MESSAGES_ENDPOINT)
+        .expect(200)
         .expect('Content-type', /application\/json/);
-    });
 
-    test('returns array', async () => {
-      const { body: messages } = await api
-        .get(MESSAGES_ENDPOINT);
-      expect(messages).toEqual([]);
+      expect(Array.isArray(body)).toBe(true);
+    });
+    test('API returns correct amount of messages', async () => {
+      const { body } = await api.get(MESSAGES_ENDPOINT);
+      expect(body).toHaveLength(INITIAL_MESSAGES.length);
+    });
+    test('API returns valid messages(no distance)', async () => {
+      const { body } = await api.get(MESSAGES_ENDPOINT);
+      const firstMessage = body[0];
+      expect(firstMessage).toMatchObject(INITIAL_MESSAGES[0]);
+      expect(firstMessage.distance).toBeUndefined();
+      expect(firstMessage.likes).toBe(0);
+      expect(firstMessage.createDay).toBeDefined();
+      expect(firstMessage.id).toBeDefined();
+    });
+    test('API returns valid messages(with distance)', async () => {
+      const { body } = await api.get(`${MESSAGES_ENDPOINT}?latitude=60&longitude=25`);
+      const firstMessage = body[0];
+      expect(firstMessage).toMatchObject(INITIAL_MESSAGES[0]);
+      expect(firstMessage.distance).toBe(22.96);
     });
   });
 
