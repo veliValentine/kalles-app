@@ -5,7 +5,9 @@ const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
 
 const { currentTimeStamp } = require('../utils/time');
-const { getMessages, initDb, contentInDb } = require('./testHelper');
+const {
+  getMessages, initDb, contentInDb, contentCountInDb, errorResponse,
+} = require('./testHelper');
 
 const api = supertest(app);
 
@@ -306,9 +308,47 @@ describe('messages', () => {
         const { body } = await api.get(`${MESSAGES_ENDPOINT}/${id}`)
           .expect(404)
           .expect('Content-type', /application\/json/);
-        const error = { error: messageNotFoundErrorMessage(id) };
-        expect(body).toEqual(error);
+        expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(id)));
       });
+    });
+  });
+
+  describe('DELETE message', () => {
+    let messageInDb;
+    beforeEach(async () => {
+      const messagesInDb = await contentInDb(Message);
+      messageInDb = messagesInDb[0];
+    });
+
+    test('Removing valid message deletes it from db', async () => {
+      const initialMessageCount = await contentCountInDb(Message);
+      await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
+        .expect(204);
+      const messagesInDb = await contentInDb(Message);
+      expect(messagesInDb).toHaveLength(initialMessageCount - 1);
+      const deletedMessageFoundInDb = messagesInDb.find(({ id }) => id === messageInDb.id);
+      expect(deletedMessageFoundInDb).toBeUndefined();
+    });
+    test('Removing same message twice returns 404', async () => {
+      const initialMessageCount = await contentCountInDb(Message);
+      await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
+        .expect(204);
+      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
+        .expect(404)
+        .expect('Content-type', /application\/json/);
+      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(messageInDb.id)));
+      const messagesInDb = await contentInDb(Message);
+      expect(messagesInDb).toHaveLength(initialMessageCount - 1);
+    });
+    test('Removing message with non exsisting id returns 404', async () => {
+      const initialMessageCount = await contentCountInDb(Message);
+      const id = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${id}`)
+        .expect(404)
+        .expect('Content-type', /application\/json/);
+      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(id)));
+      const messageCount = await contentCountInDb(Message);
+      expect(initialMessageCount).toBe(messageCount);
     });
   });
 });
