@@ -16,5 +16,6 @@ module.exports = {
     'linebreak-style': 'off',
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'no-use-before-define': ['error', { variables: false }],
+    'prefer-destructuring': ['error', { VariableDeclarator: { object: true } }],
   },
 };
