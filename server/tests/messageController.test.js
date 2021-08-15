@@ -309,7 +309,7 @@ describe('messages', () => {
         const { body } = await api.get(`${MESSAGES_ENDPOINT}/${INVALID_ID}`)
           .expect(404)
           .expect('Content-type', /application\/json/);
-        expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(INVALID_ID)));
+        expect(body).toEqual(messageNotFoundErrorMessage(INVALID_ID));
       });
     });
   });
@@ -337,7 +337,7 @@ describe('messages', () => {
       const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
         .expect(404)
         .expect('Content-type', /application\/json/);
-      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(messageInDb.id)));
+      expect(body).toEqual(messageNotFoundErrorMessage(messageInDb.id));
       const messagesInDb = await contentInDb(Message);
       expect(messagesInDb).toHaveLength(initialMessageCount - 1);
     });
@@ -346,7 +346,7 @@ describe('messages', () => {
       const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${INVALID_ID}`)
         .expect(404)
         .expect('Content-type', /application\/json/);
-      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(INVALID_ID)));
+      expect(body).toEqual(messageNotFoundErrorMessage(INVALID_ID));
       const messageCount = await contentCountInDb(Message);
       expect(initialMessageCount).toBe(messageCount);
     });
@@ -380,7 +380,7 @@ describe('messages', () => {
     test('Liking non existing message return message not found error', async () => {
       const { body } = await api.post(`${MESSAGES_ENDPOINT}/${INVALID_ID}/like`)
         .expect(404);
-      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(INVALID_ID)));
+      expect(body).toEqual(messageNotFoundErrorMessage(INVALID_ID));
     });
     test('Liking non existing message has no effect on likes amount', async () => {
       const likesBefore = await totalMessageLikes();
@@ -398,7 +398,7 @@ const totalMessageLikes = async () => {
   return totalLikes;
 };
 
-const messageNotFoundErrorMessage = (id) => new NotFoundError(`Message with id: ${id} not found`).message;
+const messageNotFoundErrorMessage = (id) => errorResponse(new NotFoundError(`Message with id: ${id} not found`).message);
 
 const sumReducer = (acc, curr) => acc + curr.likes;
 
