@@ -36,6 +36,7 @@ messageSchema.index({ createDay: 1 }, { expireAfterSeconds: EXPIRES_TIME_MINUTES
 messageSchema.set('toJSON', {
   transform: (_document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
+    returnedObject.createDay = returnedObject.createDay.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
   },
