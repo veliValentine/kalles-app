@@ -13,6 +13,8 @@ const api = supertest(app);
 
 const MESSAGES_ENDPOINT = '/api/v1/messages';
 
+const INVALID_ID = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+
 const INITIAL_MESSAGES = [
   {
     username: 'testUser1',
@@ -304,11 +306,10 @@ describe('messages', () => {
     });
     describe('invalid request', () => {
       test('fail with 404 ', async () => {
-        const id = 'aaaaaaaaaaaaaaaaaaaaaaaa';
-        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${id}`)
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${INVALID_ID}`)
           .expect(404)
           .expect('Content-type', /application\/json/);
-        expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(id)));
+        expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(INVALID_ID)));
       });
     });
   });
@@ -342,18 +343,64 @@ describe('messages', () => {
     });
     test('Removing message with non exsisting id returns 404', async () => {
       const initialMessageCount = await contentCountInDb(Message);
-      const id = 'aaaaaaaaaaaaaaaaaaaaaaaa';
-      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${id}`)
+      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${INVALID_ID}`)
         .expect(404)
         .expect('Content-type', /application\/json/);
-      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(id)));
+      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(INVALID_ID)));
       const messageCount = await contentCountInDb(Message);
       expect(initialMessageCount).toBe(messageCount);
     });
   });
+
+  describe('Like message', () => {
+    let messageInDb;
+    beforeEach(async () => {
+      const messagesInDb = await contentInDb(Message);
+      messageInDb = messagesInDb[0];
+    });
+
+    test('Liking message returns status 200 and liked message', async () => {
+      const { id, likes: initialLikes } = messageInDb;
+      const { body } = await api.post(`${MESSAGES_ENDPOINT}/${id}/like`)
+        .expect(200)
+        .expect('Content-type', /application\/json/);
+      const newMessage = { ...messageInDb, likes: initialLikes + 1 };
+      expect(body).toEqual(newMessage);
+    });
+    test('Liking message adds likes', async () => {
+      const likesBefore = await totalMessageLikes();
+      const { id } = messageInDb;
+      await api.post(`${MESSAGES_ENDPOINT}/${id}/like`)
+        .expect(200);
+      await api.post(`${MESSAGES_ENDPOINT}/${id}/like`)
+        .expect(200);
+      const likesAfter = await totalMessageLikes();
+      expect(likesAfter).toBe(likesBefore + 2);
+    });
+    test('Liking non existing message return message not found error', async () => {
+      const { body } = await api.post(`${MESSAGES_ENDPOINT}/${INVALID_ID}/like`)
+        .expect(404);
+      expect(body).toEqual(errorResponse(messageNotFoundErrorMessage(INVALID_ID)));
+    });
+    test('Liking non existing message has no effect on likes amount', async () => {
+      const likesBefore = await totalMessageLikes();
+      await api.post(`${MESSAGES_ENDPOINT}/${INVALID_ID}/like`)
+        .expect(404);
+      const likesAfter = await totalMessageLikes();
+      expect(likesAfter).toBe(likesBefore);
+    });
+  });
 });
 
+const totalMessageLikes = async () => {
+  const messagesInDb = await contentInDb(Message);
+  const totalLikes = messagesInDb.reduce(sumReducer, 0);
+  return totalLikes;
+};
+
 const messageNotFoundErrorMessage = (id) => new NotFoundError(`Message with id: ${id} not found`).message;
+
+const sumReducer = (acc, curr) => acc + curr.likes;
 
 afterAll(() => {
   mongoose.connection.close();
