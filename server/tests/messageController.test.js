@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
+const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
 
 const { currentTimeStamp } = require('../utils/time');
-const { getMessages, initDb } = require('./testHelper');
+const { getMessages, initDb, contentInDb } = require('./testHelper');
 
 const api = supertest(app);
 
@@ -276,77 +277,43 @@ describe('messages', () => {
   });
 
   describe('GET message', () => {
-    let addedMessage;
-    test('setup', async () => {
-      const validMessage = {
-        username: 'testUsername',
-        message: 'testMessage',
-        location: {
-          latitude: 60.171712519065174,
-          longitude: 24.94059522394236,
-        },
-      };
-      const { body: newMessage } = await api
-        .post(MESSAGES_ENDPOINT)
-        .send(validMessage)
-        .set('Accept', 'application/json')
-        .expect(201);
-      const {
-        id,
-        message,
-        username,
-        location,
-        created,
-        expires,
-        likes,
-      } = newMessage;
-      addedMessage = {
-        id,
-        message,
-        username,
-        location,
-        created,
-        expires,
-        likes,
-      };
-    });
     describe('valid request', () => {
-      test('status 200', async () => {
-        await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
-          .expect(200);
+      let messageInDb;
+      beforeEach(async () => {
+        const messagesInDb = await contentInDb(Message);
+        messageInDb = messagesInDb[0];
       });
 
-      test('content JSON', async () => {
-        await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
+      test('Returned message is correct type', async () => {
+        await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
+          .expect(200)
           .expect('Content-type', /application\/json/);
       });
-
-      test('return correct message - no location', async () => {
-        const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}`)
+      test('Returns correct message(no distance)', async () => {
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
           .expect(200);
-        expect(message).toEqual(addedMessage);
-        expect(message.distance).not.toBeDefined();
+        expect(body).toEqual(messageInDb);
       });
-
-      test('return correct message - with location', async () => {
-        const { latitude, longitude } = { ...addedMessage.location };
-        const query = `?latitude=${latitude}&longitude=${longitude}`;
-        const { body: message } = await api.get(`${MESSAGES_ENDPOINT}/${addedMessage.id}${query}`)
-          .expect(200);
-        expect(message.distance).toBeDefined();
-        expect(message.distance).toBe(0);
+      test('Returns correct message(with distance)', async () => {
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}?latitude=60&longitude=25`);
+        const messageInDbWithDistance = { ...messageInDb, distance: 22.96 };
+        expect(body).toEqual(messageInDbWithDistance);
       });
     });
     describe('invalid request', () => {
       test('fail with 404 ', async () => {
-        const id = addedMessage.id + 1;
-        const { body: errorMessage } = await api.get(`${MESSAGES_ENDPOINT}/${id}`)
-          .expect(404);
-        expect(errorMessage).toBe(`Message with ID: ${id} not found`);
+        const id = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${id}`)
+          .expect(404)
+          .expect('Content-type', /application\/json/);
+        const error = { error: messageNotFoundErrorMessage(id) };
+        expect(body).toEqual(error);
       });
     });
   });
 });
+
+const messageNotFoundErrorMessage = (id) => new NotFoundError(`Message with id: ${id} not found`).message;
 
 afterAll(() => {
   mongoose.connection.close();

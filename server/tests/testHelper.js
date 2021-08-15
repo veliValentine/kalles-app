@@ -11,7 +11,13 @@ const initDb = async (model, initialContent = []) => {
   await model.insertMany(initialContent);
 };
 
+const contentInDb = async (model) => {
+  const content = await model.find({});
+  return content.map((c) => c.toJSON());
+};
+
 module.exports = {
   getMessages,
   initDb,
+  contentInDb,
 };
