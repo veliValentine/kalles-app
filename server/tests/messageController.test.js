@@ -13,7 +13,9 @@ const api = supertest(app);
 
 const MESSAGES_ENDPOINT = '/api/v1/messages';
 
-const INVALID_ID = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+const VALID_TEST_ID = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+
+const INVALID_TEST_ID = 'testId';
 
 const INITIAL_MESSAGES = [
   {
@@ -306,10 +308,16 @@ describe('messages', () => {
     });
     describe('invalid request', () => {
       test('fail with 404 ', async () => {
-        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${INVALID_ID}`)
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}`)
           .expect(404)
           .expect('Content-type', /application\/json/);
-        expect(body).toEqual(messageNotFoundErrorMessage(INVALID_ID));
+        expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
+      });
+      test('fail with 400 ', async () => {
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}`)
+          .expect(400)
+          .expect('Content-type', /application\/json/);
+        expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
       });
     });
   });
@@ -337,16 +345,25 @@ describe('messages', () => {
       const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
         .expect(404)
         .expect('Content-type', /application\/json/);
-      expect(body).toEqual(messageNotFoundErrorMessage(messageInDb.id));
+      expect(body).toEqual(messageNotFoundErrorObject(messageInDb.id));
       const messagesInDb = await contentInDb(Message);
       expect(messagesInDb).toHaveLength(initialMessageCount - 1);
     });
-    test('Removing message with non exsisting id returns 404', async () => {
+    test('Removing message with non existing id returns 404', async () => {
       const initialMessageCount = await contentCountInDb(Message);
-      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${INVALID_ID}`)
+      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}`)
         .expect(404)
         .expect('Content-type', /application\/json/);
-      expect(body).toEqual(messageNotFoundErrorMessage(INVALID_ID));
+      expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
+      const messageCount = await contentCountInDb(Message);
+      expect(initialMessageCount).toBe(messageCount);
+    });
+    test('Removing message with invalid id returns 400', async () => {
+      const initialMessageCount = await contentCountInDb(Message);
+      const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}`)
+        .expect(400)
+        .expect('Content-type', /application\/json/);
+      expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
       const messageCount = await contentCountInDb(Message);
       expect(initialMessageCount).toBe(messageCount);
     });
@@ -378,14 +395,21 @@ describe('messages', () => {
       expect(likesAfter).toBe(likesBefore + 2);
     });
     test('Liking non existing message return message not found error', async () => {
-      const { body } = await api.post(`${MESSAGES_ENDPOINT}/${INVALID_ID}/like`)
+      const { body } = await api.post(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`)
         .expect(404);
-      expect(body).toEqual(messageNotFoundErrorMessage(INVALID_ID));
+      expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
+    });
+    test('Liking with invalid id returns bad request', async () => {
+      const { body } = await api.post(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`)
+        .expect(400);
+      expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
     });
     test('Liking non existing message has no effect on likes amount', async () => {
       const likesBefore = await totalMessageLikes();
-      await api.post(`${MESSAGES_ENDPOINT}/${INVALID_ID}/like`)
+      await api.post(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`)
         .expect(404);
+      await api.post(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`)
+        .expect(400);
       const likesAfter = await totalMessageLikes();
       expect(likesAfter).toBe(likesBefore);
     });
@@ -398,7 +422,9 @@ const totalMessageLikes = async () => {
   return totalLikes;
 };
 
-const messageNotFoundErrorMessage = (id) => errorResponse(new NotFoundError(`Message with id: ${id} not found`).message);
+const messageNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`Message with id: ${id} not found`).message);
+
+const invalidIdErrorObject = (id) => errorResponse(`Cast to ObjectId failed for value "${id}" (type string) at path "_id" for model "Message"`);
 
 const sumReducer = (acc, curr) => acc + curr.likes;
 
