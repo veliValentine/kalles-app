@@ -12,12 +12,15 @@ require('./mongo');
 
 const messageRouter = require('./controllers/messageController');
 const utilController = require('./controllers/utilController');
+const endpointNotFound = require('./middleware/endpointNotFound');
 const errorMiddleware = require('./middleware/errorMiddleware');
 
 const V1_ROUTE = '/api/v1';
 
 app.use(`${V1_ROUTE}`, utilController);
 app.use(`${V1_ROUTE}/messages`, messageRouter);
+
+app.use(endpointNotFound);
 
 app.use(errorMiddleware);
 
