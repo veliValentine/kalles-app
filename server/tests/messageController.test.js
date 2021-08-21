@@ -256,6 +256,10 @@ describe('messages', () => {
           .expect('Content-type', /application\/json/);
         expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
       });
+      test('Request with invalid location does not return distance', async () => {
+        const { body } = await api.get(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}?latitude=200&longitude=300`);
+        expect(body.distance).toBeUndefined();
+      });
     });
   });
 
