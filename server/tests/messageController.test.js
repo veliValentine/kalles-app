@@ -6,7 +6,7 @@ const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
 
 const {
-  initDb, contentInDb, contentCountInDb, errorResponse, findContentById,
+  initDb, contentInDb, contentCountInDb, errorResponse, findContentById, EPSILON,
 } = require('./testHelper');
 
 const api = supertest(app);
@@ -138,28 +138,28 @@ describe('messages', () => {
       test('Message missing username not added to db', async () => {
         const invalidMessage = { ...validMessage };
         invalidMessage.username = undefined;
-        await missingContentTest(invalidMessage, 'username');
+        await missingContentTest(invalidMessage, badRequestErrorObject('Invalid username'));
       });
       test('Message missing message(text) not added to db', async () => {
         const invalidMessage = { ...validMessage };
         invalidMessage.message = undefined;
-        await missingContentTest(invalidMessage, 'message');
+        await missingContentTest(invalidMessage, badRequestErrorObject('Invalid message'));
       });
       describe('invalid location', () => {
         test('Message missing location not added to db', async () => {
           const invalidMessage = { ...validMessage };
           invalidMessage.location = undefined;
-          await missingContentTest(invalidMessage, 'location');
+          await missingContentTest(invalidMessage, badRequestErrorObject('Invalid location'));
         });
         test('Message missing latitude not added to db', async () => {
           const invalidMessage = { ...validMessage };
           invalidMessage.location.latitude = undefined;
-          await missingContentTest(invalidMessage, 'location');
+          await missingContentTest(invalidMessage, badRequestErrorObject('Invalid location'));
         });
         test('Message missing longitude not added to db', async () => {
           const invalidMessage = { ...validMessage };
           invalidMessage.location.longitude = undefined;
-          await missingContentTest(invalidMessage, 'location');
+          await missingContentTest(invalidMessage, badRequestErrorObject('Invalid location'));
         });
         test('Message invalid location not added to db', async () => {
           const invalidMessage = { ...validMessage };
@@ -168,29 +168,41 @@ describe('messages', () => {
             longitude: [],
           };
           invalidMessage.location = invalidLocation;
-          await missingContentTest(invalidMessage, 'location');
+          await missingContentTest(invalidMessage, badRequestErrorObject('Invalid location'));
         });
         test('Message invalid location not added to db - values out of range - negative', async () => {
           const invalidMessage = { ...validMessage };
           const invalidLocation = {
-            latitude: -90 - 1,
-            longitude: -180 - 1,
+            latitude: -90 - EPSILON,
+            longitude: -180 - EPSILON,
           };
           invalidMessage.location = invalidLocation;
-          await missingContentTest(invalidMessage, 'location');
+          await missingContentTest(
+            invalidMessage,
+            validationErrorObject(
+              `location.latitude: Path \`location.latitude\` (${invalidLocation.latitude}) is less than minimum allowed value (-90)., `
+              + `location.longitude: Path \`location.longitude\` (${invalidLocation.longitude}) is less than minimum allowed value (-180).`,
+            ),
+          );
         });
         test('Message invalid location not added to db - values out of range - positive', async () => {
           const invalidMessage = { ...validMessage };
           const invalidLocation = {
-            latitude: 90 + 1,
-            longitude: 180 + 1,
+            latitude: 90 + EPSILON,
+            longitude: 180 + EPSILON,
           };
           invalidMessage.location = invalidLocation;
-          await missingContentTest(invalidMessage, 'location');
+          await missingContentTest(
+            invalidMessage,
+            validationErrorObject(
+              `location.latitude: Path \`location.latitude\` (${invalidLocation.latitude}) is more than maximum allowed value (90)., `
+              + `location.longitude: Path \`location.longitude\` (${invalidLocation.longitude}) is more than maximum allowed value (180).`,
+            ),
+          );
         });
       });
 
-      const missingContentTest = async (invalidMessage, property) => {
+      const missingContentTest = async (invalidMessage, errorMessage) => {
         const initialMessageCount = await contentCountInDb(Message);
         const { body } = await api
           .post(MESSAGES_ENDPOINT)
@@ -202,7 +214,7 @@ describe('messages', () => {
         const messageCount = await contentCountInDb(Message);
         expect(messageCount).toBe(initialMessageCount);
 
-        expect(body).toEqual(badRequestErrorObject(`Invalid ${property}`));
+        expect(body).toEqual(errorMessage);
       };
     });
   });
@@ -352,6 +364,8 @@ const badRequestErrorObject = (message) => errorResponse(new BadRequestError(mes
 const messageNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`Message with id: ${id} not found`).message);
 
 const invalidIdErrorObject = (id) => errorResponse(`Cast to ObjectId failed for value "${id}" (type string) at path "_id" for model "Message"`);
+
+const validationErrorObject = (message) => errorResponse(`Message validation failed: ${message}`);
 
 const likesSumReducer = (acc, curr) => acc + curr.likes;
 
