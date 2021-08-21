@@ -6,7 +6,7 @@ const Message = require('../models/message');
 
 const { currentTimeStamp } = require('../utils/time');
 const {
-  getMessages, initDb, contentInDb, contentCountInDb, errorResponse,
+  getMessages, initDb, contentInDb, contentCountInDb, errorResponse, findContentById,
 } = require('./testHelper');
 
 const api = supertest(app);
@@ -72,49 +72,42 @@ describe('messages', () => {
   });
 
   describe('POST message', () => {
-    const validMessage = {
-      username: 'testUsername',
-      message: 'testMessage',
-      location: {
-        latitude: 0.00,
-        longitude: 0.00,
-      },
-    };
-
     describe('Valid messages', () => {
-      test('response 201', async () => {
+      const validMessage = {
+        username: 'testUsername',
+        message: 'testMessage',
+        location: {
+          latitude: 0.00,
+          longitude: 0.00,
+        },
+      };
+      test('API returns new message as json with status 201', async () => {
         await api
           .post(MESSAGES_ENDPOINT)
           .send(validMessage)
           .set('Accept', 'application/json')
-          .expect(201);
+          .expect(201)
+          .expect('Content-type', /application\/json/);
       });
 
-      test('valid message added', async () => {
-        const messagesBefore = await getMessages(api);
-        const created = currentTimeStamp();
-        const expires = currentTimeStamp(24);
-        const { body: addedMessage } = await api
+      test('Message is added to db', async () => {
+        const initialMessageCount = await contentCountInDb(Message);
+
+        const { body } = await api
           .post(MESSAGES_ENDPOINT)
           .send(validMessage)
           .set('Accept', 'application/json')
           .expect(201);
-        expect(addedMessage).toEqual(
-          {
-            id: addedMessage.id,
-            ...validMessage,
-            created: created.toISOString(),
-            expires: expires.toISOString(),
-            likes: 0,
-            distance: 0,
-          },
-        );
-        const messagesAfter = await getMessages(api);
-        expect(messagesAfter).toHaveLength(messagesBefore.length + 1);
+
+        const messageCount = await contentCountInDb(Message);
+        expect(messageCount).toBe(initialMessageCount + 1);
+
+        const addedMessage = await findContentById(Message, body.id);
+        addedMessage.distance = 0;
+        expect(body).toEqual(addedMessage);
       });
 
-      test('extra attributes not saved', async () => {
-        const messagesBefore = await getMessages(api);
+      test('Extra properties not saved to new message', async () => {
         const extraAttributesMessage = {
           ...validMessage,
           id: '42',
@@ -123,25 +116,21 @@ describe('messages', () => {
             message: '42 again',
           },
         };
-        const created = currentTimeStamp();
-        const expires = currentTimeStamp(24);
-        const { body: addedMessage } = await api
+        const initialMessageCount = await contentCountInDb(Message);
+
+        const { body } = await api
           .post(MESSAGES_ENDPOINT)
           .send(extraAttributesMessage)
           .set('Accept', 'application/json')
           .expect(201);
-        expect(addedMessage).toEqual(
-          {
-            id: addedMessage.id,
-            ...validMessage,
-            created: created.toISOString(),
-            expires: expires.toISOString(),
-            likes: 0,
-            distance: 0,
-          },
-        );
-        const messagesAfter = await getMessages(api);
-        expect(messagesAfter).toHaveLength(messagesBefore.length + 1);
+
+        const messageCount = await contentCountInDb(Message);
+        expect(messageCount).toBe(initialMessageCount + 1);
+
+        const addedMessage = await findContentById(Message, body.id);
+        addedMessage.distance = 0;
+        expect(body).toEqual(addedMessage);
+        expect(body.message).toBe(validMessage.message);
       });
     });
 
@@ -418,7 +407,7 @@ describe('messages', () => {
 
 const totalMessageLikes = async () => {
   const messagesInDb = await contentInDb(Message);
-  const totalLikes = messagesInDb.reduce(sumReducer, 0);
+  const totalLikes = messagesInDb.reduce(likesSumReducer, 0);
   return totalLikes;
 };
 
@@ -426,7 +415,7 @@ const messageNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`Mess
 
 const invalidIdErrorObject = (id) => errorResponse(`Cast to ObjectId failed for value "${id}" (type string) at path "_id" for model "Message"`);
 
-const sumReducer = (acc, curr) => acc + curr.likes;
+const likesSumReducer = (acc, curr) => acc + curr.likes;
 
 afterAll(() => {
   mongoose.connection.close();

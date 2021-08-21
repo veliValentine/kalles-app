@@ -6,25 +6,29 @@ const getMessages = async (api) => {
   return messages;
 };
 
-const initDb = async (model, initialContent = []) => {
-  if (!model) throw new Error('No model given');
+const initDb = async (model = throwModelNotGiven(), initialContent = []) => {
   await model.deleteMany({});
   await model.insertMany(initialContent);
 };
 
-const contentInDb = async (model) => {
-  if (!model) throw new Error('No model given');
+const contentInDb = async (model = throwModelNotGiven()) => {
   const content = await model.find({});
   return content.map((c) => c.toJSON());
 };
 
-const contentCountInDb = async (model) => {
-  if (!model) throw new Error('No model given');
+const contentCountInDb = async (model = throwModelNotGiven()) => {
   const content = await contentInDb(model);
   return content.length;
 };
 
+const findContentById = async (model = throwModelNotGiven(), id) => {
+  const content = await model.findById(id);
+  return content.toJSON();
+};
+
 const errorResponse = (message = '') => ({ error: message });
+
+const throwModelNotGiven = () => { throw new Error('No model given'); };
 
 module.exports = {
   getMessages,
@@ -32,4 +36,5 @@ module.exports = {
   contentInDb,
   contentCountInDb,
   errorResponse,
+  findContentById,
 };
