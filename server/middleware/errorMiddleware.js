@@ -1,4 +1,4 @@
-const { CastError } = require('mongoose').Error;
+const { CastError, ValidationError } = require('mongoose').Error;
 const RestError = require('../models/errors/restError');
 const logger = require('../utils/logger');
 
@@ -9,7 +9,10 @@ const errorMiddleware = (error, _req, res, next) => {
     return handleRestErrors(res, error);
   }
   if (error instanceof CastError) {
-    return handleCastError(res, error);
+    return badRequest(res, error);
+  }
+  if (error instanceof ValidationError) {
+    return badRequest(res, error);
   }
   return next(error);
 };
@@ -19,10 +22,7 @@ const handleRestErrors = (res, error) => {
   return res.status(error.status).json({ error: error.message });
 };
 
-const handleCastError = (res, error) => {
-  throwWrongErrorType(error, CastError);
-  return res.status(400).json({ error: error.message });
-};
+const badRequest = (res, error) => res.status(400).json({ error: error.message });
 
 const throwWrongErrorType = (error, type) => {
   const isNotErrorType = !(error instanceof type);
