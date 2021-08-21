@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
+const BadRequestError = require('../models/errors/badRequestError');
 const NotFoundError = require('../models/errors/notFoundError');
 const Message = require('../models/message');
 
-const { currentTimeStamp } = require('../utils/time');
 const {
-  getMessages, initDb, contentInDb, contentCountInDb, errorResponse, findContentById,
+  initDb, contentInDb, contentCountInDb, errorResponse, findContentById,
 } = require('./testHelper');
 
 const api = supertest(app);
@@ -72,15 +72,15 @@ describe('messages', () => {
   });
 
   describe('POST message', () => {
+    const validMessage = {
+      username: 'testUsername',
+      message: 'testMessage',
+      location: {
+        latitude: 0.00,
+        longitude: 0.00,
+      },
+    };
     describe('Valid messages', () => {
-      const validMessage = {
-        username: 'testUsername',
-        message: 'testMessage',
-        location: {
-          latitude: 0.00,
-          longitude: 0.00,
-        },
-      };
       test('API returns new message as json with status 201', async () => {
         await api
           .post(MESSAGES_ENDPOINT)
@@ -134,141 +134,77 @@ describe('messages', () => {
       });
     });
 
-    describe('invalid messages', () => {
-      test('missing username', async () => {
-        const messagesBefore = await getMessages(api);
-        const missingUsername = {
-          message: 'testMessage',
-          location: {
-            latitude: 0.00,
-            longitude: 0.00,
-          },
-        };
-        const { body: errorMessage } = await api
-          .post(MESSAGES_ENDPOINT)
-          .send(missingUsername)
-          .set('Accept', 'application/json')
-          .expect(400);
-        expect(errorMessage).toBe('Error: Invalid username');
-        const messagesAfter = await getMessages(api);
-        expect(messagesBefore).toEqual(messagesAfter);
+    describe('Invalid messages', () => {
+      test('Message missing username not added to db', async () => {
+        const invalidMessage = { ...validMessage };
+        invalidMessage.username = undefined;
+        await missingContentTest(invalidMessage, 'username');
       });
-
-      test('missing message', async () => {
-        const messagesBefore = await getMessages(api);
-        const missingMessage = {
-          username: 'testUsername',
-          location: {
-            latitude: 0.00,
-            longitude: 0.00,
-          },
-        };
-        const { body: errorMessage } = await api
-          .post(MESSAGES_ENDPOINT)
-          .send(missingMessage)
-          .set('Accept', 'application/json')
-          .expect(400);
-        expect(errorMessage).toBe('Error: Invalid message');
-        const messagesAfter = await getMessages(api);
-        expect(messagesBefore).toEqual(messagesAfter);
+      test('Message missing message(text) not added to db', async () => {
+        const invalidMessage = { ...validMessage };
+        invalidMessage.message = undefined;
+        await missingContentTest(invalidMessage, 'message');
       });
-
       describe('invalid location', () => {
-        test('missing location', async () => {
-          const messagesBefore = await getMessages(api);
-          const missinglocation = {
-            username: 'testUsername',
-            message: 'testMessage',
-          };
-          const { body: errorMessage } = await api
-            .post(MESSAGES_ENDPOINT)
-            .send(missinglocation)
-            .set('Accept', 'application/json')
-            .expect(400);
-          expect(errorMessage).toBe('Error: Invalid location');
-          const messagesAfter = await getMessages(api);
-          expect(messagesBefore).toEqual(messagesAfter);
+        test('Message missing location not added to db', async () => {
+          const invalidMessage = { ...validMessage };
+          invalidMessage.location = undefined;
+          await missingContentTest(invalidMessage, 'location');
         });
-        test('empty location', async () => {
-          const messagesBefore = await getMessages(api);
-          const emptyLocation = {
-            username: 'testUsername',
-            message: 'testMessage',
-            location: {},
-          };
-          const { body: errorMessage } = await api
-            .post(MESSAGES_ENDPOINT)
-            .send(emptyLocation)
-            .set('Accept', 'application/json')
-            .expect(400);
-          expect(errorMessage).toBe('Error: Invalid location');
-          const messagesAfter = await getMessages(api);
-          expect(messagesBefore).toEqual(messagesAfter);
+        test('Message missing latitude not added to db', async () => {
+          const invalidMessage = { ...validMessage };
+          invalidMessage.location.latitude = undefined;
+          await missingContentTest(invalidMessage, 'location');
         });
-        test('missing latitude', async () => {
-          const messagesBefore = await getMessages(api);
-          const missingLatitude = {
-            username: 'testUsername',
-            message: 'testMessage',
-            location: {
-              longitude: 0.0,
-            },
-          };
-          const { body: errorMessage } = await api
-            .post(MESSAGES_ENDPOINT)
-            .send(missingLatitude)
-            .set('Accept', 'application/json')
-            .expect(400);
-          expect(errorMessage).toBe('Error: Invalid location');
-          const messagesAfter = await getMessages(api);
-          expect(messagesBefore).toEqual(messagesAfter);
+        test('Message missing longitude not added to db', async () => {
+          const invalidMessage = { ...validMessage };
+          invalidMessage.location.longitude = undefined;
+          await missingContentTest(invalidMessage, 'location');
         });
-        test('missing longitude', async () => {
-          const messagesBefore = await getMessages(api);
-          const missingLongitude = {
-            username: 'testUsername',
-            message: 'testMessage',
-            location: {
-              latitude: 0.0,
-            },
-          };
-          const { body: errorMessage } = await api
-            .post(MESSAGES_ENDPOINT)
-            .send(missingLongitude)
-            .set('Accept', 'application/json')
-            .expect(400);
-          expect(errorMessage).toBe('Error: Invalid location');
-          const messagesAfter = await getMessages(api);
-          expect(messagesBefore).toEqual(messagesAfter);
-        });
-        test('invalid location', async () => {
-          const messagesBefore = await getMessages(api);
+        test('Message invalid location not added to db', async () => {
+          const invalidMessage = { ...validMessage };
           const invalidLocation = {
-            username: 'testUsername',
-            message: 'testMessage',
-            location: {
-              latitude: 'String',
-              longitude: [],
-            },
+            latitude: 'String',
+            longitude: [],
           };
-          const { body: errorMessage } = await api
-            .post(MESSAGES_ENDPOINT)
-            .send(invalidLocation)
-            .set('Accept', 'application/json')
-            .expect(400);
-          expect(errorMessage).toBe('Error: Invalid location');
-          const messagesAfter = await getMessages(api);
-          expect(messagesBefore).toEqual(messagesAfter);
+          invalidMessage.location = invalidLocation;
+          await missingContentTest(invalidMessage, 'location');
+        });
+        test('Message invalid location not added to db - values out of range - negative', async () => {
+          const invalidMessage = { ...validMessage };
+          const invalidLocation = {
+            latitude: -90 - 1,
+            longitude: -180 - 1,
+          };
+          invalidMessage.location = invalidLocation;
+          await missingContentTest(invalidMessage, 'location');
+        });
+        test('Message invalid location not added to db - values out of range - positive', async () => {
+          const invalidMessage = { ...validMessage };
+          const invalidLocation = {
+            latitude: 90 + 1,
+            longitude: 180 + 1,
+          };
+          invalidMessage.location = invalidLocation;
+          await missingContentTest(invalidMessage, 'location');
         });
       });
+
+      const missingContentTest = async (invalidMessage, property) => {
+        const initialMessageCount = await contentCountInDb(Message);
+        const { body } = await api
+          .post(MESSAGES_ENDPOINT)
+          .send(invalidMessage)
+          .set('Accept', 'application/json')
+          .expect(400)
+          .expect('Content-type', /application\/json/);
+
+        const messageCount = await contentCountInDb(Message);
+        expect(messageCount).toBe(initialMessageCount);
+
+        expect(body).toEqual(badRequestErrorObject(`Invalid ${property}`));
+      };
     });
-
-    // TODO check missing attributes in request body => status 400
-    // - valid input. message &username => String, location object containing latitude & longitude
-
-    // TODO check returned object contains right attributes
-
-    // TODO check endDate>created
   });
 
   describe('GET message', () => {
@@ -410,6 +346,8 @@ const totalMessageLikes = async () => {
   const totalLikes = messagesInDb.reduce(likesSumReducer, 0);
   return totalLikes;
 };
+
+const badRequestErrorObject = (message) => errorResponse(new BadRequestError(message).message);
 
 const messageNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`Message with id: ${id} not found`).message);
 
