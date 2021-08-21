@@ -3,10 +3,13 @@ const isLocationObject = (locationObject) => {
     return false;
   }
   const { latitude, longitude } = locationObject;
-  if (!isNumber(latitude) || !isNumber(longitude)) {
+  if (!(isNumber(latitude) && isNumber(longitude))) {
     return false;
   }
-  return true;
+  if (Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180) {
+    return true;
+  }
+  return false;
 };
 
 const isNumber = (input = null) => {
