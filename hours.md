@@ -6,9 +6,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 84   | ---          |
+| Total  | 87   | ---          |
 | Client | 43   | 8.6.2021     |
-| Server | 41   | 18.8.2021    |
+| Server | 44   | 21.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -61,7 +61,7 @@
 ## Server
 |    day    | time | time used to                                                              |
 | :-------: | :--- | :------------------------------------------------------------------------ |
-|   total   | 41   | 18.8.2021                                                                 |
+|   total   | 44   | 21.8.2021                                                                 |
 | 21.3.2021 | 1    | init eslint, jest, structure                                              |
 | 21.3.2021 | 1    | distance & test                                                           |
 | 26.3.2021 | 1    | Moved backlog to github                                                   |
@@ -102,6 +102,8 @@
 | 15.8.2021 | 3    | Test: Delete message, GET message, Like message                           |
 |    sum    | 40   | ---------- sum ----------                                                 |
 | 18.8.2021 | 1    | bad id returns bad request, no endpoint middleware                        |
-|    sum    | 41   | ---------- sum ----------                                                 |
+| 21.8.2021 | 2    | Test: Adding valid and invalid message                                    |
+| 21.8.2021 | 1    | Location validation                                                       |
+|    sum    | 44   | ---------- sum ----------                                                 |
 
 | | | |
