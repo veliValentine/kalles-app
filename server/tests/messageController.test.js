@@ -179,10 +179,7 @@ describe('messages', () => {
           invalidMessage.location = invalidLocation;
           await missingContentTest(
             invalidMessage,
-            validationErrorObject(
-              `location.latitude: Path \`location.latitude\` (${invalidLocation.latitude}) is less than minimum allowed value (-90)., `
-              + `location.longitude: Path \`location.longitude\` (${invalidLocation.longitude}) is less than minimum allowed value (-180).`,
-            ),
+            badRequestErrorObject('Invalid location'),
           );
         });
         test('Message invalid location not added to db - values out of range - positive', async () => {
@@ -194,10 +191,7 @@ describe('messages', () => {
           invalidMessage.location = invalidLocation;
           await missingContentTest(
             invalidMessage,
-            validationErrorObject(
-              `location.latitude: Path \`location.latitude\` (${invalidLocation.latitude}) is more than maximum allowed value (90)., `
-              + `location.longitude: Path \`location.longitude\` (${invalidLocation.longitude}) is more than maximum allowed value (180).`,
-            ),
+            badRequestErrorObject('Invalid location'),
           );
         });
       });
