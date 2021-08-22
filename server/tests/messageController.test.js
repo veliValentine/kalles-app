@@ -363,8 +363,6 @@ const messageNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`Mess
 
 const invalidIdErrorObject = (id) => errorResponse(`Cast to ObjectId failed for value "${id}" (type string) at path "_id" for model "Message"`);
 
-const validationErrorObject = (message) => errorResponse(`Message validation failed: ${message}`);
-
 const likesSumReducer = (acc, curr) => acc + curr.likes;
 
 afterAll(() => {
