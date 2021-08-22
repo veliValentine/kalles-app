@@ -19,4 +19,6 @@ jobs:
         run: npm run lint -- --fix
       - name: npm test
         working-directory: ./server
+        env: 
+          MONGO_MESSAGES_TEST_URI : ${{ secrets.MONGO_MESSAGES_TEST_URI }}
         run: npm run test
