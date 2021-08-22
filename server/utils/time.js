@@ -1,4 +1,4 @@
-const currentTimeStamp = (hourOffset = 0) => {
+const timeStamp = (hourOffset = 0) => {
   const date = new Date();
   date.setHours(date.getHours() + hourOffset);
   date.setMilliseconds(0);
@@ -6,5 +6,5 @@ const currentTimeStamp = (hourOffset = 0) => {
 };
 
 module.exports = {
-  currentTimeStamp,
+  timeStamp,
 };

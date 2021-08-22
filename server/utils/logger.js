@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const { isTestEnvironment } = require('./environment');
-const { currentTimeStamp } = require('./time');
+const { timeStamp } = require('./time');
 
 const logger = () => {
   const logConsole = (message) => {
@@ -11,7 +11,7 @@ const logger = () => {
 
   const errorConsole = (message) => {
     if (!isTestEnvironment) {
-      console.error(`ERROR - ${currentTimeStamp()} - ${message}`);
+      console.error(`ERROR - ${timeStamp()} - ${message}`);
     }
   };
 
