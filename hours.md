@@ -6,14 +6,14 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 89   | ---          |
-| Client | 43   | 8.6.2021     |
+| Total  | 90   | ---          |
+| Client | 44   | 23.8 2021    |
 | Server | 46   | 22.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 43   | 8.6.2021                                                            |
+|   total    | 44   | 23.8 2021                                                           |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -55,8 +55,9 @@
 |    sum     | 40   | ----------- sum --------------                                      |
 |  7.6.2021  | 1    | Style message popup and view                                        |
 |  8.6.2021  | 2    | Refactoring, client-0.2.0                                           |
+| 23.8 2021  | 1    | Reading expo sdk update documentation. Updating Expo version        |
+|    sum     | 44   | ----------- sum --------------                                      |
 
-[//]: # (| | | | |)
 | | | |
 ## Server
 |    day    | time | time used to                                                              |
