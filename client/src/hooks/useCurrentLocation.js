@@ -1,36 +1,48 @@
 import { useState, useEffect } from 'react';
 import { calculateDistance } from '../utils';
+import * as Location from 'expo-location';
 
 const DISTANCE_THRESHOLD = 0.01;
 
 const useCurrentLocation = () => {
-  const [currentLocation, setCurrentLocation] = useState();
+  const [location, setLocation] = useState();
 
   useEffect(() => {
-    fetchCurrentLocation();
+    (fetchCurrentLocation)();
   }, []);
 
-  const fetchCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      setLocation(coords);
-    });
+  const fetchCurrentLocation = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      throw new Error('Location access denied');
+    }
+    const currentLocation = await Location.getCurrentPositionAsync({});
+    validateLocation(currentLocation.coords);
   };
 
-  const setLocation = ({ latitude, longitude }) => {
-    if (latitude && longitude) {
-      setCurrentLocation({ latitude, longitude });
+  const validateLocation = ({ latitude, longitude }) => {
+    if (!longitude || !latitude) {
+      return;
+    }
+    const newLocation = { latitude, longitude };
+    if (!location) {
+      return setLocation(newLocation);
+    }
+    const distance = calculateDistance(newLocation, location);
+    if (distance > DISTANCE_THRESHOLD) {
+      setLocation(newLocation);
     }
   };
 
   const updateLocation = ({ latitude, longitude }) => {
     const newLocation = { latitude, longitude };
-    const distance = calculateDistance(newLocation, currentLocation);
+    const distance = calculateDistance(newLocation, location);
     if (longitude && latitude && distance > DISTANCE_THRESHOLD) {
-      setCurrentLocation(newLocation);
+      setLocation(newLocation);
     }
   };
 
-  return [currentLocation, fetchCurrentLocation, updateLocation];
+  return [location, fetchCurrentLocation, updateLocation];
 };
 
 export default useCurrentLocation;
