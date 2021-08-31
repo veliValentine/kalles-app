@@ -6,14 +6,14 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 92   | ---          |
-| Client | 46   | 26.8.2021    |
-| Server | 46   | 22.8.2021    |
+| Total  | 95   | ---          |
+| Client | 48   | 31.8.2021    |
+| Server | 47   | 31.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 46   | 26.8.2021                                                           |
+|   total    | 48   | 31.8.2021                                                           |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -58,13 +58,14 @@
 | 23.8.2021  | 1    | Reading expo sdk update documentation. Updating Expo version        |
 | 26.8.2021  | 1    | Refactor: location to use expo-location                             |
 | 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                               |
-|    sum     | 46   | ----------- sum --------------                                      |
+| 31.8.2021  | 2    | Refactor: Storage, Feat: username storage                           |
+|    sum     | 48   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
 |    day    | time | time used to                                                              |
 | :-------: | :--- | :------------------------------------------------------------------------ |
-|   total   | 46   | 22.8.2021                                                                 |
+|   total   | 47   | 31.8.2021                                                                 |
 | 21.3.2021 | 1    | init eslint, jest, structure                                              |
 | 21.3.2021 | 1    | distance & test                                                           |
 | 26.3.2021 | 1    | Moved backlog to github                                                   |
@@ -108,6 +109,7 @@
 | 21.8.2021 | 2    | Test: Adding valid and invalid message                                    |
 | 21.8.2021 | 1    | Location validation                                                       |
 | 22.8.2021 | 2    | Deploy v.0.2.0                                                            |
-|    sum    | 46   | ---------- sum ----------                                                 |
+| 31.8.2021 | 1    | Deploy test server for client usage                                       |
+|    sum    | 47   | ---------- sum ----------                                                 |
 
 | | | |
