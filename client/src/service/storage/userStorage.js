@@ -1,25 +1,28 @@
 import StorageService from './storageService';
+import { validateUser } from '../../utils/validators';
 
-class UserStorage {
-  constructor(item = 'user') {
-    this.item = item;
-  }
+const storage = StorageService('user');
 
-  async getUser() {
-    const user = await StorageService.getItem(this.item);
+const UserStorage = () => {
+  const getUser = async () => {
+    const user = await storage.getItem();
     return user;
-  }
+  };
 
-  async addUser(user) {
-    if (!user.username) {
-      throw new Error('User has no username');
-    }
-    await StorageService.saveItem(this.item, user);
-  }
+  const saveUser = async (user) => {
+    validateUser(user);
+    await storage.saveItem(user);
+  };
 
-  async removeUser() {
-    await StorageService.clearStorage(this.item);
-  }
-}
+  const removeUser = async () => {
+    await storage.removeItem();
+  };
+
+  return {
+    getUser,
+    saveUser,
+    removeUser,
+  };
+};
 
 export default UserStorage;
