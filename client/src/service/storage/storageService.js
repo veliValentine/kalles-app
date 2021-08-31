@@ -1,23 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-class StorageService {
-  constructor(namespace = 'kalle-studio') {
-    this.namespace = namespace;
-  }
+const StorageService = (item = throwError()) => {
+  const nameSpace = `kalle-studio:${item}`;
 
-  async getStorage(item = throwError()) {
-    const rawItem = await AsyncStorage.getItem(`${this.namespace}:${item}`);
-    return JSON.parse(rawItem);
-  }
+  const getItem = async () => {
+    const jsonValue = await AsyncStorage.getItem(nameSpace);
+    return JSON.parse(jsonValue);
+  };
 
-  async saveItem(item = throwError(), object = throwError('Required object to save')) {
-    await AsyncStorage.setItem(`${this.namespace}:${item}`, JSON.stringify(object));
-  }
+  const saveItem = async (object = throwError('Nothing to')) => {
+    const stringObject = JSON.stringify(object);
+    await AsyncStorage.setItem(nameSpace, stringObject);
+  };
 
-  async clearStorage(item = throwError()) {
-    await AsyncStorage.removeItem(`${this.namespace}:${item}`);
-  }
-}
+  const removeItem = async () => {
+    await AsyncStorage.removeItem(nameSpace);
+  };
+
+  return {
+    getItem,
+    saveItem,
+    removeItem
+  };
+};
 
 const throwError = (message = 'No item given') => { throw new Error(message); };
 
