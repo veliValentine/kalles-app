@@ -3,6 +3,4 @@ const validateUser = (user) => {
     if(!user.username) throw new Error('No username given');
 };
 
-export default {
-    validateUser,
-};
+export default validateUser;

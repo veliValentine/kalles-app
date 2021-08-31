@@ -1,5 +1,5 @@
 import StorageService from './storageService';
-import { validateUser } from '../../utils/validators';
+import validateUser from '../../utils/validators';
 
 const storage = StorageService('user');
 
