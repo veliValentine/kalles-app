@@ -7,14 +7,14 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 95   | ---          |
-| Client | 48   | 31.8.2021    |
+| Total  | 97   | ---          |
+| Client | 50   | 4.9.2021    |
 | Server | 47   | 31.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 48   | 31.8.2021                                                           |
+|   total    | 50   | 4.9.2021                                                           |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -60,9 +60,9 @@
 | 26.8.2021  | 1    | Refactor: location to use expo-location                             |
 | 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                               |
 | 31.8.2021  | 2    | Refactor: Storage, Feat: username storage                           |
-|    sum     | 48   | ----------- sum --------------                                      |
 |  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                          |
-| 31.8.2021  | 0.5  | user hook                                                           |
+|  4.9.2021  | 1    | user hook                                                           |
+|    sum     | 50   | ----------- sum --------------                                      |
 
 
 | | | |
