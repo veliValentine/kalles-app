@@ -17,7 +17,7 @@ import useUser from './hooks/useUser';
 
 const Main = () => {
   const [user] = useUser();
-  const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
+  const [location, changeLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages(location, user);
 
   if (!user) {
@@ -29,7 +29,6 @@ const Main = () => {
   }
 
   const reloadMessages = () => {
-    fetchCurrentLocation();
     getMessages();
   };
 

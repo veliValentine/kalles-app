@@ -3,6 +3,7 @@
   - [Total](#total)
   - [Client](#client)
   - [Server](#server)
+
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
@@ -60,7 +61,9 @@
 | 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                               |
 | 31.8.2021  | 2    | Refactor: Storage, Feat: username storage                           |
 |    sum     | 48   | ----------- sum --------------                                      |
-| 31.8.2021  | 0.5    | user hook                           |
+|  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                          |
+| 31.8.2021  | 0.5  | user hook                                                           |
+
 
 | | | |
 ## Server
