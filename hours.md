@@ -7,13 +7,13 @@
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
 | Total  | 92   | ---          |
-| Client | 46   | 26.8.2021    |
+| Client | 47   | 4.9.2021     |
 | Server | 46   | 22.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 46   | 26.8.2021                                                           |
+|   total    | 47   | 4.9.2021                                                            |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -58,7 +58,10 @@
 | 23.8.2021  | 1    | Reading expo sdk update documentation. Updating Expo version        |
 | 26.8.2021  | 1    | Refactor: location to use expo-location                             |
 | 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                               |
-|    sum     | 46   | ----------- sum --------------                                      |
+
+| 4.9.2021 | 1 | Fix: Can not get initial location, Build: Client 0.2.2 |
+|    sum     | 47   | ----------- sum --------------                                      |
+
 
 | | | |
 ## Server
