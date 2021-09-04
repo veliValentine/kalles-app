@@ -15,7 +15,7 @@ import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
 
 const Main = () => {
-  const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
+  const [location, changeLocation] = useCurrentLocation();
   const [messages, getMessages, addMessage] = useMessages(location);
 
   if (!location) {
@@ -23,7 +23,6 @@ const Main = () => {
   }
 
   const reloadMessages = () => {
-    fetchCurrentLocation();
     getMessages();
   };
 
