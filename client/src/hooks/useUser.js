@@ -26,7 +26,12 @@ const useUser = () => {
         storage.saveUser(user);
     };
 
-    return [user, updateUser];
+    const removeUser = async () => {
+        await storage.removeUser();
+        setUser(null);
+    };
+
+    return [user, updateUser, removeUser];
 };
 
 export default useUser;
