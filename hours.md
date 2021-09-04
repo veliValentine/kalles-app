@@ -60,6 +60,7 @@
 | 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                               |
 | 31.8.2021  | 2    | Refactor: Storage, Feat: username storage                           |
 |    sum     | 48   | ----------- sum --------------                                      |
+| 31.8.2021  | 0.5    | user hook                           |
 
 | | | |
 ## Server

@@ -13,10 +13,16 @@ import LoadingScreen from './components/LoadingScreen';
 
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
+import useUser from './hooks/useUser';
 
 const Main = () => {
+  const [user] = useUser();
   const [location, fetchCurrentLocation, changeLocation] = useCurrentLocation();
-  const [messages, getMessages, addMessage] = useMessages(location);
+  const [messages, getMessages, addMessage] = useMessages(location, user);
+
+  if (!user) {
+    return <LoadingScreen message={'No logged user'}/>;
+  }
 
   if (!location) {
     return <LoadingScreen message={'No location available'}/>;
