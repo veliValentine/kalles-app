@@ -14,58 +14,61 @@ import LoadingScreen from './components/LoadingScreen';
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
 import useUser from './hooks/useUser';
+import Login from './components/Login';
+import UserInfo from './components/UserInfo';
 
 const Main = () => {
-  const [user] = useUser();
-  const [location, changeLocation] = useCurrentLocation();
-  const [messages, getMessages, addMessage] = useMessages(location, user);
+	const [user, updateUser, removeUser] = useUser();
+	const [location, changeLocation] = useCurrentLocation();
+	const [messages, getMessages, addMessage] = useMessages(location, user);
 
-  if (!user) {
-    return <LoadingScreen message={'No logged user'}/>;
-  }
+	console.log('user: ', user);
 
-  if (!location) {
-    return <LoadingScreen message={'No location available'}/>;
-  }
+	if (!user) return <Login updateUser={updateUser} />;
 
-  const reloadMessages = () => {
-    getMessages();
-  };
+	if (!location) return <LoadingScreen message={'No location available'} />;
 
-  return (
-    <View style={styles.container}>
-      <AppBar />
-      <Switch>
-        <Route path="/message/:id" exact>
-          <Message messages={messages} />
-        </Route>
-        <Route path="/messages" exact>
-          <MessageList messages={messages} />
-        </Route>
-        <Route path="/newMessage">
-          <MessageForm addMessage={addMessage} currentLocation={location} />
-        </Route>
-        <Route path={['/map', '/map/:latitude/:longitude']} exact key="default-map">
-          <MapPage
-            messages={messages}
-            reloadMessages={reloadMessages}
-            location={location}
-            changeLocation={changeLocation}
-          />
-        </Route>
-        <Redirect to="/map" />
-      </Switch>
-    </View>
-  );
+	const reloadMessages = () => getMessages();
+
+	const logout = () => removeUser();
+
+	return (
+		<View style={styles.container}>
+			<AppBar user={user} />
+			<Switch>
+				<Route path="/userinfo" exact>
+					<UserInfo user={user} logout={logout} />
+				</Route>
+				<Route path="/message/:id" exact>
+					<Message messages={messages} />
+				</Route>
+				<Route path="/messages" exact>
+					<MessageList messages={messages} />
+				</Route>
+				<Route path="/newMessage">
+					<MessageForm addMessage={addMessage} currentLocation={location} />
+				</Route>
+				<Route path={['/map', '/map/:latitude/:longitude']} exact key="default-map">
+					<MapPage
+						messages={messages}
+						reloadMessages={reloadMessages}
+						location={location}
+						changeLocation={changeLocation}
+					/>
+				</Route>
+				<Redirect to="/map" />
+			</Switch>
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: Constants.statusBarHeight,
-    flexGrow: 1,
-    flexShrink: 1,
-    backgroundColor: '#F0EAD6'
-  },
+	container: {
+		marginTop: Constants.statusBarHeight,
+		flexGrow: 1,
+		flexShrink: 1,
+		backgroundColor: '#F0EAD6'
+	},
 });
 
 export default Main;

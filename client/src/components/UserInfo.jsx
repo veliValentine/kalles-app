@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 const UserInfo = ({ user, logout }) => (
 	<View style={styles.container}>
 		<Text style={styles.text}>Username: {user.username}</Text>
-		<Button onPress={logout()} title="logout" />
+		<Button onPress={() => logout()} title="logout" />
 	</View>
 );
 
