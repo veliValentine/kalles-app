@@ -3,7 +3,7 @@ import { fetchMessages, postMessage } from '../service/messageService';
 import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
 
-const useMessages = (currentLocation) => {
+const useMessages = (currentLocation, user) => {
 	const [messages, setMessages] = useState();
 
 	useEffect(() => {
@@ -16,10 +16,11 @@ const useMessages = (currentLocation) => {
 	};
 
 	const addMessage = async (message) => {
-		if (currentLocation) {
+		if (currentLocation && user && user.username) {
 			const newMessage = {
 				...message,
-				location: currentLocation
+				location: currentLocation,
+				username: user.username,
 			};
 			try {
 				const addedMessage = await postMessage(newMessage);

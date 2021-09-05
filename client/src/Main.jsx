@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Redirect, Route, Switch } from 'react-router-native';
-
 import Constants from 'expo-constants';
 
 import MessageList from './components/MessageList';
@@ -10,19 +9,17 @@ import AppBar from './components/AppBar';
 import Message from './components/Message';
 import MapPage from './components/MapPage';
 import LoadingScreen from './components/LoadingScreen';
+import Login from './components/Login';
+import UserInfo from './components/UserInfo';
 
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
 import useUser from './hooks/useUser';
-import Login from './components/Login';
-import UserInfo from './components/UserInfo';
 
 const Main = () => {
 	const [user, updateUser, removeUser] = useUser();
 	const [location, changeLocation] = useCurrentLocation();
 	const [messages, getMessages, addMessage] = useMessages(location, user);
-
-	console.log('user: ', user);
 
 	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
 

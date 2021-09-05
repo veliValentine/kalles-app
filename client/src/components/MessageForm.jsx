@@ -5,31 +5,20 @@ import useError from '../hooks/useError';
 import Error from './common/Error';
 import TextInput from './common/TextInput';
 
-import LoadingScreen from './LoadingScreen';
-
-const MessageForm = ({ addMessage, currentLocation }) => {
+const MessageForm = ({ addMessage }) => {
 	const [message, setMessage] = useState('');
-	const [username, setUsername] = useState('');
 	const [error, updateError] = useError();
-
 	const history = useHistory();
-
-	if (!currentLocation) {
-		return <LoadingScreen message="location not available" />;
-	}
 
 	const newMessage = () => {
 		const messageData = message.trim();
-		const usernameData = username.trim();
 		if (!messageData) return updateError('Message required');
-		if (!usernameData) return updateError('Username required');
 
 		addMessage({
 			message: messageData,
-			username: usernameData,
 		});
+
 		setMessage('');
-		setUsername('');
 		history.push('/map');
 	};
 
@@ -41,11 +30,6 @@ const MessageForm = ({ addMessage, currentLocation }) => {
 				placeholder="Message"
 				value={message}
 				multiline
-			/>
-			<TextInput
-				handleTextChange={(text) => setUsername(text)}
-				placeholder="Username"
-				value={username}
 			/>
 			<Error errorMessage={error} />
 			<Button
