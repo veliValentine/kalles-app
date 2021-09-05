@@ -4,9 +4,9 @@ import Main from './src/Main';
 import { NativeRouter } from 'react-router-native';
 
 const App = () => (
-  <NativeRouter>
-      <Main />
-  </NativeRouter>
+	<NativeRouter>
+		<Main />
+	</NativeRouter>
 );
 
 export default App;
