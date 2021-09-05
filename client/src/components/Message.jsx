@@ -33,12 +33,12 @@ const MessageNotFound = ({ id }) => {
 };
 
 const MessageFound = ({ message: messageObject }) => {
-	const { message, username, likes, created } = messageObject;
-	const dateString = created ? readableTime(created) : null;
+	const { message, username, likes, createDay } = messageObject;
+	const dateString = createDay ? readableTime(createDay) : null;
 	return (
 		<View style={styles.container}>
 			<Text style={styles.message}>{message}</Text>
-			<Text style={styles.username}>By: {username}</Text>
+			<Text style={styles.username}>User: {username}</Text>
 			{dateString && <Text style={styles.text}>Created: {dateString}</Text>}
 			<Text style={styles.text}>Likes: {likes}</Text>
 		</View>
