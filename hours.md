@@ -7,14 +7,14 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 99   | ---          |
-| Client | 52   | 5.9.2021     |
+| Total  | 100  | ---          |
+| Client | 53   | 5.9.2021     |
 | Server | 47   | 31.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 52   | 5.9.2021                                                            |
+|   total    | 53   | 5.9.2021                                                            |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -63,8 +63,9 @@
 |  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                          |
 |  4.9.2021  | 1    | user hook                                                           |
 |    sum     | 50   | ----------- sum --------------                                      |
-|  5.9.2021  | 2    | feat: login & logout                                                 |
-|    sum     | 52   | ----------- sum --------------                                      |
+|  5.9.2021  | 2    | feat: login & logout                                                |
+|  5.9.2021  | 1    | fix: message date, error handling, feat: new message username       |
+|    sum     | 53   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
