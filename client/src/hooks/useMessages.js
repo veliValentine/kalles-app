@@ -4,7 +4,7 @@ import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
 
 const useMessages = (currentLocation) => {
-	const [messages, setMessages] = useState([]);
+	const [messages, setMessages] = useState();
 
 	useEffect(() => {
 		getMessages();
