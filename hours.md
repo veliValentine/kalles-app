@@ -1,20 +1,20 @@
 # Hours
 - [Hours](#hours)
-  - [Total](#total)
-  - [Client](#client)
-  - [Server](#server)
+	- [Total](#total)
+	- [Client](#client)
+	- [Server](#server)
 
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 97   | ---          |
-| Client | 50   | 4.9.2021    |
+| Total  | 99   | ---          |
+| Client | 52   | 5.9.2021     |
 | Server | 47   | 31.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 50   | 4.9.2021                                                           |
+|   total    | 52   | 5.9.2021                                                            |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -63,7 +63,8 @@
 |  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                          |
 |  4.9.2021  | 1    | user hook                                                           |
 |    sum     | 50   | ----------- sum --------------                                      |
-
+|  5.9.2021  | 2    | feat: login & logou                                                 |
+|    sum     | 52   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
