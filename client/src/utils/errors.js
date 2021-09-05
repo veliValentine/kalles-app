@@ -1,4 +1,4 @@
-export const handleError = (e, message) => {
+export const handleError = (e, message = 'no error hanler message given') => {
 	console.log(message);
 	if (e instanceof Error) {
 		console.log(e.message);

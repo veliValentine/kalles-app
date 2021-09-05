@@ -31,6 +31,9 @@ export const postMessage = async (message) => {
 		throwInvalidresponse(response, HTTP_CREATED);
 		return responseJSON;
 	} catch (e) {
-		throw new Error(responseJSON);
+		if (e instanceof Error) {
+			throw new Error(`message: ${e.message} serverMessage: ${responseJSON.error}`);
+		}
+		throw new Error(responseJSON.error);
 	}
 };
