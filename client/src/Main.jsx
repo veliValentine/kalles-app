@@ -24,7 +24,7 @@ const Main = () => {
 
 	console.log('user: ', user);
 
-	if (!user) return <Login updateUser={updateUser} />;
+	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
 
 	if (!location) return <LoadingScreen message={'No location available'} />;
 
