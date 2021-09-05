@@ -63,7 +63,7 @@
 |  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                          |
 |  4.9.2021  | 1    | user hook                                                           |
 |    sum     | 50   | ----------- sum --------------                                      |
-|  5.9.2021  | 2    | feat: login & logou                                                 |
+|  5.9.2021  | 2    | feat: login & logout                                                 |
 |    sum     | 52   | ----------- sum --------------                                      |
 
 | | | |
