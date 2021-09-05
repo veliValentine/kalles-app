@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, TextInput as NativeTextInput, Button } from 'react-native';
+import { Text, StyleSheet, View, Button } from 'react-native';
 import { useHistory } from 'react-router-native';
 import useError from '../hooks/useError';
+import Error from './common/Error';
+import TextInput from './common/TextInput';
 
 import LoadingScreen from './LoadingScreen';
 
@@ -13,7 +15,7 @@ const MessageForm = ({ addMessage, currentLocation }) => {
 	const history = useHistory();
 
 	if (!currentLocation) {
-		return <LoadingScreen message="location not available"/>;
+		return <LoadingScreen message="location not available" />;
 	}
 
 	const newMessage = () => {
@@ -55,37 +57,14 @@ const MessageForm = ({ addMessage, currentLocation }) => {
 	);
 };
 
-const TextInput = ({ handleTextChange, placeholder = '', value = '', multiline = false }) => (
-	<NativeTextInput
-		onChangeText={handleTextChange}
-		placeholder={placeholder}
-		style={styles.textInput}
-		blurOnSubmit
-		value={value}
-		multiline={multiline}
-	/>
-);
-
-const Error = ({ errorMessage }) => (
-	<Text style={styles.error}>{errorMessage}</Text>
-);
-
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'white',
 		padding: 15,
 	},
-	textInput: {
-		padding: 10,
-		marginBottom: 10,
-	},
 	button: {
 		padding: 10,
 		backgroundColor: 'blue',
-	},
-	error: {
-		color: 'red',
-		padding: 5,
 	}
 });
 
