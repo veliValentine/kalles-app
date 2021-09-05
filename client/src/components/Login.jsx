@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-native';
 import useError from '../hooks/useError';
 import Error from './common/Error';
 import TextInput from './common/TextInput';
