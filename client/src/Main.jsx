@@ -19,7 +19,7 @@ import useUser from './hooks/useUser';
 const Main = () => {
 	const [user, updateUser, removeUser] = useUser();
 	const [location, changeLocation] = useCurrentLocation();
-	const [messages, getMessages, addMessage] = useMessages(location, user);
+	const [messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, user, updateUser);
 
 	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
 
@@ -37,7 +37,7 @@ const Main = () => {
 					<UserInfo user={user} logout={logout} />
 				</Route>
 				<Route path="/message/:id" exact>
-					<Message messages={messages} />
+					<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
 				</Route>
 				<Route path="/messages" exact>
 					<MessageList messages={messages} />
