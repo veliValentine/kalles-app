@@ -7,14 +7,14 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 100  | ---          |
-| Client | 53   | 5.9.2021     |
+| Total  | 102  | ---          |
+| Client | 55   | 8.9.2021     |
 | Server | 47   | 31.8.2021    |
 
 ## Client
 |    day     | time | time used to                                                        |
 | :--------: | :--- | :------------------------------------------------------------------ |
-|   total    | 53   | 5.9.2021                                                            |
+|   total    | 55   | 8.9.2021                                                            |
 | 22.12.2020 | 2    | created repository, documents, run schedule                         |
 | 25.12.2020 | 1    | init server and client                                              |
 | 25.12.2020 | 1    | Message list                                                        |
@@ -65,7 +65,8 @@
 |    sum     | 50   | ----------- sum --------------                                      |
 |  5.9.2021  | 2    | feat: login & logout                                                |
 |  5.9.2021  | 1    | fix: message date, error handling, feat: new message username       |
-|    sum     | 53   | ----------- sum --------------                                      |
+|  8.9.2021  | 2    | feat: like/delete buttons and state handling                        |
+|    sum     | 55   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
