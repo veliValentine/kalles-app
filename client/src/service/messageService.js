@@ -37,3 +37,18 @@ export const postMessage = async (message) => {
 		throw new Error(responseJSON.error);
 	}
 };
+
+export const postLike = async (messageId) => {
+	let responseJson;
+	try {
+		const response = await fetch(`${MESSAGE_URL}/${messageId}/like`, postJsonOption());
+		responseJson = await response.json();
+		throwInvalidresponse(response);
+		return responseJson.likes ? responseJson.likes : 1;
+	} catch (error) {
+		if (error instanceof Error) {
+			throw new Error(`message: ${error.message} serverMessage: ${responseJson.error}`);
+		}
+		throw new Error(responseJson.error);
+	}
+};
