@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Button, Alert } from 'react-native';
 import { useParams, useHistory } from 'react-router-native';
 import { readableTime } from '../utils';
 
 import LoadingScreen from './LoadingScreen';
 
-const Message = ({ messages }) => {
+const Message = ({ messages, likeMessage, deleteMessage, user }) => {
 	const { id } = useParams();
 	if (!messages) {
 		return <LoadingScreen message={'getting messages'} />;
@@ -14,7 +14,7 @@ const Message = ({ messages }) => {
 	if (!message) {
 		return <MessageNotFound id={id} />;
 	}
-	return <MessageFound message={message} />;
+	return <MessageFound message={message} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />;
 };
 
 const MessageNotFound = ({ id }) => {
@@ -32,16 +32,53 @@ const MessageNotFound = ({ id }) => {
 	);
 };
 
-const MessageFound = ({ message: messageObject }) => {
-	const { message, username, likes, createDay } = messageObject;
+const MessageFound = ({ message: messageObject, likeMessage, deleteMessage, user }) => {
+	const history = useHistory();
+	const { message, username, likes, createDay, id } = messageObject;
+
+	const handleLike = () => likeMessage(id);
+	const handleDelete = () => {
+		history.push('/');
+		deleteMessage(id);
+	};
+
 	const dateString = createDay ? readableTime(createDay) : null;
+	const isUsersMessage = username === (user && user.username);
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.message}>{message}</Text>
 			<Text style={styles.username}>User: {username}</Text>
 			{dateString && <Text style={styles.text}>Created: {dateString}</Text>}
 			<Text style={styles.text}>Likes: {likes}</Text>
+			{isUsersMessage ?
+				<DeleteButton handleDelete={handleDelete} /> :
+				<LikeButton handleLike={handleLike} />
+			}
 		</View>
+	);
+};
+
+const LikeButton = ({ handleLike }) => <Button title="Like" color="#33FFA4" onPress={handleLike} />;
+
+const DeleteButton = ({ handleDelete }) => {
+	const handlePress = () => Alert.alert(
+		'Are you sure you want to delete this message?',
+		'',
+		[
+			{
+				text: 'No'
+			}, {
+				text: 'Yes',
+				onPress: handleDelete,
+			}
+		],
+		{
+			cancelable: true
+		}
+	);
+	return (
+		<Button title="Delete" color="red" onPress={handlePress} />
 	);
 };
 
