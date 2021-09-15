@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { fetchMessages, postMessage } from '../service/messageService';
+import { fetchMessages, postLike, postMessage } from '../service/messageService';
+import { addLikeToUser, getUserLikedMessages, userAlreadyLikesMessage } from '../service/userService';
 import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
 
-const useMessages = (currentLocation, user) => {
+const useMessages = (currentLocation, user, updateUser) => {
 	const [messages, setMessages] = useState();
 
 	useEffect(() => {
@@ -34,7 +35,30 @@ const useMessages = (currentLocation, user) => {
 		}
 	};
 
-	return [messages, getMessages, addMessage];
+	const likeMessage = async (messageId) => {
+		if (userAlreadyLikesMessage(user, messageId)) return;
+		const message = messages.find((message) => message.id === messageId);
+		if (!message) return;
+		const newLike = await postLike(messageId);
+		const likedMessage = {
+			...message,
+			likes: newLike
+		};
+		const newMessages = messages.map((message) => (message.id === messageId ? likedMessage : message));
+		setMessages(newMessages);
+		addUserLike(messageId);
+	};
+
+	const addUserLike = (messageId) => {
+		const newUser = addLikeToUser(user, messageId);
+		updateUser(newUser);
+	};
+
+	const deleteMessage = (messageId) => {
+		console.log(`deleted message with id ${messageId}`);
+	};
+
+	return [messages, getMessages, addMessage, likeMessage, deleteMessage];
 };
 
 export default useMessages;
