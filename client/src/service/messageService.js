@@ -1,4 +1,4 @@
-import { HTTP_CREATED, throwInvalidresponse, postJsonOption } from './serviceHelper';
+import { HTTP_CREATED, throwInvalidresponse, postJsonOption, deleteJsonOption, HTTP_NO_CONTENT, handleServerError } from './serviceHelper';
 import { parseLocation } from '../utils';
 import { handleError } from '../utils/errors';
 import { SERVER_URL_BASE } from '../utils/URL';
@@ -46,9 +46,18 @@ export const postLike = async (messageId) => {
 		throwInvalidresponse(response);
 		return responseJson.likes ? responseJson.likes : 1;
 	} catch (error) {
-		if (error instanceof Error) {
-			throw new Error(`message: ${error.message} serverMessage: ${responseJson.error}`);
-		}
-		throw new Error(responseJson.error);
+		handleServerError(error, responseJson);
+	}
+};
+
+export const deleteMessage = async (messageId) => {
+	let response;
+	try {
+		response = await fetch(`${MESSAGE_URL}/${messageId}`, deleteJsonOption());
+		throwInvalidresponse(response, HTTP_NO_CONTENT);
+		return;
+	} catch (error) {
+		const responseJson = await response.json();
+		handleServerError(error, responseJson);
 	}
 };

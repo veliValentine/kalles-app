@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchMessages, postLike, postMessage } from '../service/messageService';
+import { deleteMessage as deleteServerMessage, fetchMessages, postLike, postMessage } from '../service/messageService';
 import { addLikeToUser, userAlreadyLikesMessage } from '../service/userService';
 import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
@@ -45,16 +45,16 @@ const useMessages = (currentLocation, user, updateUser) => {
 		};
 		const newMessages = messages.map((message) => (message.id === messageId ? likedMessage : message));
 		setMessages(newMessages);
-		addUserLike(messageId);
+		updateUser(addLikeToUser(user, messageId));
 	};
 
-	const addUserLike = (messageId) => {
-		const newUser = addLikeToUser(user, messageId);
-		updateUser(newUser);
-	};
-
-	const deleteMessage = (messageId) => {
-		console.log(`deleted message with id ${messageId}`);
+	const deleteMessage = async (messageId) => {
+		const message = messages.find((message) => message.id === messageId);
+		if (!message || !messageId) return;
+		if (message.username !== user.username) return;
+		await deleteServerMessage(messageId);
+		const newMessages = messages.filter(({ id }) => id !== messageId);
+		setMessages(newMessages);
 	};
 
 	return [messages, getMessages, addMessage, likeMessage, deleteMessage];
