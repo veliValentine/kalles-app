@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchMessages, postLike, postMessage } from '../service/messageService';
-import { addLikeToUser, getUserLikedMessages, userAlreadyLikesMessage } from '../service/userService';
+import { addLikeToUser, userAlreadyLikesMessage } from '../service/userService';
 import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
 
@@ -17,21 +17,20 @@ const useMessages = (currentLocation, user, updateUser) => {
 	};
 
 	const addMessage = async (message) => {
-		if (currentLocation && user && user.username) {
-			const newMessage = {
-				...message,
-				location: currentLocation,
-				username: user.username,
-			};
-			try {
-				const addedMessage = await postMessage(newMessage);
-				setMessages(messages
-					.concat(addedMessage)
-					.sort(sortByDistances));
-			} catch (e) {
-				const errorMessage = handleError(e);
-				console.warn(errorMessage);
-			}
+		if (!currentLocation || !user || !user.username) return;
+		const newMessage = {
+			...message,
+			location: currentLocation,
+			username: user.username,
+		};
+		try {
+			const addedMessage = await postMessage(newMessage);
+			setMessages(messages
+				.concat(addedMessage)
+				.sort(sortByDistances));
+		} catch (e) {
+			const errorMessage = handleError(e);
+			console.warn(errorMessage);
 		}
 	};
 
