@@ -2,7 +2,7 @@
   "expo": {
     "name": "kalles-studios",
     "slug": "kalles-studios",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,6 +23,6 @@
       "favicon": "./assets/favicon.png"
     },
     "privacy": "unlisted",
-    "description": "0.3.0"
+    "description": "0.3.1"
   }
 }

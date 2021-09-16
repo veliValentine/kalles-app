@@ -10,7 +10,7 @@ import Message from './components/Message';
 import MapPage from './components/MapPage';
 import LoadingScreen from './components/LoadingScreen';
 import Login from './components/Login';
-import UserInfo from './components/UserInfo';
+import UserInfoPage from './components/UserInfoPage';
 
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
@@ -34,7 +34,7 @@ const Main = () => {
 			<AppBar user={user} />
 			<Switch>
 				<Route path="/userinfo" exact>
-					<UserInfo user={user} logout={logout} />
+					<UserInfoPage user={user} logout={logout} messages={messages} />
 				</Route>
 				<Route path="/message/:id" exact>
 					<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />

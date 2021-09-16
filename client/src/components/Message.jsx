@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Button, Alert } from 'react-native';
 import { useParams, useHistory } from 'react-router-native';
 import { readableTime } from '../utils';
@@ -21,7 +21,6 @@ const MessageNotFound = ({ id }) => {
 	console.log(`Error getting message --- Message.jsx --- Message not found. ID: ${id}`);
 	const history = useHistory();
 	const handlePress = () => history.push('/');
-
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={handlePress}>
@@ -35,10 +34,15 @@ const MessageNotFound = ({ id }) => {
 const MessageFound = ({ message: messageObject, likeMessage, deleteMessage, user }) => {
 	const history = useHistory();
 	const { message, username, likes, createDay, id } = messageObject;
+	const userAlreadyLikeMessage = (user && user.likedMessages && user.likedMessages.includes(id));
+	const [disableLike, setDisableLike] = useState(userAlreadyLikeMessage);
 
-	const handleLike = () => likeMessage(id);
+	const handleLike = () => {
+		likeMessage(id);
+		setDisableLike(true);
+	};
 	const handleDelete = () => {
-		history.push('/');
+		history.goBack();
 		deleteMessage(id);
 	};
 
@@ -53,13 +57,13 @@ const MessageFound = ({ message: messageObject, likeMessage, deleteMessage, user
 			<Text style={styles.text}>Likes: {likes}</Text>
 			{isUsersMessage ?
 				<DeleteButton handleDelete={handleDelete} /> :
-				<LikeButton handleLike={handleLike} />
+				<LikeButton handleLike={handleLike} disabled={disableLike} />
 			}
 		</View>
 	);
 };
 
-const LikeButton = ({ handleLike }) => <Button title="Like" color="#33FFA4" onPress={handleLike} />;
+const LikeButton = ({ handleLike, disabled = false }) => <Button title="Like" color="#33FFA4" onPress={handleLike} disabled={disabled} />;
 
 const DeleteButton = ({ handleDelete }) => {
 	const handlePress = () => Alert.alert(

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
 import { isReadable, readableDistance } from '../utils';
+import ItemSeparator from './common/ItemSeparator';
 import LoadingScreen from './LoadingScreen';
 
 const MessageList = ({ messages }) => {
@@ -39,8 +40,6 @@ const NoMessages = ({ redirect }) => {
 	);
 };
 
-const ItemSeparator = () => <View style={styles.separator} />;
-
 const ListItem = ({ message, redirect }) => {
 	const { distance, id, username } = message;
 	const isClose = isReadable(distance);
@@ -69,9 +68,6 @@ const ListItem = ({ message, redirect }) => {
 };
 
 const styles = StyleSheet.create({
-	separator: {
-		height: 10
-	},
 	container: {
 		padding: 5
 	},
