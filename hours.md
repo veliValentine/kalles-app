@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 104  | ---          |
-| Client | 57   | 15.9.2021    |
+| Total  | 106  | ---          |
+| Client | 59   | 16.9.2021    |
 | Server | 47   | 31.8.2021    |
 
 ## Client
@@ -66,8 +66,11 @@
 |  5.9.2021  | 1    | fix: message date, error handling, feat: new message username       |
 |  8.9.2021  | 2    | feat: like/delete buttons and state handling                        |
 | 15.9.2021  | 2    | feat: like/delete server requests                                   |
-|    sum     | 57   | ----------- sum --------------                                      |
+| 16.9.2021  | 1    | build expo app pipeline                                             |
+| 16.9.2021  | 1    | disable like button, show owned messages                            |
+|    sum     | 59   | ----------- sum --------------                                      |
 
+20:00
 | | | |
 ## Server
 |    day    | time | time used to                                                              |
