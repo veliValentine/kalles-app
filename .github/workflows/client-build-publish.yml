@@ -19,6 +19,7 @@ jobs:
         with:
           expo-version: 4.x
           token: ${{ secrets.EXPO_TOKEN }}
+          packager: npm
       - name: install and publish
         working-directory: ./client
         run: |
