@@ -42,7 +42,7 @@ const MessageFound = ({ message: messageObject, likeMessage, deleteMessage, user
 		setDisableLike(true);
 	};
 	const handleDelete = () => {
-		history.push('/');
+		history.goBack();
 		deleteMessage(id);
 	};
 
