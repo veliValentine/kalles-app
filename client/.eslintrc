@@ -16,6 +16,7 @@
     "browser": true
   },
   "rules": {
+    "indent":["error", "tab"],
     "react/prop-types": "off",
     "semi": "warn",
     "eqeqeq": "error",
