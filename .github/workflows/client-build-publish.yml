@@ -4,7 +4,8 @@ on:
     branches:
       - master
     paths:
-      - client/**'
+      - client/**
+  workflow_dispatch:
 jobs:
   publish_client:
     name: Install and publish
