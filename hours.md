@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 106  | ---          |
-| Client | 59   | 16.9.2021    |
+| Total  | 107  | ---          |
+| Client | 60   | 17.9.2021    |
 | Server | 47   | 31.8.2021    |
 
 ## Client
@@ -68,9 +68,9 @@
 | 15.9.2021  | 2    | feat: like/delete server requests                                   |
 | 16.9.2021  | 1    | build expo app pipeline                                             |
 | 16.9.2021  | 1    | disable like button, show owned messages                            |
-|    sum     | 59   | ----------- sum --------------                                      |
+| 17.9.2021  | 1    | loading functionality                                               |
+|    sum     | 60   | ----------- sum --------------                                      |
 
-20:00
 | | | |
 ## Server
 |    day    | time | time used to                                                              |
