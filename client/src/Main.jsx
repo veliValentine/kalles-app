@@ -18,10 +18,12 @@ import useUser from './hooks/useUser';
 
 const Main = () => {
 	const [user, updateUser, removeUser] = useUser();
-	const [location, changeLocation] = useCurrentLocation();
+	const [location, changeLocation, loadingLocation] = useCurrentLocation();
 	const [messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, user, updateUser);
 
 	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
+
+	if (loadingLocation) return <LoadingScreen message={'Loading location...'} />;
 
 	if (!location) return <LoadingScreen message={'No location available'} />;
 
