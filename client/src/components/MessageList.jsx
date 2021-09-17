@@ -9,7 +9,11 @@ const MessageList = ({ messages, loadingMessages }) => {
 	const history = useHistory();
 	const redirect = (url) => history.push(url);
 	if (loadingMessages) {
-		return <LoadingScreen message={'Loading messages...'} />;
+		const loadingStyles = {
+			container: styles.missingContainer,
+			text: {}
+		};
+		return <LoadingScreen message={'Loading messages...'} styles={loadingStyles} />;
 	}
 	if (messages.length < 1) {
 		return <NoMessages redirect={redirect} />;
