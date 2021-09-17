@@ -5,11 +5,15 @@ import { isReadable, readableDistance } from '../utils';
 import ItemSeparator from './common/ItemSeparator';
 import LoadingScreen from './LoadingScreen';
 
-const MessageList = ({ messages }) => {
+const MessageList = ({ messages, loadingMessages }) => {
 	const history = useHistory();
 	const redirect = (url) => history.push(url);
-	if (!messages) {
-		return <LoadingScreen message={'Loading messages...'} />;
+	if (loadingMessages) {
+		const loadingStyles = {
+			container: styles.missingContainer,
+			text: {}
+		};
+		return <LoadingScreen message={'Loading messages...'} styles={loadingStyles} />;
 	}
 	if (messages.length < 1) {
 		return <NoMessages redirect={redirect} />;

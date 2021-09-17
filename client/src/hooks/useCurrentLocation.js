@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react';
 import { calculateDistance } from '../utils';
 import * as Location from 'expo-location';
+import useLoading from './useLoading';
 
 const DISTANCE_THRESHOLD_KM = 0.01;
 
 const useCurrentLocation = () => {
 	const [location, setLocation] = useState();
+	const [isLoading, startLoading, stopLoading] = useLoading();
 
 	useEffect(() => {
 		watchLocation();
 	}, []);
 
 	const watchLocation = async () => {
-		const callBack = (expoLocation) => validateLocation(expoLocation.coords);
+		startLoading();
+		const callBack = (expoLocation) => {
+			validateLocation(expoLocation.coords);
+			stopLoading();
+		};
 		const options = {
 			timeInterval: 1000,
 			distanceInterval: DISTANCE_THRESHOLD_KM * 1000,
@@ -39,7 +45,7 @@ const useCurrentLocation = () => {
 		}
 	};
 
-	return [location, updateLocation];
+	return [location, updateLocation, isLoading];
 };
 
 export default useCurrentLocation;
