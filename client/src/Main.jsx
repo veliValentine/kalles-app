@@ -19,11 +19,11 @@ import useUser from './hooks/useUser';
 const Main = () => {
 	const [user, updateUser, removeUser] = useUser();
 	const [location, changeLocation, loadingLocation] = useCurrentLocation();
-	const [messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, user, updateUser);
+	const [messages, getMessages, addMessage, likeMessage, deleteMessage, loadingMessages] = useMessages(location, user, updateUser);
 
 	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
 
-	if (loadingLocation) return <LoadingScreen message={'Loading location...'} />;
+	if (loadingLocation || !location) return <LoadingScreen message={'Loading location...'} />;
 
 	if (!location) return <LoadingScreen message={'No location available'} />;
 
@@ -42,7 +42,7 @@ const Main = () => {
 					<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
 				</Route>
 				<Route path="/messages" exact>
-					<MessageList messages={messages} />
+					<MessageList messages={messages} loadingMessages={loadingMessages} />
 				</Route>
 				<Route path="/newMessage">
 					<MessageForm addMessage={addMessage} currentLocation={location} />

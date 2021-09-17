@@ -5,10 +5,10 @@ import { isReadable, readableDistance } from '../utils';
 import ItemSeparator from './common/ItemSeparator';
 import LoadingScreen from './LoadingScreen';
 
-const MessageList = ({ messages }) => {
+const MessageList = ({ messages, loadingMessages }) => {
 	const history = useHistory();
 	const redirect = (url) => history.push(url);
-	if (!messages) {
+	if (loadingMessages) {
 		return <LoadingScreen message={'Loading messages...'} />;
 	}
 	if (messages.length < 1) {
