@@ -2,13 +2,21 @@ import React from 'react';
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useHistory } from 'react-router-native';
 import ItemSeparator from './common/ItemSeparator';
+import LoadingScreen from './LoadingScreen';
 
-const UserInfoPage = ({ user, logout, messages }) => {
+const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
 	const usersMessages = messages.filter(({ username }) => username === user.username);
+	const loadingMessageStyles = {
+		container: styles.container,
+		text: {}
+	};
 	return (
 		<View>
 			<UserInfo user={user} />
-			<UserMessages messages={usersMessages} />
+			{loadingMessages ?
+				<LoadingScreen message={'Loading messages...'} styles={loadingMessageStyles} /> :
+				<UserMessages messages={usersMessages} />
+			}
 			<Button onPress={() => logout()} title="logout" />
 		</View>
 	);

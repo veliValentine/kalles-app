@@ -36,7 +36,7 @@ const Main = () => {
 			<AppBar user={user} />
 			<Switch>
 				<Route path="/userinfo" exact>
-					<UserInfoPage user={user} logout={logout} messages={messages} />
+					<UserInfoPage user={user} logout={logout} messages={messages} loadingMessages={loadingMessages} />
 				</Route>
 				<Route path="/message/:id" exact>
 					<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
