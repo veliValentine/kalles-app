@@ -14,12 +14,10 @@ const useMessages = (currentLocation, user, updateUser) => {
 	}, [currentLocation]);
 
 	const getMessages = async () => {
-		console.log('start')
 		startLoading();
 		const messages = await fetchMessages(currentLocation);
 		setMessages(messages.sort(sortByDistances));
 		stopLoading();
-		console.log('stop')
 	};
 
 	const addMessage = async (message) => {
