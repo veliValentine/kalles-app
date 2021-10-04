@@ -1,6 +1,5 @@
 import { HTTP_CREATED, throwInvalidresponse, postJsonOption, deleteJsonOption, HTTP_NO_CONTENT, handleServerError } from './serviceHelper';
 import { parseLocation } from '../utils';
-import { handleError } from '../utils/errors';
 import { SERVER_URL_BASE } from '../utils/URL';
 
 const MESSAGE_URL = `${SERVER_URL_BASE}/messages`;
