@@ -1,20 +1,19 @@
 import { HTTP_CREATED, throwInvalidresponse, postJsonOption, deleteJsonOption, HTTP_NO_CONTENT, handleServerError } from './serviceHelper';
 import { parseLocation } from '../utils';
-import { handleError } from '../utils/errors';
 import { SERVER_URL_BASE } from '../utils/URL';
 
 const MESSAGE_URL = `${SERVER_URL_BASE}/messages`;
 
 export const fetchMessages = async (location) => {
+	let responseJSON;
 	try {
 		const URL = coordinateQueryURL(location);
 		const response = await fetch(URL);
+		responseJSON = await response.json();
 		throwInvalidresponse(response);
-		const messages = await response.json();
-		return messages;
-	} catch (e) {
-		handleError(e, 'Error handling server request');
-		return [];
+		return responseJSON;
+	} catch (error) {
+		handleServerError(error, responseJSON);
 	}
 };
 
@@ -30,11 +29,8 @@ export const postMessage = async (message) => {
 		responseJSON = await response.json();
 		throwInvalidresponse(response, HTTP_CREATED);
 		return responseJSON;
-	} catch (e) {
-		if (e instanceof Error) {
-			throw new Error(`message: ${e.message} serverMessage: ${responseJSON.error}`);
-		}
-		throw new Error(responseJSON.error);
+	} catch (error) {
+		handleServerError(error, responseJSON);
 	}
 };
 

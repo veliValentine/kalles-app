@@ -1,3 +1,5 @@
+import ServerError from '../utils/ServerError';
+
 export const HTTP_OK = 200;
 
 export const HTTP_CREATED = 201;
@@ -7,7 +9,7 @@ export const HTTP_NO_CONTENT = 204;
 export const throwInvalidresponse = (response, status = HTTP_OK) => {
 	const { status: responseStatus } = response;
 	if (responseStatus !== status) {
-		throw new Error(`Server responded with status: ${responseStatus}`);
+		throw new ServerError(responseStatus);
 	}
 };
 
@@ -24,6 +26,7 @@ export const deleteJsonOption = () => ({
 });
 
 export const handleServerError = (error, jsonResponse) => {
+	if (error instanceof ServerError) throw error;
 	if (error instanceof Error) {
 		throw new Error(`message: ${error.message} serverMessage: ${jsonResponse.error}`);
 	}
