@@ -20,7 +20,6 @@ const useMessages = (currentLocation, user, updateUser) => {
 		startLoading();
 		try {
 			const messages = await fetchMessages(currentLocation);
-			console.log('pooop');
 			setMessages(messages.sort(sortByDistances));
 		} catch (error) {
 			if (error instanceof ServerError) {
