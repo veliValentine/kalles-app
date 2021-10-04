@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 107  | ---          |
-| Client | 60   | 17.9.2021    |
+| Total  | 109  | ---          |
+| Client | 62   | 4.10.2021    |
 | Server | 47   | 31.8.2021    |
 
 ## Client
@@ -69,7 +69,8 @@
 | 16.9.2021  | 1    | build expo app pipeline                                             |
 | 16.9.2021  | 1    | disable like button, show owned messages                            |
 | 17.9.2021  | 1    | loading functionality                                               |
-|    sum     | 60   | ----------- sum --------------                                      |
+| 4.10.2021  | 2    | refactor: server error handling, feat: error screen                 |
+|    sum     | 62   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
@@ -121,5 +122,4 @@
 | 31.8.2021 | 1    | Deploy test server for client usage                                       |
 |    sum    | 47   | ---------- sum ----------                                                 |
 
-17:30
 | | | |
