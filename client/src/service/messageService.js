@@ -8,7 +8,7 @@ export const fetchMessages = async (location) => {
 	let responseJSON;
 	try {
 		const URL = coordinateQueryURL(location);
-		const response = await fetch(`${MESSAGE_URL}/poop`);
+		const response = await fetch(URL);
 		responseJSON = await response.json();
 		throwInvalidresponse(response);
 		return responseJSON;

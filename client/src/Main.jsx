@@ -15,11 +15,12 @@ import UserInfoPage from './components/UserInfoPage';
 import useMessages from './hooks/useMessages';
 import useCurrentLocation from './hooks/useCurrentLocation';
 import useUser from './hooks/useUser';
+import ErrorScreen from './components/ErrorScreen';
 
 const Main = () => {
 	const [user, updateUser, removeUser] = useUser();
 	const [location, changeLocation, loadingLocation] = useCurrentLocation();
-	const [messages, getMessages, addMessage, likeMessage, deleteMessage, loadingMessages] = useMessages(location, user, updateUser);
+	const [messages, getMessages, addMessage, likeMessage, deleteMessage, loadingMessages, messageError] = useMessages(location, user, updateUser);
 
 	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
 
@@ -31,9 +32,12 @@ const Main = () => {
 
 	const logout = () => removeUser();
 
+	const errorMessage = messageError;
+
 	return (
 		<View style={styles.container}>
 			<AppBar user={user} />
+			<ErrorScreen errorMessage={errorMessage} />
 			<Switch>
 				<Route path="/userinfo" exact>
 					<UserInfoPage user={user} logout={logout} messages={messages} loadingMessages={loadingMessages} />
