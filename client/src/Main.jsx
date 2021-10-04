@@ -32,7 +32,7 @@ const Main = () => {
 
 	const logout = () => removeUser();
 
-	const errorMessage = messageError;
+	const errorMessage = messageError || null;
 
 	return (
 		<View style={styles.container}>
