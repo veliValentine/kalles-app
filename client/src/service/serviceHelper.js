@@ -8,9 +8,7 @@ export const HTTP_NO_CONTENT = 204;
 
 export const throwInvalidresponse = (response, status = HTTP_OK) => {
 	const { status: responseStatus } = response;
-	console.log(`ServerStatus: ${responseStatus} wantedStatus: ${status}`)
 	if (responseStatus !== status) {
-		console.log('throwing server error')
 		throw new ServerError(responseStatus);
 	}
 };
