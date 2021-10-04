@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
 let timeoutId;
-const useError = () => {
+const useError = (defaultTimeoutTime = 5) => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => () => clearTimeout(timeoutId), []);
 
-	const updateError = (errorMessage, seconds = 5) => {
+	const updateError = (errorMessage, seconds = defaultTimeoutTime) => {
 		setError(errorMessage);
 		clearError(seconds);
 	};

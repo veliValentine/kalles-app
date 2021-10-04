@@ -3,11 +3,14 @@ import { deleteMessage as deleteServerMessage, fetchMessages, postLike, postMess
 import { addLikeToUser, userAlreadyLikesMessage } from '../service/userService';
 import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
+import ServerError from '../utils/ServerError';
+import useError from './useError';
 import useLoading from './useLoading';
 
 const useMessages = (currentLocation, user, updateUser) => {
-	const [messages, setMessages] = useState();
+	const [messages, setMessages] = useState([]);
 	const [isLoading, startLoading, stopLoading] = useLoading();
+	const [error, updateError] = useError();
 
 	useEffect(() => {
 		getMessages();
@@ -15,8 +18,15 @@ const useMessages = (currentLocation, user, updateUser) => {
 
 	const getMessages = async () => {
 		startLoading();
-		const messages = await fetchMessages(currentLocation);
-		setMessages(messages.sort(sortByDistances));
+		try {
+			const messages = await fetchMessages(currentLocation);
+			console.log('pooop');
+			setMessages(messages.sort(sortByDistances));
+		} catch (error) {
+			if (error instanceof ServerError) {
+				updateError('There was an error with the server');
+			}
+		}
 		stopLoading();
 	};
 
@@ -61,7 +71,7 @@ const useMessages = (currentLocation, user, updateUser) => {
 		setMessages(newMessages);
 	};
 
-	return [messages, getMessages, addMessage, likeMessage, deleteMessage, isLoading];
+	return [messages, getMessages, addMessage, likeMessage, deleteMessage, isLoading, error];
 };
 
 export default useMessages;

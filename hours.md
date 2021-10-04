@@ -121,4 +121,5 @@
 | 31.8.2021 | 1    | Deploy test server for client usage                                       |
 |    sum    | 47   | ---------- sum ----------                                                 |
 
+17:30
 | | | |
