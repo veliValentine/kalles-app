@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 111  | ---          |
+| Total  | 112  | ---          |
 | Client | 62   | 4.10.2021    |
-| Server | 49   | 31.8.2021    |
+| Server | 50   | 23.10.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -121,7 +121,8 @@
 | 22.8.2021  | 2    | Deploy v.0.2.0                                                            |
 | 31.8.2021  | 1    | Deploy test server for client usage                                       |
 | 23.10.2021 | 2    | 0.3.0 planning and documenting                                            |
-|    sum     | 49   | ---------- sum ----------                                                 |
+| 23.10.2021 | 1    | Setting up firebase. Planning firebase <-> Server roles                   |
+|    sum     | 50   | ---------- sum ----------                                                 |
 
 
 | | | |
