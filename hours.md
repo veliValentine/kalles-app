@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 112  | ---          |
-| Client | 62   | 4.10.2021    |
+| Total  | 113  | ---          |
+| Client | 63   | 24.11.2021   |
 | Server | 50   | 23.10.2021   |
 
 ## Client
@@ -69,8 +69,10 @@
 | 16.9.2021  | 1    | build expo app pipeline                                             |
 | 16.9.2021  | 1    | disable like button, show owned messages                            |
 | 17.9.2021  | 1    | loading functionality                                               |
+|    sum     | 60   | ----------- sum --------------                                      |
 | 4.10.2021  | 2    | refactor: server error handling, feat: error screen                 |
-|    sum     | 62   | ----------- sum --------------                                      |
+| 24.11.2021 | 1    | testing firebase login                                              |
+|    sum     | 63   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
