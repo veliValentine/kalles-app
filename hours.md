@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 113  | ---          |
+| Total  | 114  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 50   | 23.10.2021   |
+| Server | 51   | 01:12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -125,6 +125,8 @@
 | 23.10.2021 | 2    | 0.3.0 planning and documenting                                            |
 | 23.10.2021 | 1    | Setting up firebase. Planning firebase <-> Server roles                   |
 |    sum     | 50   | ---------- sum ----------                                                 |
+| 01.12.2021 | 1    | setting firebase                                                          |
+|    sum     | 51   | ---------- sum ----------                                                 |
 
 
 | | | |
