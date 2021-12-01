@@ -1,9 +1,9 @@
 class RestError extends Error {
-  constructor(status = 500, message = 'Server error') {
-    super(message);
-    this.name = 'RestError';
-    this.status = status;
-  }
+	constructor(status = 500, message = "Server error") {
+		super(message);
+		this.name = "RestError";
+		this.status = status;
+	}
 }
 
 module.exports = RestError;
