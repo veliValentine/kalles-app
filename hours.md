@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 114  | ---          |
+| Total  | 116  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 51   | 01:12.2021   |
+| Server | 53   | 07.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -126,7 +126,8 @@
 | 23.10.2021 | 1    | Setting up firebase. Planning firebase <-> Server roles                   |
 |    sum     | 50   | ---------- sum ----------                                                 |
 | 01.12.2021 | 1    | setting firebase                                                          |
-|    sum     | 51   | ---------- sum ----------                                                 |
+| 07.12.2021 | 2    | Reading uid from jwt token                                                |
+|    sum     | 53   | ---------- sum ----------                                                 |
 
 
 | | | |
