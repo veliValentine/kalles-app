@@ -10,6 +10,10 @@ app.use(morgan(":method :url :status :response-time ms - :request-body"));
 
 require("./mongo");
 
+const firebaseService = require("./service/firebaseService");
+
+firebaseService.initFirebase();
+
 const messageRouter = require("./controllers/messageController");
 const utilController = require("./controllers/utilController");
 const endpointNotFound = require("./middleware/endpointNotFound");
