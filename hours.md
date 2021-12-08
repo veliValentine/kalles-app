@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 116  | ---          |
+| Total  | 117  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 53   | 07.12.2021   |
+| Server | 54   | 08.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -127,7 +127,8 @@
 |    sum     | 50   | ---------- sum ----------                                                 |
 | 01.12.2021 | 1    | setting firebase                                                          |
 | 07.12.2021 | 2    | Reading uid from jwt token                                                |
-|    sum     | 53   | ---------- sum ----------                                                 |
+| 08.12.2021 | 1    | Update mongoose version                                                   |
+|    sum     | 54   | ---------- sum ----------                                                 |
 
 
 | | | |
