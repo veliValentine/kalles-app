@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
 		maxlength: [30, "Username too long. {VALUE} is too long."],
 		match: [/[a-zA-Z0-9]*/, "Username must contain characters and numbers. {VALUE} is not supported."],
 	},
+	isAdmin: {
+		type: Boolean,
+		default: false,
+	},
 	messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
 	liked: [{ type: Schema.Types.ObjectId, ref: "Message" }],
 });
@@ -29,6 +33,9 @@ userSchema.set("toJSON", {
 	transform: (_document, returnedObject) => {
 		delete returnedObject._id;
 		delete returnedObject.__v;
+		if (!returnedObject.isAdmin) {
+			delete returnedObject.isAdmin;
+		}
 	},
 });
 
