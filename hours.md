@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 118  | ---          |
+| Total  | 119  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 55   | 08.12.2021   |
+| Server | 56   | 08.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -129,7 +129,8 @@
 | 07.12.2021 | 2    | Reading uid from jwt token                                                |
 | 08.12.2021 | 1    | Update mongoose version                                                   |
 | 08.12.2021 | 1    | User schema                                                               |
-|    sum     | 55   | ---------- sum ----------                                                 |
+| 08.12.2021 | 1    | Read message timeout from env. Refactor project. Updated documentation    |
+|    sum     | 56   | ---------- sum ----------                                                 |
 
 
 | | | |
