@@ -6,19 +6,12 @@ const logger = require("./utils/logger");
 
 logger.logConsole(`Connecting to MongoDB - ${MONGODB_URI}`);
 
-const options = {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useFindAndModify: false,
-	useCreateIndex: true,
-};
-
 const connected = () => {
 	logger.logConsole("Connected to MongoDB");
 };
 
 const notConnected = (error) => handleError(error, "Error connecting to MongoDB");
 
-mongoose.connect(MONGODB_URI, options)
+mongoose.connect(MONGODB_URI)
 	.then(connected)
 	.catch(notConnected);
