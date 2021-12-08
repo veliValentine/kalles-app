@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const { timeStamp } = require("../utils/time");
 
-const EXPIRES_TIME_MINUTES = 7 * 24 * 60 * 60;
+const DEFAULT_EXPIRES_TIME = 7 * 24 * 60 * 60;
+const ENV_EXPIRES_TIME = process.env.EXPIRES_TIME;
+const EXPIRES_TIME_MINUTES = ENV_EXPIRES_TIME || DEFAULT_EXPIRES_TIME;
 
 const messageSchema = new mongoose.Schema({
 	username: {
