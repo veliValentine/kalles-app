@@ -1,5 +1,5 @@
-const { calculateDistance } = require("../utils/distance");
-const { round100 } = require("../utils/utils");
+const { calculateDistance } = require("../main/utils/distance");
+const { round100 } = require("../main/utils/utils");
 
 describe("testing distance", () => {
 	const zeroCoordinates = {

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
-const app = require("../app");
-const BadRequestError = require("../models/errors/badRequestError");
-const NotFoundError = require("../models/errors/notFoundError");
-const Message = require("../models/message");
+const app = require("../main/app");
+const BadRequestError = require("../main/models/errors/badRequestError");
+const NotFoundError = require("../main/models/errors/notFoundError");
+const Message = require("../main/models/message");
 
 const {
 	initDb, contentInDb, contentCountInDb, errorResponse, findContentById, EPSILON,
