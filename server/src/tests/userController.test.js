@@ -3,15 +3,18 @@ const supertest = require("supertest");
 const app = require("../main/app");
 const NotFoundError = require("../main/models/errors/notFoundError");
 const User = require("../main/models/user");
+const Message = require("../main/models/message");
 const { initDb, contentInDb, errorResponse } = require("./testHelper");
 
 const api = supertest(app);
 
 const USERS_ENDPOINT = "/api/v1/users";
 
+const ID_IN_DB = "1";
+
 const INITIAL_USERS = [
 	{
-		id: "1",
+		id: ID_IN_DB,
 		username: "testUsername1",
 		messages: [],
 		liked: [],
@@ -83,6 +86,33 @@ describe("users", () => {
 				.expect(404)
 				.expect("Content-type", /application\/json/);
 			expect(body).toEqual(userNotFoundErrorObject(ID_NOT_IN_DB));
+		});
+	});
+	describe("GET user contents", () => {
+		let userMessage;
+		let userInDb;
+		beforeEach(async () => {
+			const newMessage = new Message({
+				username: "testMessageUsername1",
+				message: "testMessage",
+				location: {
+					latitude: 0,
+					longitude: 0,
+				},
+			});
+			userMessage = await newMessage.save();
+			userInDb = await User.findOne({ id: ID_IN_DB });
+			userInDb.messages = userInDb.messages.concat(userMessage);
+			userInDb.likes = userInDb.messages.concat(userMessage);
+			await userInDb.save();
+		});
+		test("GET user own messages", async () => {
+			const { body } = await api.get(`${USERS_ENDPOINT}/${ID_IN_DB}/messages`)
+				.expect(200)
+				.expect("Content-type", /application\/json/);
+			expect(body).toHaveLength(1);
+			const message = body[0];
+			expect(message).toEqual(userMessage.toJSON());
 		});
 	});
 });
