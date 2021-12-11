@@ -12,23 +12,25 @@ require("./mongo");
 
 const firebaseService = require("./service/firebaseService");
 
-firebaseService.initFirebase();
-
-const messageRouter = require("./controllers/messageController");
 const utilController = require("./controllers/utilController");
+const messageController = require("./controllers/messageController");
+const userController = require("./controllers/userController");
 
 const authorizationTokenMiddleware = require("./middleware/authorizationTokenMiddleware");
 const getLoggedUserMiddleware = require("./middleware/getLoggedUserMiddleware");
 const endpointNotFound = require("./middleware/endpointNotFound");
 const errorMiddleware = require("./middleware/errorMiddleware");
 
-const V1_ROUTE = "/api/v1";
+firebaseService.initFirebase();
 
 app.use(authorizationTokenMiddleware);
 app.use(getLoggedUserMiddleware);
 
+const V1_ROUTE = "/api/v1";
+
 app.use(`${V1_ROUTE}`, utilController);
-app.use(`${V1_ROUTE}/messages`, messageRouter);
+app.use(`${V1_ROUTE}/messages`, messageController);
+app.use(`${V1_ROUTE}/users`, userController);
 
 app.use(endpointNotFound);
 
