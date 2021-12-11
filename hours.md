@@ -132,7 +132,7 @@
 | 08.12.2021 | 1    | Read message timeout from env. Refactor project. Updated documentation    |
 | 11.12.2021 | 2    | get logged user middleware                                                |
 | 11.12.2021 | 1    | get users API                                                             |
-| 11.12.2021 | 2    | get users messages and liked messages API                                 |
+| 11.12.2021 | 2    | read mongoose dokumentation, get users messages and liked messages API    |
 |    sum     | 61   | ---------- sum ----------                                                 |
 
 
