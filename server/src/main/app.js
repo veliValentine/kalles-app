@@ -18,12 +18,14 @@ const messageRouter = require("./controllers/messageController");
 const utilController = require("./controllers/utilController");
 
 const authorizationTokenMiddleware = require("./middleware/authorizationTokenMiddleware");
+const getLoggedUserMiddleware = require("./middleware/getLoggedUserMiddleware");
 const endpointNotFound = require("./middleware/endpointNotFound");
 const errorMiddleware = require("./middleware/errorMiddleware");
 
 const V1_ROUTE = "/api/v1";
 
 app.use(authorizationTokenMiddleware);
+app.use(getLoggedUserMiddleware);
 
 app.use(`${V1_ROUTE}`, utilController);
 app.use(`${V1_ROUTE}/messages`, messageRouter);
