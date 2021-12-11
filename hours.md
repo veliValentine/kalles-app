@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 119  | ---          |
+| Total  | 121  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 56   | 08.12.2021   |
+| Server | 58   | 11.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -130,7 +130,8 @@
 | 08.12.2021 | 1    | Update mongoose version                                                   |
 | 08.12.2021 | 1    | User schema                                                               |
 | 08.12.2021 | 1    | Read message timeout from env. Refactor project. Updated documentation    |
-|    sum     | 56   | ---------- sum ----------                                                 |
+| 11.12.2021 | 2    | get logged user                                                           |
+|    sum     | 58   | ---------- sum ----------                                                 |
 
 
 | | | |
