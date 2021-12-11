@@ -7,7 +7,7 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 121  | ---          |
+| Total  | 122  | ---          |
 | Client | 63   | 24.11.2021   |
 | Server | 59   | 11.12.2021   |
 
