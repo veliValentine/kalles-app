@@ -11,6 +11,6 @@ const authorizationTokenMiddleware = async (req, _res, next) => {
 	next();
 };
 
-const isBearerToken = (token) => token.startsWith("Bearer ");
+const isBearerToken = (token) => token && token.startsWith("Bearer ");
 
 module.exports = authorizationTokenMiddleware;
