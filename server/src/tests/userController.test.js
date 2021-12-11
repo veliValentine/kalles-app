@@ -90,6 +90,7 @@ describe("users", () => {
 	});
 	describe("GET user contents", () => {
 		let userMessage;
+		let likedMessage;
 		let userInDb;
 		beforeEach(async () => {
 			const newMessage = new Message({
@@ -100,10 +101,19 @@ describe("users", () => {
 					longitude: 0,
 				},
 			});
+			const newLikedMessage = new Message({
+				username: "testMessageUsername2",
+				message: "testMessage2",
+				location: {
+					latitude: 1,
+					longitude: 1,
+				},
+			});
 			userMessage = await newMessage.save();
+			likedMessage = await newLikedMessage.save();
 			userInDb = await User.findOne({ id: ID_IN_DB });
 			userInDb.messages = userInDb.messages.concat(userMessage);
-			userInDb.likes = userInDb.messages.concat(userMessage);
+			userInDb.liked = userInDb.liked.concat(likedMessage);
 			await userInDb.save();
 		});
 		test("GET user own messages", async () => {
@@ -113,6 +123,14 @@ describe("users", () => {
 			expect(body).toHaveLength(1);
 			const message = body[0];
 			expect(message).toEqual(userMessage.toJSON());
+		});
+		test("GET user liked messages", async () => {
+			const { body } = await api.get(`${USERS_ENDPOINT}/${ID_IN_DB}/liked`)
+				.expect(200)
+				.expect("Content-type", /application\/json/);
+			expect(body).toHaveLength(1);
+			const message = body[0];
+			expect(message).toEqual(likedMessage.toJSON());
 		});
 	});
 });
