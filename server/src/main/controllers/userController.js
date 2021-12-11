@@ -26,6 +26,14 @@ messageRouter.get("/:id/messages", asyncHandler(async (req, res) => {
 	res.status(200).json(messages);
 }));
 
+messageRouter.get("/:id/liked", asyncHandler(async (req, res) => {
+	const id = serviceHelper.getRequestId(req);
+	if (!id) throw new BadRequestError("No id given");
+	const messages = await userService.getUsersLikedMessages(id);
+	if (!messages) throw new NotFoundError(getUserNotFoundMessage(id));
+	res.status(200).json(messages);
+}));
+
 const getUserNotFoundMessage = (id) => `User with id: ${id} not found`;
 
 module.exports = messageRouter;

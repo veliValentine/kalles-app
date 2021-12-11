@@ -22,8 +22,18 @@ const getUsersMessages = async (id) => {
 	return messages || [];
 };
 
+const getUsersLikedMessages = async (id) => {
+	const user = await findUserById(id);
+	if (!user) return null;
+	const { liked } = await User
+		.findOne({ id })
+		.populate("liked");
+	return liked || [];
+};
+
 module.exports = {
 	getAllUsers,
 	findUserById,
 	getUsersMessages,
+	getUsersLikedMessages,
 };
