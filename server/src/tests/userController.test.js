@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../main/app");
+const NotFoundError = require("../main/models/errors/notFoundError");
 const User = require("../main/models/user");
-const { initDb } = require("./testHelper");
+const { initDb, contentInDb, errorResponse } = require("./testHelper");
 
 const api = supertest(app);
 
@@ -27,6 +28,8 @@ const INITIAL_USERS = [
 beforeEach(async () => {
 	await initDb(User, INITIAL_USERS);
 });
+
+const ID_NOT_IN_DB = "3";
 
 describe("users", () => {
 	describe("GET users", () => {
@@ -57,7 +60,34 @@ describe("users", () => {
 			expect(secondUser.messages).toEqual([]);
 		});
 	});
+	describe("GET user", () => {
+		let userInDb;
+		beforeEach(async () => {
+			const usersInDb = await contentInDb(User);
+			userInDb = usersInDb[0];
+		});
+
+		test("Returned user is correct type", async () => {
+			await api.get(`${USERS_ENDPOINT}/${userInDb.id}`)
+				.expect(200)
+				.expect("Content-type", /application\/json/);
+		});
+		test("Returned user is correct", async () => {
+			const { body } = await api.get(`${USERS_ENDPOINT}/${userInDb.id}`)
+				.expect(200)
+				.expect("Content-type", /application\/json/);
+			expect(body).toEqual(userInDb);
+		});
+		test("fail with 404", async () => {
+			const { body } = await api.get(`${USERS_ENDPOINT}/${ID_NOT_IN_DB}`)
+				.expect(404)
+				.expect("Content-type", /application\/json/);
+			expect(body).toEqual(userNotFoundErrorObject(ID_NOT_IN_DB));
+		});
+	});
 });
+
+const userNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`User with id: ${id} not found`).message);
 
 afterAll(() => {
 	mongoose.connection.close();
