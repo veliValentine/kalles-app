@@ -13,7 +13,17 @@ const findUserById = async (id) => {
 	return null;
 };
 
+const getUsersMessages = async (id) => {
+	const user = await findUserById(id);
+	if (!user) return null;
+	const { messages } = await User
+		.findOne({ id })
+		.populate("messages");
+	return messages || [];
+};
+
 module.exports = {
 	getAllUsers,
 	findUserById,
+	getUsersMessages,
 };
