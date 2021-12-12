@@ -10,6 +10,12 @@ userRouter.get("/", asyncHandler(async (_req, res) => {
 	res.status(200).json(users);
 }));
 
+userRouter.post("/", asyncHandler(async (req, res) => {
+	const user = userService.validateUser(req.body, req.id);
+	const savedUser = userService.saveUser(user);
+	res.status(201).json(savedUser);
+}));
+
 userRouter.get("/:id", asyncHandler(async (req, res) => {
 	const id = serviceHelper.getRequestId(req);
 	if (!id) throw new BadRequestError(getNoIdGivenMessage());
