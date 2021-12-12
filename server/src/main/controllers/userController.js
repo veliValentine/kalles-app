@@ -1,16 +1,16 @@
-const messageRouter = require("express").Router();
+const userRouter = require("express").Router();
 const asyncHandler = require("express-async-handler");
 const userService = require("../service/userService");
 const serviceHelper = require("../service/serviceHelpers");
 const BadRequestError = require("../models/errors/badRequestError");
 const NotFoundError = require("../models/errors/notFoundError");
 
-messageRouter.get("/", asyncHandler(async (_req, res) => {
+userRouter.get("/", asyncHandler(async (_req, res) => {
 	const users = await userService.getAllUsers();
 	res.status(200).json(users);
 }));
 
-messageRouter.get("/:id", asyncHandler(async (req, res) => {
+userRouter.get("/:id", asyncHandler(async (req, res) => {
 	const id = serviceHelper.getRequestId(req);
 	if (!id) throw new BadRequestError(getNoIdGivenMessage());
 	const user = await userService.findUserById(id);
@@ -18,7 +18,7 @@ messageRouter.get("/:id", asyncHandler(async (req, res) => {
 	res.status(200).json(user);
 }));
 
-messageRouter.get("/:id/messages", asyncHandler(async (req, res) => {
+userRouter.get("/:id/messages", asyncHandler(async (req, res) => {
 	const id = serviceHelper.getRequestId(req);
 	if (!id) throw new BadRequestError(getNoIdGivenMessage());
 	const messages = await userService.getUsersMessages(id);
@@ -26,7 +26,7 @@ messageRouter.get("/:id/messages", asyncHandler(async (req, res) => {
 	res.status(200).json(messages);
 }));
 
-messageRouter.get("/:id/liked", asyncHandler(async (req, res) => {
+userRouter.get("/:id/liked", asyncHandler(async (req, res) => {
 	const id = serviceHelper.getRequestId(req);
 	if (!id) throw new BadRequestError(getNoIdGivenMessage());
 	const messages = await userService.getUsersLikedMessages(id);
@@ -38,4 +38,4 @@ const getNoIdGivenMessage = () => "No id given";
 
 const getUserNotFoundMessage = (id) => `User with id: ${id} not found`;
 
-module.exports = messageRouter;
+module.exports = userRouter;
