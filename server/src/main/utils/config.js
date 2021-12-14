@@ -2,7 +2,7 @@ const { isTestEnvironment, isDevelopmentEnvironment } = require("./environment")
 
 require("dotenv").config();
 
-const { PORT } = process.env;
+const { PORT = 3001, TEST_USERNAME, TEST_PASSWORD } = process.env;
 
 let MONGODB_URI = process.env.MONGO_MESSAGES_URI;
 if (isTestEnvironment) {
@@ -15,4 +15,6 @@ if (isDevelopmentEnvironment) {
 module.exports = {
 	PORT,
 	MONGODB_URI,
+	TEST_USERNAME,
+	TEST_PASSWORD,
 };
