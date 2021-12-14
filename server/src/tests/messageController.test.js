@@ -17,6 +17,9 @@ const VALID_TEST_ID = "aaaaaaaaaaaaaaaaaaaaaaaa";
 
 const INVALID_TEST_ID = "testId";
 
+const LATITUDE_AND_LONGITUDE_PARAMS = "latitude=60&longitude=25";
+const DEFAULT_DISTANCE = 22.96;
+
 const INITIAL_MESSAGES = [
 	{
 		username: "testUser1",
@@ -64,10 +67,10 @@ describe("messages", () => {
 			expect(firstMessage.id).toBeDefined();
 		});
 		test("API returns valid messages(with distance)", async () => {
-			const { body } = await api.get(`${MESSAGES_ENDPOINT}?latitude=60&longitude=25`);
+			const { body } = await api.get(`${MESSAGES_ENDPOINT}?${LATITUDE_AND_LONGITUDE_PARAMS}`);
 			const firstMessage = body[0];
 			expect(firstMessage).toMatchObject(INITIAL_MESSAGES[0]);
-			expect(firstMessage.distance).toBe(22.96);
+			expect(firstMessage.distance).toBe(DEFAULT_DISTANCE);
 		});
 	});
 
@@ -232,8 +235,8 @@ describe("messages", () => {
 				expect(body).toEqual(messageInDb);
 			});
 			test("Returns correct message(with distance)", async () => {
-				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}?latitude=60&longitude=25`);
-				const messageInDbWithDistance = { ...messageInDb, distance: 22.96 };
+				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}?${LATITUDE_AND_LONGITUDE_PARAMS}`);
+				const messageInDbWithDistance = { ...messageInDb, distance: DEFAULT_DISTANCE };
 				expect(body).toEqual(messageInDbWithDistance);
 			});
 		});
@@ -317,6 +320,14 @@ describe("messages", () => {
 				.expect(200)
 				.expect("Content-type", /application\/json/);
 			const newMessage = { ...messageInDb, likes: initialLikes + 1 };
+			expect(body).toEqual(newMessage);
+		});
+		test("Liking message with coordinates returns 200 and liked message with distance", async () => {
+			const { id, likes: initialLikes } = messageInDb;
+			const { body } = await api.post(`${MESSAGES_ENDPOINT}/${id}/like?${LATITUDE_AND_LONGITUDE_PARAMS}`)
+				.expect(200)
+				.expect("Content-type", /application\/json/);
+			const newMessage = { ...messageInDb, likes: initialLikes + 1, distance: DEFAULT_DISTANCE };
 			expect(body).toEqual(newMessage);
 		});
 		test("Liking message adds likes", async () => {
