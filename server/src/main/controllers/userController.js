@@ -12,7 +12,7 @@ userRouter.get("/", asyncHandler(async (_req, res) => {
 
 userRouter.post("/", asyncHandler(async (req, res) => {
 	const user = userService.validateUser(req.body, req.id);
-	const savedUser = userService.saveUser(user);
+	const savedUser = await userService.saveUser(user);
 	res.status(201).json(savedUser);
 }));
 
