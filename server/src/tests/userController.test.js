@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../main/app");
 const NotFoundError = require("../main/models/errors/notFoundError");
+const BadRequestError = require("../main/models/errors/badRequestError");
 const User = require("../main/models/user");
 const Message = require("../main/models/message");
-const { initDb, contentInDb, errorResponse } = require("./testHelper");
+const testHelper = require("./testHelper");
 
 const api = supertest(app);
 
@@ -29,7 +30,7 @@ const INITIAL_USERS = [
 ];
 
 beforeEach(async () => {
-	await initDb(User, INITIAL_USERS);
+	await testHelper.initDb(User, INITIAL_USERS);
 });
 
 const ID_NOT_IN_DB = "3";
@@ -66,7 +67,7 @@ describe("users", () => {
 	describe("GET user", () => {
 		let userInDb;
 		beforeEach(async () => {
-			const usersInDb = await contentInDb(User);
+			const usersInDb = await testHelper.contentInDb(User);
 			userInDb = usersInDb[0];
 		});
 
@@ -133,9 +134,63 @@ describe("users", () => {
 			expect(message).toEqual(likedMessage.toJSON());
 		});
 	});
+	describe("POST user", () => {
+		test("valid new user", async () => {
+			const initialUserCount = await testHelper.contentCountInDb(User);
+			const INPUT_USERNAME = "testUsername3";
+			const requestBody = {
+				username: INPUT_USERNAME,
+			};
+			const authHeader = await testHelper.getValidAuthorizationHeader();
+			const body = await postRequest(USERS_ENDPOINT, 201, requestBody, authHeader);
+
+			const {
+				id,
+				username,
+				messages,
+				liked,
+			} = body;
+
+			const userCount = await testHelper.contentCountInDb(User);
+			expect(userCount).toBe(initialUserCount + 1);
+
+			expect(id).toBeDefined();
+			expect(username).toBe(INPUT_USERNAME);
+			expect(messages).toEqual([]);
+			expect(liked).toEqual([]);
+
+			expect(body).toEqual({
+				id,
+				username,
+				messages,
+				liked,
+			});
+		});
+		test("missing username returns 400", async () => {
+			const initialUserCount = await testHelper.contentCountInDb(User);
+			const authHeader = await testHelper.getValidAuthorizationHeader();
+			const body = await postRequest(USERS_ENDPOINT, 400, {}, authHeader);
+
+			const userCount = await testHelper.contentCountInDb(User);
+			expect(userCount).toBe(initialUserCount);
+
+			expect(body).toEqual(badRequestErrorObject());
+		});
+	});
 });
 
-const userNotFoundErrorObject = (id) => errorResponse(new NotFoundError(`User with id: ${id} not found`).message);
+const postRequest = async (endpoint, status, requestBody, headers) => {
+	const { body } = await api.post(endpoint)
+		.expect(status)
+		.send(requestBody)
+		.set("Accept", "application/json")
+		.set(headers)
+		.expect("Content-type", /application\/json/);
+	return body;
+};
+
+const userNotFoundErrorObject = (id) => testHelper.errorResponse(new NotFoundError(`User with id: ${id} not found`).message);
+const badRequestErrorObject = () => testHelper.errorResponse(new BadRequestError("No username given").message);
 
 afterAll(() => {
 	mongoose.connection.close();
