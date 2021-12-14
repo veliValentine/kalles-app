@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 125  | ---          |
+| Total  | 127  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 62   | 12.12.2021   |
+| Server | 64   | 12.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -135,7 +135,7 @@
 | 11.12.2021 | 2    | read mongoose dokumentation, get users messages and liked messages API    |
 |    sum     | 61   | ---------- sum ----------                                                 |
 | 12.12.2021 | 1    | create user API                                                           |
-|    sum     | 62   | ---------- sum ----------                                                 |
-
+| 14.12.2021 | 2    | Test create user API                                                      |
+|    sum     | 64   | ---------- sum ----------                                                 |
 
 | | | |
