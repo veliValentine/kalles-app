@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 127  | ---          |
+| Total  | 128  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 64   | 12.12.2021   |
+| Server | 65   | 14.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -136,6 +136,7 @@
 |    sum     | 61   | ---------- sum ----------                                                 |
 | 12.12.2021 | 1    | create user API                                                           |
 | 14.12.2021 | 2    | Test create user API                                                      |
-|    sum     | 64   | ---------- sum ----------                                                 |
+| 14.12.2021 | 1    | Fix: liking message returns distance                                      |
+|    sum     | 65   | ---------- sum ----------                                                 |
 
 | | | |
