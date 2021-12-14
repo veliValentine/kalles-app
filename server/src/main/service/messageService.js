@@ -66,7 +66,12 @@ const likeMessage = async (req) => {
 	const message = await findMessageById(req);
 	const likedMessage = { ...message, likes: message.likes + 1 };
 	const savedMessage = await Message.findByIdAndUpdate(id, likedMessage, { new: true });
-	return toJson(savedMessage);
+	const returnMessage = toJson(savedMessage);
+	if (!requestContainsValidLocation(req)) {
+		return returnMessage;
+	}
+	const location = getQueryLocation(req);
+	return addDistance(returnMessage, location);
 };
 
 module.exports = {
