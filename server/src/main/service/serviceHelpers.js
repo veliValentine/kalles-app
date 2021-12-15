@@ -1,6 +1,7 @@
 const BadRequestError = require("../models/errors/badRequestError");
 const { calculateDistance } = require("../utils/distance");
 const { isLocationObject, isString } = require("../utils/validators");
+const validators = require("../utils/validators");
 
 const requestContainsValidLocation = (req) => {
 	const location = getQueryLocation(req);
@@ -51,7 +52,12 @@ const getRequestId = (req) => {
 	return id;
 };
 
-const toJson = (object) => object.toJSON();
+const toJson = (model) => {
+	if (validators.isArray(model)) {
+		return model.map((object) => object.toJSON());
+	}
+	return model.toJSON();
+};
 
 module.exports = {
 	requestContainsValidLocation,

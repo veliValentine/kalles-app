@@ -1,55 +1,48 @@
 const NotFoundError = require("../models/errors/notFoundError");
 const Message = require("../models/message");
-const {
-	getQueryLocation,
-	addDistance,
-	requestContainsValidLocation,
-	toJson,
-	getRequestMessage,
-	getRequestId,
-} = require("./serviceHelpers");
+const serviceHelpers = require("./serviceHelpers");
 
 const getAllMessages = (req) => {
-	if (!requestContainsValidLocation(req)) {
+	if (!serviceHelpers.requestContainsValidLocation(req)) {
 		return getAllMongoMessages();
 	}
 	return getAllMongoMessagesDistance(req);
 };
 
 const getAllMongoMessages = async () => {
-	const mongoMessages = await Message.find({});
-	return mongoMessages.map(toJson);
+	const messages = await Message.find({});
+	return messages;
 };
 
 const getAllMongoMessagesDistance = async (req) => {
 	const messages = await getAllMongoMessages();
-	const location = getQueryLocation(req);
+	const location = serviceHelpers.getQueryLocation(req);
 	const messagesWithDistance = messages.map((message) => (
-		addDistance(message, location)));
+		serviceHelpers.addDistance(message, location)));
 	return messagesWithDistance;
 };
 
 const findMessageById = async (req) => {
-	const id = getRequestId(req);
-	const mongoMessage = await Message.findById(id);
-	if (!mongoMessage) {
+	const id = serviceHelpers.getRequestId(req);
+	const message = await Message.findById(id);
+	if (!message) {
 		throw new NotFoundError(`Message with id: ${id} not found`);
 	}
-	const message = toJson(mongoMessage);
-	if (!requestContainsValidLocation(req)) {
+	if (!serviceHelpers.requestContainsValidLocation(req)) {
 		return message;
 	}
-	return addDistance(message, getQueryLocation(req));
+	return serviceHelpers.addDistance(message, serviceHelpers.getQueryLocation(req));
 };
 
 const saveMessage = async (req) => {
-	const newMessage = new Message(getRequestMessage(req));
+	const newMessage = new Message(serviceHelpers.getRequestMessage(req));
 	const savedMessage = await newMessage.save();
-	return toJson(savedMessage);
+	savedMessage.distance = 0;
+	return savedMessage;
 };
 
 const deleteMessageById = async (req) => {
-	const id = getRequestId(req);
+	const id = serviceHelpers.getRequestId(req);
 	const messageFound = await messageWithIdExists(req);
 	if (!messageFound) throw new NotFoundError(`Message with id:${id} not found`);
 	await Message.findByIdAndDelete(id);
@@ -62,16 +55,15 @@ const messageWithIdExists = async (req) => {
 };
 
 const likeMessage = async (req) => {
-	const id = getRequestId(req);
+	const id = serviceHelpers.getRequestId(req);
 	const message = await findMessageById(req);
 	const likedMessage = { ...message, likes: message.likes + 1 };
 	const savedMessage = await Message.findByIdAndUpdate(id, likedMessage, { new: true });
-	const returnMessage = toJson(savedMessage);
-	if (!requestContainsValidLocation(req)) {
-		return returnMessage;
+	if (!serviceHelpers.requestContainsValidLocation(req)) {
+		return savedMessage;
 	}
-	const location = getQueryLocation(req);
-	return addDistance(returnMessage, location);
+	const location = serviceHelpers.getQueryLocation(req);
+	return serviceHelpers.addDistance(savedMessage, location);
 };
 
 module.exports = {

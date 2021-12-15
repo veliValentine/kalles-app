@@ -29,8 +29,14 @@ const isString = (input) => {
 	return true;
 };
 
+const isArray = (input) => {
+	if (!input || !Array.isArray(input)) return false;
+	return true;
+};
+
 module.exports = {
 	isString,
 	isNumber,
 	isLocationObject,
+	isArray,
 };

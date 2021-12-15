@@ -1,18 +1,15 @@
 const User = require("../models/user");
 const BadRequestError = require("../models/errors/badRequestError");
-const { toJson } = require("./serviceHelpers");
 const { isString } = require("../utils/validators");
 
 const getAllUsers = async () => {
 	const users = await User.find({});
-	if (users) return users.map((user) => toJson(user));
-	return [];
+	return users || [];
 };
 
 const findUserById = async (id) => {
 	const user = await User.findOne({ id });
-	if (user) return toJson(user);
-	return null;
+	return user || null;
 };
 
 const getUsersMessages = async (id) => {
@@ -55,7 +52,7 @@ const validateId = (id) => {
 const saveUser = async (inputUser) => {
 	const user = new User(inputUser);
 	const savedUser = await user.save();
-	return toJson(savedUser);
+	return savedUser;
 };
 
 module.exports = {

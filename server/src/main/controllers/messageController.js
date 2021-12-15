@@ -1,37 +1,33 @@
 const messageRouter = require("express").Router();
 const asyncHandler = require("express-async-handler");
 
-const {
-	getAllMessages,
-	findMessageById,
-	saveMessage,
-	deleteMessageById,
-	likeMessage,
-} = require("../service/messageService");
+const messageService = require("../service/messageService");
+
+const { toJson } = require("../service/serviceHelpers");
 
 messageRouter.get("/", asyncHandler(async (req, res) => {
-	const messages = await getAllMessages(req);
-	return res.status(200).json(messages);
+	const messages = await messageService.getAllMessages(req);
+	return res.status(200).json(toJson(messages));
 }));
 
 messageRouter.post("/", asyncHandler(async (req, res) => {
-	const savedMessage = await saveMessage(req);
-	return res.status(201).json({ ...savedMessage, distance: 0 });
+	const savedMessage = await messageService.saveMessage(req);
+	return res.status(201).json(toJson(savedMessage));
 }));
 
 messageRouter.get("/:id", asyncHandler(async (req, res) => {
-	const message = await findMessageById(req);
-	return res.status(200).json(message);
+	const message = await messageService.findMessageById(req);
+	return res.status(200).json(toJson(message));
 }));
 
 messageRouter.delete("/:id", asyncHandler(async (req, res) => {
-	await deleteMessageById(req);
+	await messageService.deleteMessageById(req);
 	return res.status(204).end();
 }));
 
 messageRouter.post("/:id/like", asyncHandler(async (req, res) => {
-	const likedMessage = await likeMessage(req);
-	return res.status(200).json(likedMessage);
+	const likedMessage = await messageService.likeMessage(req);
+	return res.status(200).json(toJson(likedMessage));
 }));
 
 module.exports = messageRouter;
