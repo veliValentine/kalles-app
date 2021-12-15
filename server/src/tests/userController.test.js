@@ -17,15 +17,11 @@ const INITIAL_USERS = [
 	{
 		id: ID_IN_DB,
 		username: "testUsername1",
-		messages: [],
-		liked: [],
 	},
 	{
 		id: "2",
 		username: "testUsername2",
 		isAdmin: true,
-		messages: [],
-		liked: [],
 	},
 ];
 
@@ -94,6 +90,7 @@ describe("users", () => {
 		let likedMessage;
 		let userInDb;
 		beforeEach(async () => {
+			userInDb = await User.findOne({ id: ID_IN_DB });
 			const newMessage = new Message({
 				username: "testMessageUsername1",
 				message: "testMessage",
@@ -101,6 +98,7 @@ describe("users", () => {
 					latitude: 0,
 					longitude: 0,
 				},
+				user: userInDb._id, // eslint-disable-line no-underscore-dangle
 			});
 			const newLikedMessage = new Message({
 				username: "testMessageUsername2",
@@ -109,10 +107,11 @@ describe("users", () => {
 					latitude: 1,
 					longitude: 1,
 				},
+				user: userInDb._id, // eslint-disable-line no-underscore-dangle
 			});
 			userMessage = await newMessage.save();
 			likedMessage = await newLikedMessage.save();
-			userInDb = await User.findOne({ id: ID_IN_DB });
+
 			userInDb.messages = userInDb.messages.concat(userMessage);
 			userInDb.liked = userInDb.liked.concat(likedMessage);
 			await userInDb.save();
