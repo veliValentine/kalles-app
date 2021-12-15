@@ -1,16 +1,26 @@
 const mongoose = require("mongoose");
+const { MESSAGE_EXPIRES_TIME_MINUTES } = require("../utils/config");
 const { timeStamp } = require("../utils/time");
 
-const DEFAULT_EXPIRES_TIME = 7 * 24 * 60 * 60;
-const ENV_EXPIRES_TIME = process.env.EXPIRES_TIME;
-const EXPIRES_TIME_MINUTES = ENV_EXPIRES_TIME || DEFAULT_EXPIRES_TIME;
+const { Schema } = mongoose;
 
 const messageSchema = new mongoose.Schema({
-	username: {
+	createDay: {
+		type: Date,
+		default: timeStamp(),
+		required: true,
+	},
+	likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+	message: {
 		type: String,
 		required: true,
 	},
-	message: {
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
+	username: {
 		type: String,
 		required: true,
 	},
@@ -28,14 +38,9 @@ const messageSchema = new mongoose.Schema({
 			max: 180,
 		},
 	},
-	createDay: {
-		type: Date,
-		default: timeStamp(),
-	},
-	likes: { type: Number, default: 0 },
 });
 
-messageSchema.index({ createDay: 1 }, { expireAfterSeconds: EXPIRES_TIME_MINUTES });
+messageSchema.index({ createDay: 1 }, { expireAfterSeconds: MESSAGE_EXPIRES_TIME_MINUTES });
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
@@ -43,6 +48,9 @@ messageSchema.set("toJSON", {
 	transform: (_document, returnedObject) => {
 		returnedObject.id = returnedObject._id.toString();
 		returnedObject.createDay = returnedObject.createDay.toString();
+		returnedObject.likes = returnedObject.likes.length;
+
+		delete returnedObject.user;
 		delete returnedObject._id;
 		delete returnedObject.__v;
 	},
