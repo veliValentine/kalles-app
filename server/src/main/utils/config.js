@@ -2,7 +2,14 @@ const { isTestEnvironment, isDevelopmentEnvironment } = require("./environment")
 
 require("dotenv").config();
 
-const { PORT = 3001, TEST_USERNAME, TEST_PASSWORD } = process.env;
+const DEFAULT_EXPIRES_TIME = 7 * 24 * 60 * 60;
+
+const {
+	PORT = 3001,
+	TEST_USERNAME,
+	TEST_PASSWORD,
+	MESSAGE_EXPIRES_TIME_MINUTES = DEFAULT_EXPIRES_TIME,
+} = process.env;
 
 let MONGODB_URI = process.env.MONGO_MESSAGES_URI;
 if (isTestEnvironment) {
@@ -17,4 +24,5 @@ module.exports = {
 	MONGODB_URI,
 	TEST_USERNAME,
 	TEST_PASSWORD,
+	MESSAGE_EXPIRES_TIME_MINUTES,
 };
