@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const BadRequestError = require("../models/errors/badRequestError");
+const NotFoundError = require("../models/errors/notFoundError");
 const { isString } = require("../utils/validators");
+const messageService = require("./messageService");
 
 const getAllUsers = async () => {
 	const users = await User.find({});
@@ -55,6 +57,36 @@ const saveUser = async (inputUser) => {
 	return savedUser;
 };
 
+const saveMessageToUser = async (userId, message) => {
+	const messageId = messageService.getMessageMongoId(message);
+	const user = await findUserById(userId);
+	user.messages = user.messages.concat(messageId);
+	const savedUser = await user.save();
+	return savedUser;
+};
+
+const deleteMessageFromUser = async (userId, message) => {
+	const messageId = messageService.getMessageMongoId(message);
+	const user = await findUserById(userId);
+	user.messages = user.messages.filter((userMessageId) => userMessageId !== messageId);
+	const savedUser = await user.save();
+	return savedUser;
+};
+
+const addLikedMessageToUser = async (userId, message) => {
+	const messageId = messageService.getMessageMongoId(message);
+	const user = await findUserById(userId);
+	user.liked = user.liked.concat(messageId);
+	const savedUser = await user.save();
+	return savedUser;
+};
+
+const getLoggedUserMongoId = async (userId) => {
+	const { _id: mongoId } = await findUserById(userId);
+	if (!mongoId) throw NotFoundError(`Ùser with ${userId} not found.`);
+	return mongoId;
+};
+
 module.exports = {
 	getAllUsers,
 	findUserById,
@@ -62,4 +94,8 @@ module.exports = {
 	getUsersLikedMessages,
 	validateUser,
 	saveUser,
+	getLoggedUserMongoId,
+	saveMessageToUser,
+	deleteMessageFromUser,
+	addLikedMessageToUser,
 };

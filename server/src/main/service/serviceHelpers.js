@@ -59,6 +59,8 @@ const toJson = (model) => {
 	return model.toJSON();
 };
 
+const getLoggedUserId = (req) => req.id;
+
 module.exports = {
 	requestContainsValidLocation,
 	getQueryLocation,
@@ -66,4 +68,5 @@ module.exports = {
 	getRequestMessage,
 	toJson,
 	getRequestId,
+	getLoggedUserId,
 };
