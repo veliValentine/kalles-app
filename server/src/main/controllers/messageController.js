@@ -2,22 +2,36 @@ const messageRouter = require("express").Router();
 const asyncHandler = require("express-async-handler");
 
 const messageService = require("../service/messageService");
-
-const { toJson } = require("../service/serviceHelpers");
+const serviceHelpers = require("../service/serviceHelpers");
 
 messageRouter.get("/", asyncHandler(async (req, res) => {
-	const messages = await messageService.getAllMessages(req);
-	return res.status(200).json(toJson(messages));
+	const messages = await messageService.getAllMessages();
+	const returnMessages = serviceHelpers.toJson(messages);
+	if (serviceHelpers.requestContainsValidLocation(req)) {
+		const location = serviceHelpers.getQueryLocation(req);
+		const returnMessagesWithDistance = returnMessages.map((message) => (
+			serviceHelpers.addDistance(message, location)));
+		return res.status(200).json(returnMessagesWithDistance);
+	}
+	return res.status(200).json(returnMessages);
 }));
 
 messageRouter.post("/", asyncHandler(async (req, res) => {
 	const savedMessage = await messageService.saveMessage(req);
-	return res.status(201).json(toJson(savedMessage));
+	const returnMessage = serviceHelpers.toJson(savedMessage);
+	returnMessage.distance = 0;
+	return res.status(201).json(returnMessage);
 }));
 
 messageRouter.get("/:id", asyncHandler(async (req, res) => {
 	const message = await messageService.findMessageById(req);
-	return res.status(200).json(toJson(message));
+	const returnMessage = serviceHelpers.toJson(message);
+	if (serviceHelpers.requestContainsValidLocation(req)) {
+		const location = serviceHelpers.getQueryLocation(req);
+		const returnedMessageWithDistance = serviceHelpers.addDistance(returnMessage, location);
+		return res.status(200).json(returnedMessageWithDistance);
+	}
+	return res.status(200).json(returnMessage);
 }));
 
 messageRouter.delete("/:id", asyncHandler(async (req, res) => {
@@ -27,7 +41,13 @@ messageRouter.delete("/:id", asyncHandler(async (req, res) => {
 
 messageRouter.post("/:id/like", asyncHandler(async (req, res) => {
 	const likedMessage = await messageService.likeMessage(req);
-	return res.status(200).json(toJson(likedMessage));
+	const returnMessage = serviceHelpers.toJson(likedMessage);
+	if (!serviceHelpers.requestContainsValidLocation(req)) {
+		return res.status(200).json(returnMessage);
+	}
+	const location = serviceHelpers.getQueryLocation(req);
+	const returnMessageWithDistance = serviceHelpers.addDistance(returnMessage, location);
+	return res.status(200).json(returnMessageWithDistance);
 }));
 
 module.exports = messageRouter;
