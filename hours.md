@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 133  | ---          |
+| Total  | 135  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 70   | 16.12.2021   |
+| Server | 72   | 16.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -140,5 +140,7 @@
 | 15.12.2021 | 4    | Refactor: models and services according to new schema                     |
 | 17.12.2021 | 1    | Create project using github project beta                                  |
 |    sum     | 70   | ---------- sum ----------                                                 |
+| 17.12.2021 | 2    | Fix: updating models broke everything                                     |
+|    sum     | 72   | ---------- sum ----------                                                 |
 
 | | | |
