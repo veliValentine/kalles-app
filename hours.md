@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 132  | ---          |
+| Total  | 133  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 69   | 15.12.2021   |
+| Server | 70   | 16.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -138,6 +138,7 @@
 | 14.12.2021 | 2    | Test create user API                                                      |
 | 14.12.2021 | 1    | Fix: liking message returns distance                                      |
 | 15.12.2021 | 4    | Refactor: models and services according to new schema                     |
-|    sum     | 69   | ---------- sum ----------                                                 |
+| 17.12.2021 | 1    | Create project using github project beta                                  |
+|    sum     | 70   | ---------- sum ----------                                                 |
 
 | | | |
