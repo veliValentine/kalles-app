@@ -5,7 +5,7 @@ const { timeStamp } = require("../utils/time");
 const { Schema } = mongoose;
 
 const messageSchema = new mongoose.Schema({
-	createDay: {
+	created: {
 		type: Date,
 		default: timeStamp(),
 		required: true,
@@ -47,7 +47,7 @@ messageSchema.index({ createDay: 1 }, { expireAfterSeconds: MESSAGE_EXPIRES_TIME
 messageSchema.set("toJSON", {
 	transform: (_document, returnedObject) => {
 		returnedObject.id = returnedObject._id.toString();
-		returnedObject.createDay = returnedObject.createDay.toString();
+		returnedObject.created = returnedObject.created.toString();
 		returnedObject.likes = returnedObject.likes.length;
 
 		delete returnedObject.user;
