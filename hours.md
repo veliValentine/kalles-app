@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 135  | ---          |
+| Total  | 137  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 72   | 16.12.2021   |
+| Server | 74   | 18.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -141,6 +141,7 @@
 | 17.12.2021 | 1    | Create project using github project beta                                  |
 |    sum     | 70   | ---------- sum ----------                                                 |
 | 17.12.2021 | 2    | Fix: updating models broke everything                                     |
-|    sum     | 72   | ---------- sum ----------                                                 |
+| 18.12.2021 | 2    | API documentation                                                         |
+|    sum     | 74   | ---------- sum ----------                                                 |
 
 | | | |
