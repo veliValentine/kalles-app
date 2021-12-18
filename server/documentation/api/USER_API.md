@@ -7,6 +7,7 @@ All endpoints requires base path after URL host
 
 ## Endpoints
 - [GET all users](#get-all-users)
+- [POST Create new user](#post-create-new-user)
 - [GET user](#get-user)
 - [GET users messages](#get-users-messages)
 - [GET users liked messages](#get-users-liked-messages)
@@ -60,7 +61,6 @@ Require owner privileges.
 {
 	"id": userId,
 	"username": String
-
 }
 ```
 ### Response
@@ -95,7 +95,7 @@ Require owner privileges
 }
 ```
 #### Required Route Params
-- `id` user id
+- `:id` user id
 ### Response
 #### Response Body
 ```
@@ -129,7 +129,7 @@ Require owner privileges
 }
 ```
 #### Required Route Params
-- `id` user id
+- `:id` user id
 ### Response
 #### Response Body
 ```
@@ -170,7 +170,7 @@ Require owner privileges
 }
 ```
 #### Required Route Params
-- `id` user id
+- `:id` user id
 ### Response
 #### Response Body
 ```
