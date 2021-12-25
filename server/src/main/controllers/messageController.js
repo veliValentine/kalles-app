@@ -3,11 +3,22 @@ const asyncHandler = require("express-async-handler");
 
 const messageService = require("../service/messageService");
 const serviceHelpers = require("../service/serviceHelpers");
+const authenticationService = require("../service/authenticationService");
 
 messageRouter.get("/", asyncHandler(async (req, res) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	if (!loggedUser) {
+		return res.status(401).end();
+	}
+	const loggedUserIsAdmin = await authenticationService.isAdmin(loggedUser);
+	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
+	if (!(requestContainsValidLocation || loggedUserIsAdmin)) {
+		return res.status(403).end();
+	}
+
 	const messages = await messageService.getAllMessages();
 	const returnMessages = serviceHelpers.toJson(messages);
-	if (serviceHelpers.requestContainsValidLocation(req)) {
+	if (requestContainsValidLocation) {
 		const location = serviceHelpers.getQueryLocation(req);
 		const returnMessagesWithDistance = returnMessages.map((message) => (
 			serviceHelpers.addDistance(message, location)));
