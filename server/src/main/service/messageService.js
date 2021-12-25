@@ -23,7 +23,7 @@ const saveMessage = async (req) => {
 	const requestMessage = serviceHelpers.getRequestMessage(req);
 	const newMessage = new Message({ ...requestMessage, user: userMongoId });
 	const savedMessage = await newMessage.save();
-	userService.saveMessageToUser(userId, savedMessage);
+	await userService.saveMessageToUser(userId, savedMessage);
 	return savedMessage;
 };
 
@@ -49,7 +49,7 @@ const likeMessage = async (req) => {
 	const userMongoId = await userService.getLoggedUserMongoId(userId);
 	message.likes = message.likes.push(userMongoId);
 	const savedMessage = await Message.findByIdAndUpdate(messageId, message, { new: true });
-	userService.addLikedMessageToUser(userId, savedMessage);
+	await userService.addLikedMessageToUser(userId, savedMessage);
 	return savedMessage;
 };
 
