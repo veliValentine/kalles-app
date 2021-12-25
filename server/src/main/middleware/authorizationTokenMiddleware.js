@@ -1,12 +1,13 @@
 const firebaseService = require("../service/firebaseService");
+const authorizationService = require("../service/authorizationService");
 
 const authorizationTokenMiddleware = async (req, _res, next) => {
 	const { authorization } = req.headers;
-	if (isBearerToken(authorization)) {
-		const token = authorization.substr(7);
-		req.token = token;
+	const jwtToken = authorizationService.getJwtToken(authorization);
+	if (jwtToken) {
+		req.token = jwtToken;
 		try {
-			const uid = await firebaseService.getUserUid(token);
+			const uid = await firebaseService.getUserUid(jwtToken);
 			req.id = uid;
 		} catch (error) {
 			handleFirebaseError(error, req);
@@ -14,8 +15,6 @@ const authorizationTokenMiddleware = async (req, _res, next) => {
 	}
 	next();
 };
-
-const isBearerToken = (token) => token && token.startsWith("Bearer ");
 
 const handleFirebaseError = (error, req) => {
 	if (error instanceof Error) {
