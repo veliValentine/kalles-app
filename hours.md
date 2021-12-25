@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 137  | ---          |
+| Total  | 140  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 74   | 18.12.2021   |
+| Server | 77   | 25.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -142,6 +142,8 @@
 |    sum     | 70   | ---------- sum ----------                                                 |
 | 17.12.2021 | 2    | Fix: updating models broke everything                                     |
 | 18.12.2021 | 2    | API documentation                                                         |
-|    sum     | 74   | ---------- sum ----------                                                 |
+| 25.12.2021 | 2    | Fix: message testing according to new schema                              |
+| 25.12.2021 | 1    | Feat: authenticate GET messages endpoint                                  |
+|    sum     | 77   | ---------- sum ----------                                                 |
 
 | | | |
