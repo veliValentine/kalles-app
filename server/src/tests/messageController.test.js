@@ -50,6 +50,11 @@ const INITIAL_MESSAGES = [
 	},
 ];
 
+let AUTH_HEADER;
+beforeAll(async () => {
+	AUTH_HEADER = await testHelper.getValidAuthorizationHeader();
+});
+
 beforeEach(async () => {
 	await initDb(User, INITIAL_USER);
 	const { _id: userMongoId } = await User.findOne({ id: USER_ID_IN_DB });
@@ -225,12 +230,11 @@ describe("messages", () => {
 		});
 
 		const postMessageWithValidAuthHeader = async (endpoint, requestBody, status) => {
-			const authHeader = await testHelper.getValidAuthorizationHeader();
 			const { body } = await api
 				.post(endpoint)
 				.send(requestBody)
 				.set("Accept", "application/json")
-				.set(authHeader)
+				.set(AUTH_HEADER)
 				.expect(status)
 				.expect("Content-type", /application\/json/);
 			return body;
@@ -331,16 +335,14 @@ describe("messages", () => {
 			expect(initialMessageCount).toBe(messageCount);
 		});
 		const deleteMessageWithValidAuthHeader = async (endpoint, id, status) => {
-			const authHeader = await testHelper.getValidAuthorizationHeader();
 			const { body } = await api.delete(`${endpoint}/${id}`)
-				.set(authHeader)
+				.set(AUTH_HEADER)
 				.expect(status);
 			return body;
 		};
 		const deleteMessageWithValidAuthHeaderJson = async (endpoint, id, status) => {
-			const authHeader = await testHelper.getValidAuthorizationHeader();
 			const { body } = await api.delete(`${endpoint}/${id}`)
-				.set(authHeader)
+				.set(AUTH_HEADER)
 				.expect(status)
 				.expect("Content-type", /application\/json/);
 			return body;
@@ -391,9 +393,8 @@ describe("messages", () => {
 		});
 
 		const postNoBodyWithvalidAuthHeader = async (endpoint, status) => {
-			const authHeader = await testHelper.getValidAuthorizationHeader();
 			const { body } = await api.post(endpoint)
-				.set(authHeader)
+				.set(AUTH_HEADER)
 				.expect(status)
 				.expect("Content-type", /application\/json/);
 			return body;

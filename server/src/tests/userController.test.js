@@ -25,6 +25,11 @@ const INITIAL_USERS = [
 	},
 ];
 
+let AUTH_HEADER;
+beforeAll(async () => {
+	AUTH_HEADER = await testHelper.getValidAuthorizationHeader();
+});
+
 beforeEach(async () => {
 	await testHelper.initDb(User, INITIAL_USERS);
 });
@@ -140,8 +145,7 @@ describe("users", () => {
 			const requestBody = {
 				username: INPUT_USERNAME,
 			};
-			const authHeader = await testHelper.getValidAuthorizationHeader();
-			const body = await postRequest(USERS_ENDPOINT, 201, requestBody, authHeader);
+			const body = await postRequest(USERS_ENDPOINT, 201, requestBody, AUTH_HEADER);
 
 			const {
 				id,
@@ -167,8 +171,7 @@ describe("users", () => {
 		});
 		test("missing username returns 400", async () => {
 			const initialUserCount = await testHelper.contentCountInDb(User);
-			const authHeader = await testHelper.getValidAuthorizationHeader();
-			const body = await postRequest(USERS_ENDPOINT, 400, {}, authHeader);
+			const body = await postRequest(USERS_ENDPOINT, 400, {}, AUTH_HEADER);
 
 			const userCount = await testHelper.contentCountInDb(User);
 			expect(userCount).toBe(initialUserCount);
