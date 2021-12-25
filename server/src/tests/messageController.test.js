@@ -4,7 +4,9 @@ const app = require("../main/app");
 const BadRequestError = require("../main/models/errors/badRequestError");
 const NotFoundError = require("../main/models/errors/notFoundError");
 const Message = require("../main/models/message");
+const User = require("../main/models/user");
 
+const testHelper = require("./testHelper");
 const {
 	initDb, contentInDb, contentCountInDb, errorResponse, findContentById, EPSILON,
 } = require("./testHelper");
@@ -19,6 +21,15 @@ const INVALID_TEST_ID = "testId";
 
 const LATITUDE_AND_LONGITUDE_PARAMS = "latitude=60&longitude=25";
 const DEFAULT_DISTANCE = 22.96;
+
+const USER_ID_IN_DB = "EHn26wZyB3NEeo6xIKH0rB5r9F03";
+
+const INITIAL_USER = [
+	{
+		id: USER_ID_IN_DB,
+		username: "testUser",
+	},
+];
 
 const INITIAL_MESSAGES = [
 	{
@@ -40,7 +51,15 @@ const INITIAL_MESSAGES = [
 ];
 
 beforeEach(async () => {
-	await initDb(Message, INITIAL_MESSAGES);
+	await initDb(User, INITIAL_USER);
+	const { _id: userMongoId } = await User.findOne({ id: USER_ID_IN_DB });
+	const initialMessagesWithUser = INITIAL_MESSAGES.map((message) => (
+		{
+			...message,
+			user: userMongoId,
+		}
+	));
+	await initDb(Message, initialMessagesWithUser);
 });
 
 describe("messages", () => {
@@ -63,7 +82,7 @@ describe("messages", () => {
 			expect(firstMessage).toMatchObject(INITIAL_MESSAGES[0]);
 			expect(firstMessage.distance).toBeUndefined();
 			expect(firstMessage.likes).toBe(0);
-			expect(firstMessage.createDay).toBeDefined();
+			expect(firstMessage.created).toBeDefined();
 			expect(firstMessage.id).toBeDefined();
 		});
 		test("API returns valid messages(with distance)", async () => {
@@ -85,22 +104,13 @@ describe("messages", () => {
 		};
 		describe("Valid messages", () => {
 			test("API returns new message as json with status 201", async () => {
-				await api
-					.post(MESSAGES_ENDPOINT)
-					.send(validMessage)
-					.set("Accept", "application/json")
-					.expect(201)
-					.expect("Content-type", /application\/json/);
+				await postMessageWithValidAuthHeader(MESSAGES_ENDPOINT, validMessage, 201);
 			});
 
 			test("Message is added to db", async () => {
 				const initialMessageCount = await contentCountInDb(Message);
 
-				const { body } = await api
-					.post(MESSAGES_ENDPOINT)
-					.send(validMessage)
-					.set("Accept", "application/json")
-					.expect(201);
+				const body = await postMessageWithValidAuthHeader(MESSAGES_ENDPOINT, validMessage, 201);
 
 				const messageCount = await contentCountInDb(Message);
 				expect(messageCount).toBe(initialMessageCount + 1);
@@ -121,11 +131,11 @@ describe("messages", () => {
 				};
 				const initialMessageCount = await contentCountInDb(Message);
 
-				const { body } = await api
-					.post(MESSAGES_ENDPOINT)
-					.send(extraAttributesMessage)
-					.set("Accept", "application/json")
-					.expect(201);
+				const body = await postMessageWithValidAuthHeader(
+					MESSAGES_ENDPOINT,
+					extraAttributesMessage,
+					201,
+				);
 
 				const messageCount = await contentCountInDb(Message);
 				expect(messageCount).toBe(initialMessageCount + 1);
@@ -201,12 +211,11 @@ describe("messages", () => {
 
 			const missingContentTest = async (invalidMessage, errorMessage) => {
 				const initialMessageCount = await contentCountInDb(Message);
-				const { body } = await api
-					.post(MESSAGES_ENDPOINT)
-					.send(invalidMessage)
-					.set("Accept", "application/json")
-					.expect(400)
-					.expect("Content-type", /application\/json/);
+				const body = await postMessageWithValidAuthHeader(
+					MESSAGES_ENDPOINT,
+					invalidMessage,
+					400,
+				);
 
 				const messageCount = await contentCountInDb(Message);
 				expect(messageCount).toBe(initialMessageCount);
@@ -214,6 +223,18 @@ describe("messages", () => {
 				expect(body).toEqual(errorMessage);
 			};
 		});
+
+		const postMessageWithValidAuthHeader = async (endpoint, requestBody, status) => {
+			const authHeader = await testHelper.getValidAuthorizationHeader();
+			const { body } = await api
+				.post(endpoint)
+				.send(requestBody)
+				.set("Accept", "application/json")
+				.set(authHeader)
+				.expect(status)
+				.expect("Content-type", /application\/json/);
+			return body;
+		};
 	});
 
 	describe("GET message", () => {
@@ -269,8 +290,7 @@ describe("messages", () => {
 
 		test("Removing valid message deletes it from db", async () => {
 			const initialMessageCount = await contentCountInDb(Message);
-			await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
-				.expect(204);
+			await deleteMessageWithValidAuthHeader(MESSAGES_ENDPOINT, messageInDb.id, 204);
 			const messagesInDb = await contentInDb(Message);
 			expect(messagesInDb).toHaveLength(initialMessageCount - 1);
 			const deletedMessageFoundInDb = messagesInDb.find(({ id }) => id === messageInDb.id);
@@ -278,33 +298,53 @@ describe("messages", () => {
 		});
 		test("Removing same message twice returns 404", async () => {
 			const initialMessageCount = await contentCountInDb(Message);
-			await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
-				.expect(204);
-			const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
-				.expect(404)
-				.expect("Content-type", /application\/json/);
+			await deleteMessageWithValidAuthHeader(MESSAGES_ENDPOINT, messageInDb.id, 204);
+			const body = await deleteMessageWithValidAuthHeaderJson(
+				MESSAGES_ENDPOINT,
+				messageInDb.id,
+				404,
+			);
 			expect(body).toEqual(messageNotFoundErrorObject(messageInDb.id));
 			const messagesInDb = await contentInDb(Message);
 			expect(messagesInDb).toHaveLength(initialMessageCount - 1);
 		});
 		test("Removing message with non existing id returns 404", async () => {
 			const initialMessageCount = await contentCountInDb(Message);
-			const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}`)
-				.expect(404)
-				.expect("Content-type", /application\/json/);
+			const body = await deleteMessageWithValidAuthHeaderJson(
+				MESSAGES_ENDPOINT,
+				VALID_TEST_ID,
+				404,
+			);
 			expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
 			const messageCount = await contentCountInDb(Message);
 			expect(initialMessageCount).toBe(messageCount);
 		});
 		test("Removing message with invalid id returns 400", async () => {
 			const initialMessageCount = await contentCountInDb(Message);
-			const { body } = await api.delete(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}`)
-				.expect(400)
-				.expect("Content-type", /application\/json/);
+			const body = await deleteMessageWithValidAuthHeaderJson(
+				MESSAGES_ENDPOINT,
+				INVALID_TEST_ID,
+				400,
+			);
 			expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
 			const messageCount = await contentCountInDb(Message);
 			expect(initialMessageCount).toBe(messageCount);
 		});
+		const deleteMessageWithValidAuthHeader = async (endpoint, id, status) => {
+			const authHeader = await testHelper.getValidAuthorizationHeader();
+			const { body } = await api.delete(`${endpoint}/${id}`)
+				.set(authHeader)
+				.expect(status);
+			return body;
+		};
+		const deleteMessageWithValidAuthHeaderJson = async (endpoint, id, status) => {
+			const authHeader = await testHelper.getValidAuthorizationHeader();
+			const { body } = await api.delete(`${endpoint}/${id}`)
+				.set(authHeader)
+				.expect(status)
+				.expect("Content-type", /application\/json/);
+			return body;
+		};
 	});
 
 	describe("Like message", () => {
@@ -316,49 +356,48 @@ describe("messages", () => {
 
 		test("Liking message returns status 200 and liked message", async () => {
 			const { id, likes: initialLikes } = messageInDb;
-			const { body } = await api.post(`${MESSAGES_ENDPOINT}/${id}/like`)
-				.expect(200)
-				.expect("Content-type", /application\/json/);
+			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
 			const newMessage = { ...messageInDb, likes: initialLikes + 1 };
 			expect(body).toEqual(newMessage);
 		});
 		test("Liking message with coordinates returns 200 and liked message with distance", async () => {
 			const { id, likes: initialLikes } = messageInDb;
-			const { body } = await api.post(`${MESSAGES_ENDPOINT}/${id}/like?${LATITUDE_AND_LONGITUDE_PARAMS}`)
-				.expect(200)
-				.expect("Content-type", /application\/json/);
+			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like?${LATITUDE_AND_LONGITUDE_PARAMS}`, 200);
 			const newMessage = { ...messageInDb, likes: initialLikes + 1, distance: DEFAULT_DISTANCE };
 			expect(body).toEqual(newMessage);
 		});
 		test("Liking message adds likes", async () => {
 			const likesBefore = await totalMessageLikes();
 			const { id } = messageInDb;
-			await api.post(`${MESSAGES_ENDPOINT}/${id}/like`)
-				.expect(200);
-			await api.post(`${MESSAGES_ENDPOINT}/${id}/like`)
-				.expect(200);
+			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
+			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
 			const likesAfter = await totalMessageLikes();
 			expect(likesAfter).toBe(likesBefore + 2);
 		});
 		test("Liking non existing message return message not found error", async () => {
-			const { body } = await api.post(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`)
-				.expect(404);
+			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`, 404);
 			expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
 		});
 		test("Liking with invalid id returns bad request", async () => {
-			const { body } = await api.post(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`)
-				.expect(400);
+			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`, 400);
 			expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
 		});
 		test("Liking non existing message has no effect on likes amount", async () => {
 			const likesBefore = await totalMessageLikes();
-			await api.post(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`)
-				.expect(404);
-			await api.post(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`)
-				.expect(400);
+			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`, 404);
+			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`, 400);
 			const likesAfter = await totalMessageLikes();
 			expect(likesAfter).toBe(likesBefore);
 		});
+
+		const postNoBodyWithvalidAuthHeader = async (endpoint, status) => {
+			const authHeader = await testHelper.getValidAuthorizationHeader();
+			const { body } = await api.post(endpoint)
+				.set(authHeader)
+				.expect(status)
+				.expect("Content-type", /application\/json/);
+			return body;
+		};
 	});
 });
 
