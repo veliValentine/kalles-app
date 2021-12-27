@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 140  | ---          |
+| Total  | 141  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 77   | 25.12.2021   |
+| Server | 78   | 27.12.2021   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -144,6 +144,7 @@
 | 18.12.2021 | 2    | API documentation                                                         |
 | 25.12.2021 | 2    | Fix: message testing according to new schema                              |
 | 25.12.2021 | 1    | Feat: authenticate GET messages endpoint                                  |
-|    sum     | 77   | ---------- sum ----------                                                 |
+| 27.12.2021 | 1    | Feat: authenticate Post messages endpoint and refactoring                 |
+|    sum     | 78   | ---------- sum ----------                                                 |
 
 | | | |
