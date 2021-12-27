@@ -7,13 +7,11 @@ const authenticationService = require("../service/authenticationService");
 
 messageRouter.get("/", asyncHandler(async (req, res) => {
 	const loggedUser = await authenticationService.getLoggedUser(req);
-	if (!loggedUser) {
-		return res.status(401).end();
-	}
-	const loggedUserIsAdmin = await authenticationService.isAdmin(loggedUser);
+	authenticationService.userIsAuthenticated(loggedUser);
+
 	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
-	if (!(requestContainsValidLocation || loggedUserIsAdmin)) {
-		return res.status(403).end();
+	if (!requestContainsValidLocation) {
+		authenticationService.userIsAdmin(loggedUser);
 	}
 
 	const messages = await messageService.getAllMessages();
@@ -28,6 +26,9 @@ messageRouter.get("/", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.post("/", asyncHandler(async (req, res) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	authenticationService.userIsAuthenticated(loggedUser);
+
 	const savedMessage = await messageService.saveMessage(req);
 	const returnMessage = serviceHelpers.toJson(savedMessage);
 	returnMessage.distance = 0;
