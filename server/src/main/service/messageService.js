@@ -2,6 +2,7 @@ const NotFoundError = require("../models/errors/notFoundError");
 const Message = require("../models/message");
 const userService = require("./userService");
 const serviceHelpers = require("./serviceHelpers");
+const BadRequestError = require("../models/errors/badRequestError");
 
 const getAllMessages = async () => {
 	const messages = await Message.find({});
@@ -47,7 +48,12 @@ const likeMessage = async (req) => {
 	const message = await findMessageById(req);
 	const userId = serviceHelpers.getLoggedUserId(req);
 	const userMongoId = await userService.getLoggedUserMongoId(userId);
-	message.likes = message.likes.push(userMongoId);
+	const { likes } = message;
+	if (likes.includes(userMongoId)) {
+		throw new BadRequestError("User already liked this message");
+	}
+	likes.push(userMongoId);
+	message.likes = likes;
 	const savedMessage = await Message.findByIdAndUpdate(messageId, message, { new: true });
 	await userService.addLikedMessageToUser(userId, savedMessage);
 	return savedMessage;
