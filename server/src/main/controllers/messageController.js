@@ -46,7 +46,7 @@ messageRouter.get("/:id", asyncHandler(async (req, res) => {
 messageRouter.delete("/:id", asyncHandler(async (req, res) => {
 	await requestContainsAuthorizedUser(req);
 
-	const [isUsersMessage, loggedUser] = isLoggedUsersMessage(req);
+	const [isUsersMessage, loggedUser] = await isLoggedUsersMessage(req);
 	if (!isUsersMessage) {
 		authenticationService.userIsAdmin(loggedUser);
 	}
@@ -58,7 +58,7 @@ messageRouter.delete("/:id", asyncHandler(async (req, res) => {
 messageRouter.post("/:id/like", asyncHandler(async (req, res) => {
 	await requestContainsAuthorizedUser(req);
 
-	const [isUsersMessage, loggedUser] = isLoggedUsersMessage(req);
+	const [isUsersMessage, loggedUser] = await isLoggedUsersMessage(req);
 	if (isUsersMessage) {
 		authenticationService.userIsAdmin(loggedUser);
 	}
