@@ -82,8 +82,9 @@ const addLikedMessageToUser = async (userId, message) => {
 };
 
 const getLoggedUserMongoId = async (userId) => {
-	const { _id: mongoId } = await findUserById(userId);
-	if (!mongoId) throw NotFoundError(`Ùser with ${userId} not found.`);
+	const user = await findUserById(userId);
+	if (!user) throw NotFoundError(`Ùser with ${userId} not found.`);
+	const { _id: mongoId } = user;
 	return mongoId;
 };
 
