@@ -6,17 +6,12 @@ const serviceHelpers = require("../service/serviceHelpers");
 const authenticationService = require("../service/authenticationService");
 
 messageRouter.get("/", asyncHandler(async (req, res) => {
-	const loggedUser = await authenticationService.getLoggedUser(req);
-	authenticationService.userIsAuthenticated(loggedUser);
-
-	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
-	if (!requestContainsValidLocation) {
-		authenticationService.userIsAdmin(loggedUser);
-	}
+	await requestContainsAuthorizedUser(req);
+	await allowRequestWithoutCoordinates(req);
 
 	const messages = await messageService.getAllMessages();
 	const returnMessages = serviceHelpers.toJson(messages);
-	if (requestContainsValidLocation) {
+	if (serviceHelpers.requestContainsValidLocation(req)) {
 		const location = serviceHelpers.getQueryLocation(req);
 		const returnMessagesWithDistance = returnMessages.map((message) => (
 			serviceHelpers.addDistance(message, location)));
@@ -26,8 +21,7 @@ messageRouter.get("/", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.post("/", asyncHandler(async (req, res) => {
-	const loggedUser = await authenticationService.getLoggedUser(req);
-	authenticationService.userIsAuthenticated(loggedUser);
+	await requestContainsAuthorizedUser(req);
 
 	const savedMessage = await messageService.saveMessage(req);
 	const returnMessage = serviceHelpers.toJson(savedMessage);
@@ -36,13 +30,8 @@ messageRouter.post("/", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.get("/:id", asyncHandler(async (req, res) => {
-	const loggedUser = await authenticationService.getLoggedUser(req);
-	authenticationService.userIsAuthenticated(loggedUser);
-
-	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
-	if (!requestContainsValidLocation) {
-		authenticationService.userIsAdmin(loggedUser);
-	}
+	await requestContainsAuthorizedUser(req);
+	await allowRequestWithoutCoordinates(req);
 
 	const message = await messageService.findMessageById(req);
 	const returnMessage = serviceHelpers.toJson(message);
@@ -55,13 +44,10 @@ messageRouter.get("/:id", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.delete("/:id", asyncHandler(async (req, res) => {
-	const loggedUser = await authenticationService.getLoggedUser(req);
-	authenticationService.userIsAuthenticated(loggedUser);
+	await requestContainsAuthorizedUser(req);
 
-	const message = await messageService.findMessageById(req);
-
-	const isLoggedUsersMessage = messageService.isUsersMesssage(loggedUser, message);
-	if (!isLoggedUsersMessage) {
+	const [isUsersMessage, loggedUser] = isLoggedUsersMessage(req);
+	if (!isUsersMessage) {
 		authenticationService.userIsAdmin(loggedUser);
 	}
 
@@ -70,20 +56,14 @@ messageRouter.delete("/:id", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.post("/:id/like", asyncHandler(async (req, res) => {
-	const loggedUser = await authenticationService.getLoggedUser(req);
-	authenticationService.userIsAuthenticated(loggedUser);
+	await requestContainsAuthorizedUser(req);
 
-	const message = await messageService.findMessageById(req);
-
-	const isLoggedUsersMessage = messageService.isUsersMesssage(loggedUser, message);
-	if (isLoggedUsersMessage) {
+	const [isUsersMessage, loggedUser] = isLoggedUsersMessage(req);
+	if (isUsersMessage) {
 		authenticationService.userIsAdmin(loggedUser);
 	}
 
-	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
-	if (!requestContainsValidLocation) {
-		authenticationService.userIsAdmin(loggedUser);
-	}
+	await allowRequestWithoutCoordinates(req);
 
 	const likedMessage = await messageService.likeMessage(req);
 	const returnMessage = serviceHelpers.toJson(likedMessage);
@@ -94,5 +74,26 @@ messageRouter.post("/:id/like", asyncHandler(async (req, res) => {
 	const returnMessageWithDistance = serviceHelpers.addDistance(returnMessage, location);
 	return res.status(200).json(returnMessageWithDistance);
 }));
+
+const requestContainsAuthorizedUser = async (req) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	authenticationService.userIsAuthenticated(loggedUser);
+};
+
+const allowRequestWithoutCoordinates = async (req) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
+	if (!requestContainsValidLocation) {
+		authenticationService.userIsAdmin(loggedUser);
+	}
+};
+
+const isLoggedUsersMessage = async (req) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	const message = await messageService.findMessageById(req);
+
+	const isUsersMessage = messageService.isUsersMesssage(loggedUser, message);
+	return [isUsersMessage, loggedUser];
+};
 
 module.exports = messageRouter;
