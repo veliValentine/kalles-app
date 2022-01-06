@@ -88,6 +88,13 @@ const getLoggedUserMongoId = async (userId) => {
 	return mongoId;
 };
 
+const upgradeUserToAdmin = async (userId) => {
+	const user = await findUserById(userId);
+	user.isAdmin = true;
+	const savedUser = await user.save();
+	return savedUser;
+};
+
 module.exports = {
 	getAllUsers,
 	findUserById,
@@ -99,4 +106,5 @@ module.exports = {
 	saveMessageToUser,
 	deleteMessageFromUser,
 	addLikedMessageToUser,
+	upgradeUserToAdmin,
 };
