@@ -57,6 +57,16 @@ userRouter.get("/:id/liked", asyncHandler(async (req, res) => {
 	res.status(200).json(toJson(messages));
 }));
 
+userRouter.post("/:id/admin", asyncHandler(async (req, res) => {
+	const loggedUser = await requestContainsAuthorizedUser(req);
+	authenticationService.userIsAdmin(loggedUser);
+
+	const user = await getUserByReqId(req);
+	const savedUser = await userService.upgradeUserToAdmin(user.id);
+
+	res.status(200).json(toJson(savedUser));
+}));
+
 const getUserByReqId = async (req) => {
 	const id = serviceHelper.getRequestId(req);
 	if (!id) throw new BadRequestError(getNoIdGivenMessage());
