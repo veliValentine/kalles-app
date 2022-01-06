@@ -70,6 +70,21 @@ messageRouter.delete("/:id", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.post("/:id/like", asyncHandler(async (req, res) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	authenticationService.userIsAuthenticated(loggedUser);
+
+	const message = await messageService.findMessageById(req);
+
+	const isLoggedUsersMessage = messageService.isUsersMesssage(loggedUser, message);
+	if (isLoggedUsersMessage) {
+		authenticationService.userIsAdmin(loggedUser);
+	}
+
+	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
+	if (!requestContainsValidLocation) {
+		authenticationService.userIsAdmin(loggedUser);
+	}
+
 	const likedMessage = await messageService.likeMessage(req);
 	const returnMessage = serviceHelpers.toJson(likedMessage);
 	if (!serviceHelpers.requestContainsValidLocation(req)) {
