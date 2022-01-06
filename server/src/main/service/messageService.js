@@ -53,6 +53,15 @@ const likeMessage = async (req) => {
 	return savedMessage;
 };
 
+const isUsersMesssage = (user, message) => {
+	const { _id: userIdObject } = user;
+	const userId = userIdObject.toString();
+	const { user: messageUserIdObject } = message;
+	const messageUserId = messageUserIdObject.toString();
+	if (!userId || !messageUserId) return null;
+	return userId === messageUserId;
+};
+
 module.exports = {
 	getAllMessages,
 	findMessageById,
@@ -60,4 +69,5 @@ module.exports = {
 	deleteMessageById,
 	messageWithIdExists,
 	likeMessage,
+	isUsersMesssage,
 };

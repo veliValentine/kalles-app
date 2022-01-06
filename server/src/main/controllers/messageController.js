@@ -55,6 +55,16 @@ messageRouter.get("/:id", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.delete("/:id", asyncHandler(async (req, res) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	authenticationService.userIsAuthenticated(loggedUser);
+
+	const message = await messageService.findMessageById(req);
+
+	const isLoggedUsersMessage = messageService.isUsersMesssage(loggedUser, message);
+	if (!isLoggedUsersMessage) {
+		authenticationService.userIsAdmin(loggedUser);
+	}
+
 	await messageService.deleteMessageById(req);
 	return res.status(204).end();
 }));
