@@ -1,4 +1,4 @@
-const getJwtToken = async (authorizationHeader) => {
+const getJwtToken = (authorizationHeader) => {
 	if (isBearerToken(authorizationHeader)) {
 		const token = getBearerToken(authorizationHeader);
 		return token;

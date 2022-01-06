@@ -1,16 +1,11 @@
-const authorizationService = require("./authorizationService");
-const firebaseService = require("./firebaseService");
 const userService = require("./userService");
 
 const UnauthorizedError = require("../models/errors/unauthorizedError");
 const ForbiddenError = require("../models/errors/forbiddenError");
 
 const getLoggedUser = async (req) => {
-	const { authorization } = req.headers;
-	if (!authorization) return null;
-	const jwtToken = await authorizationService.getJwtToken(authorization);
-	if (!jwtToken) return null;
-	const userId = await firebaseService.getUserUid(jwtToken);
+	const userId = req.id;
+	if (!userId) return null;
 	const user = await userService.findUserById(userId);
 	return user;
 };
