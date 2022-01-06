@@ -38,8 +38,9 @@ const getUserUid = async (jwtToken) => {
 };
 
 const getAccessToken = async (email, password) => {
-	const { accessToken } = await login(email, password);
-	return accessToken;
+	const response = await login(email, password);
+	if (!response) return null;
+	return response.accessToken;
 };
 
 const login = async (email, password) => {

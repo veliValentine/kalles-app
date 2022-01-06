@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const { isProductionEnvironment } = require("./utils/environment");
 
 const app = express();
 
@@ -15,6 +16,7 @@ const firebaseService = require("./service/firebaseService");
 const utilController = require("./controllers/utilController");
 const messageController = require("./controllers/messageController");
 const userController = require("./controllers/userController");
+const authController = require("./controllers/authController");
 
 const authorizationTokenMiddleware = require("./middleware/authorizationTokenMiddleware");
 const getLoggedUserMiddleware = require("./middleware/getLoggedUserMiddleware");
@@ -31,6 +33,10 @@ const V1_ROUTE = "/api/v1";
 app.use(`${V1_ROUTE}`, utilController);
 app.use(`${V1_ROUTE}/messages`, messageController);
 app.use(`${V1_ROUTE}/users`, userController);
+
+if (!isProductionEnvironment) {
+	app.use(`${V1_ROUTE}/auth`, authController);
+}
 
 app.use(endpointNotFound);
 
