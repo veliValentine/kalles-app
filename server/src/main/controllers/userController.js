@@ -18,10 +18,15 @@ userRouter.get("/", asyncHandler(async (req, res) => {
 }));
 
 userRouter.post("/", asyncHandler(async (req, res) => {
-	const tokenId = authenticationService.requestContainsValidToken(req);
+	const tokenId = await authenticationService.requestContainsValidToken(req);
 	if (!tokenId) throw new UnauthorizedError();
 
 	const user = userService.validateUser(req.body, req.id);
+
+	const { id } = user;
+	const existingUser = await userService.findUserById(id);
+	if (existingUser) throw new BadRequestError(`Userid ${id} already in use`);
+
 	const savedUser = await userService.saveUser(user);
 	res.status(201).json(toJson(savedUser));
 }));
