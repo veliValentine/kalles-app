@@ -36,6 +36,14 @@ messageRouter.post("/", asyncHandler(async (req, res) => {
 }));
 
 messageRouter.get("/:id", asyncHandler(async (req, res) => {
+	const loggedUser = await authenticationService.getLoggedUser(req);
+	authenticationService.userIsAuthenticated(loggedUser);
+
+	const requestContainsValidLocation = serviceHelpers.requestContainsValidLocation(req);
+	if (!requestContainsValidLocation) {
+		authenticationService.userIsAdmin(loggedUser);
+	}
+
 	const message = await messageService.findMessageById(req);
 	const returnMessage = serviceHelpers.toJson(message);
 	if (serviceHelpers.requestContainsValidLocation(req)) {
