@@ -1,7 +1,17 @@
 const userService = require("./userService");
+const authorizationService = require("./authorizationService");
+const firebaseService = require("./firebaseService");
 
 const UnauthorizedError = require("../models/errors/unauthorizedError");
 const ForbiddenError = require("../models/errors/forbiddenError");
+
+const requestContainsValidToken = async (req) => {
+	const { authorization } = req.headers;
+	const jwtToken = await authorizationService.getJwtToken(authorization);
+	if (!jwtToken) return null;
+	const userId = await firebaseService.getUserUid(jwtToken);
+	return userId;
+};
 
 const getLoggedUser = async (req) => {
 	const userId = req.id;
@@ -28,6 +38,7 @@ const userOwnsMessage = (user, message) => {
 };
 
 module.exports = {
+	requestContainsValidToken,
 	getLoggedUser,
 	userIsAdmin,
 	userOwnsMessage,
