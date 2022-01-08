@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 149  | ---          |
-| Client | 63   | 24.11.2021   |
+| Total  | 150  | ---          |
+| Client | 64   | 08.01.2022   |
 | Server | 86   | 08.01.2022   |
 
 ## Client
@@ -72,7 +72,8 @@
 |    sum     | 60   | ----------- sum --------------                                      |
 | 4.10.2021  | 2    | refactor: server error handling, feat: error screen                 |
 | 24.11.2021 | 1    | testing firebase login                                              |
-|    sum     | 63   | ----------- sum --------------                                      |
+| 08.01.2022 | 1    | planning client-0.4.0                                               |
+|    sum     | 64   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
