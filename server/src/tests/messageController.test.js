@@ -28,6 +28,7 @@ const INITIAL_USER = [
 	{
 		id: USER_ID_IN_DB,
 		username: "testUser",
+		isAdmin: true,
 	},
 ];
 
@@ -70,19 +71,16 @@ beforeEach(async () => {
 describe("messages", () => {
 	describe("GET messages", () => {
 		test("API returns messages as correct type", async () => {
-			const { body } = await api
-				.get(MESSAGES_ENDPOINT)
-				.expect(200)
-				.expect("Content-type", /application\/json/);
+			const body = await getMessages(`${MESSAGES_ENDPOINT}`);
 
 			expect(Array.isArray(body)).toBe(true);
 		});
 		test("API returns correct amount of messages", async () => {
-			const { body } = await api.get(MESSAGES_ENDPOINT);
+			const body = await getMessages(`${MESSAGES_ENDPOINT}`);
 			expect(body).toHaveLength(INITIAL_MESSAGES.length);
 		});
 		test("API returns valid messages(no distance)", async () => {
-			const { body } = await api.get(MESSAGES_ENDPOINT);
+			const body = await getMessages(`${MESSAGES_ENDPOINT}`);
 			const firstMessage = body[0];
 			expect(firstMessage).toMatchObject(INITIAL_MESSAGES[0]);
 			expect(firstMessage.distance).toBeUndefined();
@@ -91,11 +89,20 @@ describe("messages", () => {
 			expect(firstMessage.id).toBeDefined();
 		});
 		test("API returns valid messages(with distance)", async () => {
-			const { body } = await api.get(`${MESSAGES_ENDPOINT}?${LATITUDE_AND_LONGITUDE_PARAMS}`);
+			const body = await getMessages(`${MESSAGES_ENDPOINT}?${LATITUDE_AND_LONGITUDE_PARAMS}`);
 			const firstMessage = body[0];
 			expect(firstMessage).toMatchObject(INITIAL_MESSAGES[0]);
 			expect(firstMessage.distance).toBe(DEFAULT_DISTANCE);
 		});
+
+		const getMessages = async (url, status = 200) => {
+			const { body } = await api
+				.get(url)
+				.set(AUTH_HEADER)
+				.expect(status)
+				.expect("Content-type", /application\/json/);
+			return body;
+		};
 	});
 
 	describe("POST message", () => {
@@ -250,39 +257,41 @@ describe("messages", () => {
 			});
 
 			test("Returned message is correct type", async () => {
-				await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
-					.expect(200)
-					.expect("Content-type", /application\/json/);
+				await getMessage(`${MESSAGES_ENDPOINT}/${messageInDb.id}`);
 			});
 			test("Returns correct message(no distance)", async () => {
-				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}`)
-					.expect(200);
+				const body = await getMessage(`${MESSAGES_ENDPOINT}/${messageInDb.id}`);
 				expect(body).toEqual(messageInDb);
 			});
 			test("Returns correct message(with distance)", async () => {
-				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${messageInDb.id}?${LATITUDE_AND_LONGITUDE_PARAMS}`);
+				const body = await getMessage(`${MESSAGES_ENDPOINT}/${messageInDb.id}?${LATITUDE_AND_LONGITUDE_PARAMS}`);
 				const messageInDbWithDistance = { ...messageInDb, distance: DEFAULT_DISTANCE };
 				expect(body).toEqual(messageInDbWithDistance);
+			});
+			test("Request with invalid location does not return distance", async () => {
+				const body = await getMessage(`${MESSAGES_ENDPOINT}/${messageInDb.id}?latitude=200&longitude=300`);
+				expect(body.distance).toBeUndefined();
 			});
 		});
 		describe("invalid request", () => {
 			test("fail with 404 ", async () => {
-				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}`)
-					.expect(404)
-					.expect("Content-type", /application\/json/);
+				const body = await getMessage(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}`, 404);
 				expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
 			});
 			test("fail with 400 ", async () => {
-				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}`)
-					.expect(400)
-					.expect("Content-type", /application\/json/);
+				const body = await getMessage(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}`, 400);
 				expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
 			});
-			test("Request with invalid location does not return distance", async () => {
-				const { body } = await api.get(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}?latitude=200&longitude=300`);
-				expect(body.distance).toBeUndefined();
-			});
 		});
+
+		const getMessage = async (url, status = 200) => {
+			const { body } = await api
+				.get(url)
+				.set(AUTH_HEADER)
+				.expect(status)
+				.expect("Content-type", /application\/json/);
+			return body;
+		};
 	});
 
 	describe("DELETE message", () => {
@@ -358,41 +367,42 @@ describe("messages", () => {
 
 		test("Liking message returns status 200 and liked message", async () => {
 			const { id, likes: initialLikes } = messageInDb;
-			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
+			const body = await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
 			const newMessage = { ...messageInDb, likes: initialLikes + 1 };
 			expect(body).toEqual(newMessage);
 		});
 		test("Liking message with coordinates returns 200 and liked message with distance", async () => {
 			const { id, likes: initialLikes } = messageInDb;
-			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like?${LATITUDE_AND_LONGITUDE_PARAMS}`, 200);
+			const body = await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like?${LATITUDE_AND_LONGITUDE_PARAMS}`, 200);
 			const newMessage = { ...messageInDb, likes: initialLikes + 1, distance: DEFAULT_DISTANCE };
 			expect(body).toEqual(newMessage);
 		});
-		test("Liking message adds likes", async () => {
+		test("Liking message twice adds one like", async () => {
 			const likesBefore = await totalMessageLikes();
 			const { id } = messageInDb;
-			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
-			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
+			await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 200);
+			const body = await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${id}/like`, 400);
 			const likesAfter = await totalMessageLikes();
-			expect(likesAfter).toBe(likesBefore + 2);
+			expect(likesAfter).toBe(likesBefore + 1);
+			expect(body).toEqual(badRequestErrorObject("User already liked this message"));
 		});
 		test("Liking non existing message return message not found error", async () => {
-			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`, 404);
+			const body = await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`, 404);
 			expect(body).toEqual(messageNotFoundErrorObject(VALID_TEST_ID));
 		});
 		test("Liking with invalid id returns bad request", async () => {
-			const body = await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`, 400);
+			const body = await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`, 400);
 			expect(body).toEqual(invalidIdErrorObject(INVALID_TEST_ID));
 		});
 		test("Liking non existing message has no effect on likes amount", async () => {
 			const likesBefore = await totalMessageLikes();
-			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`, 404);
-			await postNoBodyWithvalidAuthHeader(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`, 400);
+			await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${VALID_TEST_ID}/like`, 404);
+			await postNoBodyWithValidAuthHeader(`${MESSAGES_ENDPOINT}/${INVALID_TEST_ID}/like`, 400);
 			const likesAfter = await totalMessageLikes();
 			expect(likesAfter).toBe(likesBefore);
 		});
 
-		const postNoBodyWithvalidAuthHeader = async (endpoint, status) => {
+		const postNoBodyWithValidAuthHeader = async (endpoint, status) => {
 			const { body } = await api.post(endpoint)
 				.set(AUTH_HEADER)
 				.expect(status)
