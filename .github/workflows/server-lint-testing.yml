@@ -20,7 +20,7 @@ jobs:
       - name: npm test
         working-directory: ./server
         env: 
-          MONGO_MESSAGES_TEST_URI : ${{ secrets.MONGO_MESSAGES_TEST_URI }}
+          MONGO_TEST_URI : ${{ secrets.MONGO_MESSAGES_TEST_URI }}
           PROJECT_ID : ${{ secrets.SERVER_FIREBASE_PROJECT_ID }}
           PRIVATE_KEY : ${{ secrets.SERVER_FIREBASE_PRIVATE_KEY }}
           CLIENT_EMAIL : ${{ secrets.SERVER_FIREBASE_CLIENT_EMAIL }}
