@@ -24,7 +24,6 @@ const saveMessage = async (req) => {
 	const requestMessage = serviceHelpers.getRequestMessage(req);
 	const newMessage = new Message({ ...requestMessage, user: userMongoId });
 	const savedMessage = await newMessage.save();
-	await userService.saveMessageToUser(userId, savedMessage);
 	return savedMessage;
 };
 
@@ -32,8 +31,6 @@ const deleteMessageById = async (req) => {
 	const id = serviceHelpers.getRequestId(req);
 	const message = await findMessageById(req);
 	if (!message) throw new NotFoundError(`Message with id:${id} not found`);
-	const userId = serviceHelpers.getLoggedUserId(req);
-	userService.deleteMessageFromUser(message, userId);
 	await Message.findByIdAndDelete(id);
 };
 
@@ -55,7 +52,6 @@ const likeMessage = async (req) => {
 	likes.push(userMongoId);
 	message.likes = likes;
 	const savedMessage = await Message.findByIdAndUpdate(messageId, message, { new: true });
-	await userService.addLikedMessageToUser(userId, savedMessage);
 	return savedMessage;
 };
 
