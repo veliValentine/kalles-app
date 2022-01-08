@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | time used to |
 | :----: | :--- | :----------- |
-| Total  | 148  | ---          |
+| Total  | 149  | ---          |
 | Client | 63   | 24.11.2021   |
-| Server | 85   | 08.01.2022   |
+| Server | 86   | 08.01.2022   |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -151,6 +151,7 @@
 | 06.01.2022 | 1    | Upgrade admin endpoint                                                    |
 | 06.01.2022 | 1    | Refactor: mongo uri, Fix: dublicate user id, Feat: one like per user      |
 | 08.01.2022 | 2    | fix test                                                                  |
-|    sum     | 85   | ---------- sum ----------                                                 |
+| 08.01.2022 | 1    | publish server 0.3.0                                                      |
+|    sum     | 86   | ---------- sum ----------                                                 |
 
 | | | |
