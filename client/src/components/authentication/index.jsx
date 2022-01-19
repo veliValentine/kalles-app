@@ -18,7 +18,7 @@ const Authentication = ({ containerStyle, userLogin, userRegisteration }) => {
 
 	const register = (email, password) => {
 		handleForms(
-			signIn(email, password),
+			createUser(email, password),
 			userRegisteration,
 			updateError
 		);
