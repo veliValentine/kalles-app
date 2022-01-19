@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import UserStorage from '../service/storage/userStorage';
-import validateUser from '../utils/validators';
+import { useEffect, useState } from "react";
+import UserStorage from "../service/storage/userStorage";
+import validateUser from "../utils/validators";
 
 const useUser = () => {
 	const storage = UserStorage();
@@ -16,7 +16,7 @@ const useUser = () => {
 		if (loggedUser) {
 			setUser(loggedUser);
 		} else {
-			console.log('user not found');
+			console.log("user not found");
 		}
 	};
 

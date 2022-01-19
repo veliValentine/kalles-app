@@ -1,7 +1,7 @@
-import React from 'react';
-import Main from './src/Main';
+import React from "react";
+import Main from "./src/Main";
 
-import { NativeRouter } from 'react-router-native';
+import { NativeRouter } from "react-router-native";
 
 const App = () => (
 	<NativeRouter>

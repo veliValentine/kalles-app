@@ -2,7 +2,7 @@ export const YELLOW_MESSAGE_THRESHOLD = 15;
 export const READABLE_TRESHOLD = 0.01;
 export const isReadable = (distance = READABLE_TRESHOLD) => distance < READABLE_TRESHOLD;
 
-export const parseLocation = (location, fileLocation = 'no file location given') => {
+export const parseLocation = (location, fileLocation = "no file location given") => {
 	if (!location) {
 		throw new Error(`No location available - ${fileLocation}`);
 	}
@@ -45,7 +45,7 @@ const deg2rad = (deg) => deg * (Math.PI / 180);
 const round100 = (number) => Math.round(number * 100) / 100;
 
 export const doubleDigits = (value) => {
-	if (typeof value !== 'number') throw new TypeError('Not a number');
+	if (typeof value !== "number") throw new TypeError("Not a number");
 	if (value >= 0) {
 		if (value < 10) {
 			return `0${value}`;

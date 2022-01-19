@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { deleteMessage as deleteServerMessage, fetchMessages, postLike, postMessage } from '../service/messageService';
-import { addLikeToUser, userAlreadyLikesMessage } from '../service/userService';
-import { sortByDistances } from '../utils/arrayHelpers';
-import { handleError } from '../utils/errors';
-import ServerError from '../models/error/ServerError';
-import useError from './useError';
-import useLoading from './useLoading';
+import { useState, useEffect } from "react";
+import { deleteMessage as deleteServerMessage, fetchMessages, postLike, postMessage } from "../service/messageService";
+import { addLikeToUser, userAlreadyLikesMessage } from "../service/userService";
+import { sortByDistances } from "../utils/arrayHelpers";
+import { handleError } from "../utils/errors";
+import ServerError from "../models/error/ServerError";
+import useError from "./useError";
+import useLoading from "./useLoading";
 
 const useMessages = (currentLocation, user, updateUser) => {
 	const [messages, setMessages] = useState([]);
@@ -23,7 +23,7 @@ const useMessages = (currentLocation, user, updateUser) => {
 			setMessages(messages.sort(sortByDistances));
 		} catch (error) {
 			if (error instanceof ServerError) {
-				updateError('There was an error with the server');
+				updateError("There was an error with the server");
 			}
 		}
 		stopLoading();

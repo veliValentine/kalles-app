@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text, StyleSheet, View, ScrollView } from 'react-native';
-import { Link } from 'react-router-native';
+import React from "react";
+import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { Link } from "react-router-native";
 
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 const AppBar = ({ user }) => (
 	<View style={styles.container}>
@@ -27,16 +27,16 @@ const AppBarTab = ({ to, children }) => (
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: 'black',
-		flexDirection: 'row',
+		backgroundColor: "black",
+		flexDirection: "row",
 		padding: 10,
 		height: 55
 	},
 	text: {
 		padding: 10,
-		color: 'white',
+		color: "white",
 		marginRight: 20,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 	},
 });
 

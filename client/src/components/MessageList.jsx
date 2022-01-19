@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { useHistory } from 'react-router-native';
-import { isReadable, readableDistance } from '../utils';
-import ItemSeparator from './common/ItemSeparator';
-import LoadingScreen from './LoadingScreen';
+import React from "react";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { useHistory } from "react-router-native";
+import { isReadable, readableDistance } from "../utils";
+import ItemSeparator from "./common/ItemSeparator";
+import LoadingScreen from "./LoadingScreen";
 
 const MessageList = ({ messages, loadingMessages }) => {
 	const history = useHistory();
@@ -13,7 +13,7 @@ const MessageList = ({ messages, loadingMessages }) => {
 			container: styles.missingContainer,
 			text: {}
 		};
-		return <LoadingScreen message={'Loading messages...'} styles={loadingStyles} />;
+		return <LoadingScreen message={"Loading messages..."} styles={loadingStyles} />;
 	}
 	if (messages.length < 1) {
 		return <NoMessages redirect={redirect} />;
@@ -32,13 +32,13 @@ const MessageList = ({ messages, loadingMessages }) => {
 
 const NoMessages = ({ redirect }) => {
 	const handlePress = () => {
-		redirect('/newMessage');
+		redirect("/newMessage");
 	};
 	return (
 		<View style={styles.missingContainer}>
 			<TouchableOpacity onPress={handlePress}>
 				<Text>Messages not found!</Text>
-				<Text style={{ color: 'blue' }}>Add a new message!</Text>
+				<Text style={{ color: "blue" }}>Add a new message!</Text>
 			</TouchableOpacity>
 		</View>
 	);
@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
 		padding: 5
 	},
 	messageContainer: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		padding: 5,
 	},
 	missingContainer: {
 		marginTop: 5,
 		padding: 10,
-		backgroundColor: 'white',
+		backgroundColor: "white",
 	},
 });
 

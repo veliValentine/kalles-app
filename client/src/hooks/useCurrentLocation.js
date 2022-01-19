@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { calculateDistance } from '../utils';
-import * as Location from 'expo-location';
-import useLoading from './useLoading';
+import { useState, useEffect } from "react";
+import { calculateDistance } from "../utils";
+import * as Location from "expo-location";
+import useLoading from "./useLoading";
 
 const DISTANCE_THRESHOLD_KM = 0.01;
 

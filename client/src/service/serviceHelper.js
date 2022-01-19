@@ -1,4 +1,4 @@
-import ServerError from '../models/error/ServerError';
+import ServerError from "../models/error/ServerError";
 
 export const HTTP_OK = 200;
 
@@ -14,15 +14,15 @@ export const throwInvalidresponse = (response, status = HTTP_OK) => {
 };
 
 export const postJsonOption = (requestBody) => ({
-	method: 'POST',
+	method: "POST",
 	headers: {
-		'Content-Type': 'application/json'
+		"Content-Type": "application/json"
 	},
 	body: JSON.stringify(requestBody)
 });
 
 export const deleteJsonOption = () => ({
-	method: 'DELETE'
+	method: "DELETE"
 });
 
 export const handleServerError = (error, jsonResponse) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 let timeoutId;
 const useError = (defaultTimeoutTime = 5) => {

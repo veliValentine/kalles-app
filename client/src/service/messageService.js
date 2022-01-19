@@ -1,6 +1,6 @@
-import { HTTP_CREATED, throwInvalidresponse, postJsonOption, deleteJsonOption, HTTP_NO_CONTENT, handleServerError } from './serviceHelper';
-import { parseLocation } from '../utils';
-import { SERVER_URL_BASE } from '../utils/URL';
+import { HTTP_CREATED, throwInvalidresponse, postJsonOption, deleteJsonOption, HTTP_NO_CONTENT, handleServerError } from "./serviceHelper";
+import { parseLocation } from "../utils";
+import { SERVER_URL_BASE } from "../utils/URL";
 
 const MESSAGE_URL = `${SERVER_URL_BASE}/messages`;
 
@@ -18,7 +18,7 @@ export const fetchMessages = async (location) => {
 };
 
 const coordinateQueryURL = (location) => {
-	const { latitude, longitude } = parseLocation(location, 'messageService.js');
+	const { latitude, longitude } = parseLocation(location, "messageService.js");
 	return `${MESSAGE_URL}?latitude=${latitude}&longitude=${longitude}`;
 };
 

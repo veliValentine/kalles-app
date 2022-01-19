@@ -14,4 +14,4 @@ export const userAlreadyLikesMessage = (user = throwUndefined(), messageId = thr
 
 export const getUserLikedMessages = (user = throwUndefined()) => (user.likedMessages ? user.likedMessages : []);
 
-const throwUndefined = () => { throw new Error('Undefined'); };
+const throwUndefined = () => { throw new Error("Undefined"); };

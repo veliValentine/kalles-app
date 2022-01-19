@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useHistory } from 'react-router-native';
-import ItemSeparator from './common/ItemSeparator';
-import LoadingScreen from './LoadingScreen';
+import React from "react";
+import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useHistory } from "react-router-native";
+import ItemSeparator from "./common/ItemSeparator";
+import LoadingScreen from "./LoadingScreen";
 
 const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
 	const usersMessages = messages.filter(({ username }) => username === user.username);
@@ -14,7 +14,7 @@ const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
 		<View>
 			<UserInfo user={user} />
 			{loadingMessages ?
-				<LoadingScreen message={'Loading messages...'} styles={loadingMessageStyles} /> :
+				<LoadingScreen message={"Loading messages..."} styles={loadingMessageStyles} /> :
 				<UserMessages messages={usersMessages} />
 			}
 			<Button onPress={() => logout()} title="logout" />
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 10,
 		margin: 10,
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		borderRadius: 10
 	},
 	userMessagesContainer: {
@@ -74,18 +74,18 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		padding: 10,
-		color: 'black',
+		color: "black",
 		marginRight: 20,
 	},
 	textMyMessages: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		padding: 5,
 		borderRadius: 5,
 		marginBottom: 5,
-		fontWeight: 'bold'
+		fontWeight: "bold"
 	},
 	messageContainer: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		padding: 5,
 		borderRadius: 5
 	},

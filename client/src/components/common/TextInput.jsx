@@ -1,7 +1,7 @@
-import React from 'react';
-import { StyleSheet, TextInput as NativeTextInput } from 'react-native';
+import React from "react";
+import { StyleSheet, TextInput as NativeTextInput } from "react-native";
 
-const TextInput = ({ handleTextChange, placeholder = '', value = '', multiline = false }) => (
+const TextInput = ({ handleTextChange, placeholder = "", value = "", multiline = false }) => (
 	<NativeTextInput
 		onChangeText={handleTextChange}
 		placeholder={placeholder}
