@@ -1,4 +1,4 @@
-import ServerError from '../utils/ServerError';
+import ServerError from '../models/error/ServerError';
 
 export const HTTP_OK = 200;
 

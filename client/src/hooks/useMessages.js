@@ -3,7 +3,7 @@ import { deleteMessage as deleteServerMessage, fetchMessages, postLike, postMess
 import { addLikeToUser, userAlreadyLikesMessage } from '../service/userService';
 import { sortByDistances } from '../utils/arrayHelpers';
 import { handleError } from '../utils/errors';
-import ServerError from '../utils/ServerError';
+import ServerError from '../models/error/ServerError';
 import useError from './useError';
 import useLoading from './useLoading';
 
