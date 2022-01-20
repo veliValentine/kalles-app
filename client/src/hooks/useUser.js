@@ -1,37 +1,66 @@
-import { useEffect, useState } from "react";
-import UserStorage from "../service/storage/userStorage";
-import validateUser from "../utils/validators";
+import { useState } from "react";
+
+import useError from "./useError";
+import useLoading from "./useLoading";
+
+import ServerError from "../models/error/ServerError";
+import { createUser, getUser } from "../service/userService";
 
 const useUser = () => {
-	const storage = UserStorage();
-
 	const [user, setUser] = useState(null);
+	const [token, setToken] = useState(null);
+	const [isLoading, startLoading, stopLoading] = useLoading();
+	const [error, updateError] = useError();
 
-	useEffect(() => {
-		getLoggedUser();
-	}, []);
-
-	const getLoggedUser = async () => {
-		const loggedUser = await storage.getUser();
-		if (loggedUser) {
-			setUser(loggedUser);
-		} else {
-			console.log("user not found");
+	const fetchUser = async () => {
+		if (user && user.id && token) {
+			startLoading();
+			await getUserFromServer(user.id, token);
+			stopLoading();
 		}
 	};
 
-	const updateUser = (user) => {
-		validateUser(user);
-		setUser(user);
-		storage.saveUser(user);
+	const login = async ({ uid, accessToken }) => {
+		startLoading();
+		await getUserFromServer(uid, accessToken);
+		stopLoading();
 	};
 
-	const removeUser = async () => {
-		await storage.removeUser();
+	const getUserFromServer = async (uid, accessToken) => {
+		try {
+			const user = await getUser(accessToken, uid);
+			setUser(user);
+			setToken(accessToken);
+		} catch (error) {
+			handleApiErrors(error);
+		}
+	};
+
+	const register = async ({ uid, accessToken, username }) => {
+		startLoading();
+		try {
+			const user = await createUser(accessToken, uid, username);
+			setUser(user);
+			setToken(accessToken);
+		} catch (error) {
+			handleApiErrors(error);
+		}
+
+		stopLoading();
+	};
+
+	const handleApiErrors = (error) => {
+		if (error instanceof ServerError) {
+			return updateError("There was an error with the server");
+		}
+		throw error;
+	};
+
+	const logout = () => {
 		setUser(null);
 	};
 
-	return [user, updateUser, removeUser];
+	return [user, fetchUser, login, register, logout, isLoading, error];
 };
 
 export default useUser;
