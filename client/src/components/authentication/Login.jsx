@@ -11,10 +11,12 @@ const Login = ({ login, error }) => {
 		<View style={styles.container}>
 			<Text style={styles.header}>Login</Text>
 			<Input text="Enter your email: "
+				placeholder="Email"
 				value={email}
 				handleTextChange={setEmail}
 			/>
 			<Input text="Enter your password: "
+				placeholder="Password"
 				value={password}
 				handleTextChange={setPassword}
 				isPassword={true}

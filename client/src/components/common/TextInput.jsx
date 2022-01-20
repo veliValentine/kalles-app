@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput as NativeTextInput } from "react-native";
 
-const TextInput = ({ handleTextChange, placeholder = "", value = "", multiline = false, secureTextEntry = false }) => (
+const TextInput = ({ handleTextChange, placeholder = "", value = "", multiline = false, secureTextEntry = false, autoCapitalize = "sentences" }) => (
 	<NativeTextInput
 		onChangeText={handleTextChange}
 		placeholder={placeholder}
@@ -10,6 +10,7 @@ const TextInput = ({ handleTextChange, placeholder = "", value = "", multiline =
 		value={value}
 		multiline={multiline}
 		secureTextEntry={secureTextEntry}
+		autoCapitalize={autoCapitalize}
 	/>
 );
 
