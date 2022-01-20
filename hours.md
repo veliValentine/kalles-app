@@ -5,11 +5,11 @@
 	- [Server](#server)
 
 ## Total
-|  day   | time | time used to |
-| :----: | :--- | :----------- |
-| Total  | 154  | ---          |
-| Client | 68   | 08.01.2022   |
-| Server | 86   | 08.01.2022   |
+|  day   | time | last update |
+| :----: | :--- | :---------- |
+| Total  | 157  | ---         |
+| Client | 71   | 20.01.2022  |
+| Server | 86   | 08.01.2022  |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -76,7 +76,10 @@
 | 19.01.2022 | 1    | client dependencies update                                          |
 | 19.01.2022 | 1    | firebase server                                                     |
 | 19.01.2022 | 2    | login and register page                                             |
-|    sum     | 68   | ----------- sum --------------                                      |
+| 20.01.2022 | 2    | Feat: Register & login form                                         |
+|    sum     | 70   | ----------- sum --------------                                      |
+| 20.01.2022 | 1    | Feat: User service                                                  |
+|    sum     | 71   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
