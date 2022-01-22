@@ -5,7 +5,7 @@ import { createUser, signIn } from "../../service/firebaseService";
 import Login from "./Login";
 import Register from "./Register";
 
-const Authentication = ({ containerStyle, userLogin, userRegisteration }) => {
+const Authentication = ({ containerStyle, userLogin, userRegisteration, loading }) => {
 	const [showRegister, setShowRegister] = useState(false);
 	const [error, updateError] = useError();
 
@@ -33,6 +33,7 @@ const Authentication = ({ containerStyle, userLogin, userRegisteration }) => {
 		);
 	};
 	const handleForms = async (promise, callBack, errorCallBack) => {
+		if (loading) return;
 		try {
 			const userInfo = await promise;
 			callBack(userInfo);
@@ -43,8 +44,8 @@ const Authentication = ({ containerStyle, userLogin, userRegisteration }) => {
 	return (
 		<View style={containerStyle}>
 			{showRegister ?
-				<Register register={register} error={error} /> :
-				<Login login={login} error={error} />
+				<Register register={register} error={error} loading={loading} /> :
+				<Login login={login} error={error} loading={loading} />
 			}
 			<View style={styles.switchButtonContainer}>
 				<Button

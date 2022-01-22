@@ -18,10 +18,9 @@ import useCurrentLocation from "./hooks/useCurrentLocation";
 import useUser from "./hooks/useUser";
 
 const Main = () => {
-	const [, userError, user, fetchUser, login, register, logout] = useUser();
+	const [loadingUser, userError, user, fetchUser, login, register, logout] = useUser();
 	const [location, changeLocation, loadingLocation] = useCurrentLocation();
 	const [loadingMessages, messageError, messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, fetchUser, user);
-
 	if (loadingLocation || !location) return <LoadingScreen message={"Loading location..."} />;
 
 	if (!location) return <LoadingScreen message={"No location available"} />;
@@ -33,10 +32,10 @@ const Main = () => {
 			<AppBar user={user} />
 			<ErrorScreen errorMessage={errorMessage} />
 			{!user ?
-				<Authentication containerStyle={styles.container} userLogin={login} userRegisteration={register} /> :
+				<Authentication containerStyle={styles.container} userLogin={login} userRegisteration={register} loading={loadingUser} /> :
 				<Switch>
 					<Route path="/userinfo" exact>
-						<UserInfoPage user={user} logout={logout}/>
+						<UserInfoPage user={user} logout={logout} />
 					</Route>
 					<Route path="/message/:id" exact>
 						<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />

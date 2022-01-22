@@ -4,7 +4,7 @@ import { useState } from "react/cjs/react.development";
 import Error from "../common/Error";
 import { Input, styles } from "./commonAuth";
 
-const Login = ({ login, error }) => {
+const Login = ({ login, error, loading }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	return (
@@ -26,6 +26,7 @@ const Login = ({ login, error }) => {
 			<Button
 				onPress={() => login(email, password)}
 				title="login"
+				disabled={loading}
 			/>
 		</View>
 	);

@@ -5,7 +5,7 @@ import useError from "../../hooks/useError";
 import ErrorComponent from "../common/Error";
 import { Input, styles } from "./commonAuth";
 
-const Register = ({ register, error }) => {
+const Register = ({ register, error, loading }) => {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [emailAgain, setEmailAgain] = useState("");
@@ -70,6 +70,7 @@ const Register = ({ register, error }) => {
 				<Button
 					onPress={handleRegister}
 					title="register"
+					disabled={loading}
 				/>
 			</ScrollView>
 		</View>
