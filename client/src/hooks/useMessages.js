@@ -8,8 +8,7 @@ import {
 	likeMessage as serviceLikeMessage
 } from "../service/messageService";
 import { sortByDistances } from "../utils/arrayHelpers";
-import LocationError from "../models/error/LocationError";
-import ServerError from "../models/error/ServerError";
+import { handleApiErrors } from "../utils/errors";
 
 const useMessages = (currentLocation, fetchUser, user) => {
 	const token = user && user.token;
@@ -28,7 +27,7 @@ const useMessages = (currentLocation, fetchUser, user) => {
 				const messages = await serviceGetMessages(token, currentLocation);
 				setMessages(messages.sort(sortByDistances));
 			} catch (error) {
-				handleError(error);
+				handleApiErrors(error, updateError);
 			}
 			stopLoading();
 		}
@@ -49,7 +48,7 @@ const useMessages = (currentLocation, fetchUser, user) => {
 				.sort(sortByDistances));
 			fetchUser();
 		} catch (error) {
-			handleError(error);
+			handleApiErrors(error, updateError);
 		}
 	};
 
@@ -60,7 +59,7 @@ const useMessages = (currentLocation, fetchUser, user) => {
 			setMessages(newMessages);
 			fetchUser();
 		} catch (error) {
-			handleError(error);
+			handleApiErrors(error, updateError);
 		}
 	};
 
@@ -71,22 +70,8 @@ const useMessages = (currentLocation, fetchUser, user) => {
 			setMessages(newMessages);
 			fetchUser();
 		} catch (error) {
-			handleError(error);
+			handleApiErrors(error, updateError);
 		}
-	};
-
-	const handleError = (error) => {
-		if (error instanceof ServerError) {
-			return updateError("There was an error with the server");
-		}
-		if (error instanceof LocationError) {
-			return updateError("There was an error with the location");
-		}
-		console.log(JSON.stringify({
-			error: error.name,
-			message: error.message,
-		}));
-		updateError("An unexpected error happened!");
 	};
 
 	return [isLoading, error, messages, getMessages, addMessage, likeMessage, deleteMessage];
