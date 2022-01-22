@@ -1,3 +1,6 @@
+import { getAuthHeader } from "./instance/apiInstance";
+
+import LocationError from "../models/error/LocationError";
 import ServerError from "../models/error/ServerError";
 
 export const HTTP_OK = 200;
@@ -32,3 +35,23 @@ export const handleServerError = (error, jsonResponse) => {
 	}
 	throw new Error(jsonResponse.error);
 };
+
+export const getDefaultOptions = (token) => ({
+	headers: getAuthHeader(token),
+});
+
+export const apiError = (error) => {
+	console.log("Api error");
+	const errorObject = {
+		message: error.message,
+		status: error.response.status,
+		body: error && error.response && error.response.data
+	};
+	console.log(JSON.stringify(errorObject));
+	if (error instanceof LocationError) {
+		throw new ServerError("There was an error with the location");
+	}
+	throw new ServerError("There was an error with the server");
+};
+
+export const throwUndefined = () => { throw new Error("Undefined"); };
