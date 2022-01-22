@@ -1,37 +1,63 @@
-import { useEffect, useState } from 'react';
-import UserStorage from '../service/storage/userStorage';
-import validateUser from '../utils/validators';
+import { useState } from "react";
+
+import useError from "./useError";
+import useLoading from "./useLoading";
+
+import { createUser, getUser } from "../service/userService";
+import { handleApiErrors } from "../utils/errors";
 
 const useUser = () => {
-	const storage = UserStorage();
+	const [user, setUser] = useState();
+	const [isLoading, startLoading, stopLoading] = useLoading();
+	const [error, updateError] = useError();
 
-	const [user, setUser] = useState(null);
-
-	useEffect(() => {
-		getLoggedUser();
-	}, []);
-
-	const getLoggedUser = async () => {
-		const loggedUser = await storage.getUser();
-		if (loggedUser) {
-			setUser(loggedUser);
-		} else {
-			console.log('user not found');
+	const fetchUser = async () => {
+		if (user && user.id && user.token) {
+			startLoading();
+			await getUserFromServer(user.id, user.token);
+			stopLoading();
 		}
 	};
 
-	const updateUser = (user) => {
-		validateUser(user);
-		setUser(user);
-		storage.saveUser(user);
+	const login = async ({ uid, accessToken }) => {
+		startLoading();
+		await getUserFromServer(uid, accessToken);
+		stopLoading();
 	};
 
-	const removeUser = async () => {
-		await storage.removeUser();
+	const getUserFromServer = async (uid, accessToken) => {
+		try {
+			const user = await getUser(accessToken, uid);
+			saveUser(user, accessToken);
+		} catch (error) {
+			handleApiErrors(error, updateError);
+		}
+	};
+
+	const register = async ({ uid, accessToken, username }) => {
+		startLoading();
+		try {
+			const user = await createUser(accessToken, uid, username);
+			saveUser(user, accessToken);
+		} catch (error) {
+			handleApiErrors(error, updateError);
+		}
+		stopLoading();
+	};
+
+	const logout = () => {
 		setUser(null);
 	};
 
-	return [user, updateUser, removeUser];
+	const saveUser = (user, token) => {
+		const userWithToken = {
+			...user,
+			token,
+		};
+		setUser(userWithToken);
+	};
+
+	return [isLoading, error, user, fetchUser, login, register, logout];
 };
 
 export default useUser;

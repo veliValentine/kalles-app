@@ -1,66 +1,62 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Redirect, Route, Switch } from 'react-router-native';
-import Constants from 'expo-constants';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Redirect, Route, Switch } from "react-router-native";
+import Constants from "expo-constants";
 
-import MessageList from './components/MessageList';
-import MessageForm from './components/MessageForm';
-import AppBar from './components/AppBar';
-import Message from './components/Message';
-import MapPage from './components/MapPage';
-import LoadingScreen from './components/LoadingScreen';
-import Login from './components/Login';
-import UserInfoPage from './components/UserInfoPage';
+import MessageList from "./components/MessageList";
+import MessageForm from "./components/MessageForm";
+import AppBar from "./components/AppBar";
+import Message from "./components/Message";
+import MapPage from "./components/MapPage";
+import LoadingScreen from "./components/LoadingScreen";
+import UserInfoPage from "./components/UserInfoPage";
+import ErrorScreen from "./components/ErrorScreen";
+import Authentication from "./components/authentication";
 
-import useMessages from './hooks/useMessages';
-import useCurrentLocation from './hooks/useCurrentLocation';
-import useUser from './hooks/useUser';
-import ErrorScreen from './components/ErrorScreen';
+import useMessages from "./hooks/useMessages";
+import useCurrentLocation from "./hooks/useCurrentLocation";
+import useUser from "./hooks/useUser";
 
 const Main = () => {
-	const [user, updateUser, removeUser] = useUser();
+	const [loadingUser, userError, user, fetchUser, login, register, logout] = useUser();
 	const [location, changeLocation, loadingLocation] = useCurrentLocation();
-	const [messages, getMessages, addMessage, likeMessage, deleteMessage, loadingMessages, messageError] = useMessages(location, user, updateUser);
+	const [loadingMessages, messageError, messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, fetchUser, user);
+	if (loadingLocation || !location) return <LoadingScreen message={"Loading location..."} />;
 
-	if (!user) return <Login containerStyle={styles.container} updateUser={updateUser} />;
+	if (!location) return <LoadingScreen message={"No location available"} />;
 
-	if (loadingLocation || !location) return <LoadingScreen message={'Loading location...'} />;
-
-	if (!location) return <LoadingScreen message={'No location available'} />;
-
-	const reloadMessages = () => getMessages();
-
-	const logout = () => removeUser();
-
-	const errorMessage = messageError || null;
+	const errorMessage = userError || messageError || null;
 
 	return (
 		<View style={styles.container}>
 			<AppBar user={user} />
 			<ErrorScreen errorMessage={errorMessage} />
-			<Switch>
-				<Route path="/userinfo" exact>
-					<UserInfoPage user={user} logout={logout} messages={messages} loadingMessages={loadingMessages} />
-				</Route>
-				<Route path="/message/:id" exact>
-					<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
-				</Route>
-				<Route path="/messages" exact>
-					<MessageList messages={messages} loadingMessages={loadingMessages} />
-				</Route>
-				<Route path="/newMessage">
-					<MessageForm addMessage={addMessage} currentLocation={location} />
-				</Route>
-				<Route path={['/map', '/map/:latitude/:longitude']} exact key="default-map">
-					<MapPage
-						messages={messages}
-						reloadMessages={reloadMessages}
-						location={location}
-						changeLocation={changeLocation}
-					/>
-				</Route>
-				<Redirect to="/map" />
-			</Switch>
+			{!user ?
+				<Authentication containerStyle={styles.container} userLogin={login} userRegisteration={register} loading={loadingUser} /> :
+				<Switch>
+					<Route path="/userinfo" exact>
+						<UserInfoPage user={user} logout={logout} />
+					</Route>
+					<Route path="/message/:id" exact>
+						<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
+					</Route>
+					<Route path="/messages" exact>
+						<MessageList messages={messages} loadingMessages={loadingMessages} />
+					</Route>
+					<Route path="/newMessage">
+						<MessageForm addMessage={addMessage} currentLocation={location} />
+					</Route>
+					<Route path={["/map", "/map/:latitude/:longitude"]} exact key="default-map">
+						<MapPage
+							messages={messages}
+							reloadMessages={getMessages}
+							location={location}
+							changeLocation={changeLocation}
+						/>
+					</Route>
+					<Redirect to="/map" />
+				</Switch>
+			}
 		</View>
 	);
 };
@@ -70,7 +66,7 @@ const styles = StyleSheet.create({
 		marginTop: Constants.statusBarHeight,
 		flexGrow: 1,
 		flexShrink: 1,
-		backgroundColor: '#F0EAD6'
+		backgroundColor: "#F0EAD6"
 	},
 });
 

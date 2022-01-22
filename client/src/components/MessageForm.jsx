@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, View, Button } from 'react-native';
-import { useHistory } from 'react-router-native';
-import useError from '../hooks/useError';
-import Error from './common/Error';
-import TextInput from './common/TextInput';
+import React, { useState } from "react";
+import { Text, StyleSheet, View, Button } from "react-native";
+import { useHistory } from "react-router-native";
+import useError from "../hooks/useError";
+import Error from "./common/Error";
+import TextInput from "./common/TextInput";
 
 const MessageForm = ({ addMessage }) => {
-	const [message, setMessage] = useState('');
+	const [message, setMessage] = useState("");
 	const [error, updateError] = useError();
 	const history = useHistory();
 
 	const newMessage = () => {
 		const messageData = message.trim();
-		if (!messageData) return updateError('Message required');
+		if (!messageData) return updateError("Message required");
 
 		addMessage({
 			message: messageData,
 		});
 
-		setMessage('');
-		history.push('/map');
+		setMessage("");
+		history.push("/map");
 	};
 
 	return (
@@ -43,12 +43,12 @@ const MessageForm = ({ addMessage }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		padding: 15,
 	},
 	button: {
 		padding: 10,
-		backgroundColor: 'blue',
+		backgroundColor: "blue",
 	}
 });
 
