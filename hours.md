@@ -7,9 +7,9 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 160  | ---         |
+| Total  | 161  | ---         |
 | Client | 74   | 22.01.2022  |
-| Server | 86   | 08.01.2022  |
+| Server | 87   | 22.01.2022  |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -160,6 +160,7 @@
 | 06.01.2022 | 1    | Refactor: mongo uri, Fix: dublicate user id, Feat: one like per user      |
 | 08.01.2022 | 2    | fix test                                                                  |
 | 08.01.2022 | 1    | publish server 0.3.0                                                      |
-|    sum     | 86   | ---------- sum ----------                                                 |
+| 22.01.2022 | 1    | fix: model relations, publish server 0.3.1                                                      |
+|    sum     | 87   | ---------- sum ----------                                                 |
 
 | | | |
