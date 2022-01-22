@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 157  | ---         |
-| Client | 71   | 20.01.2022  |
+| Total  | 160  | ---         |
+| Client | 74   | 22.01.2022  |
 | Server | 86   | 08.01.2022  |
 
 ## Client
@@ -79,7 +79,8 @@
 | 20.01.2022 | 2    | Feat: Register & login form                                         |
 |    sum     | 70   | ----------- sum --------------                                      |
 | 20.01.2022 | 1    | Feat: User service                                                  |
-|    sum     | 71   | ----------- sum --------------                                      |
+| 22.01.2022 | 3    | Refactor: use new endpoints |
+|    sum     | 74   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
