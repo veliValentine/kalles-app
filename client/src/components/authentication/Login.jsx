@@ -14,6 +14,7 @@ const Login = ({ login, error }) => {
 				placeholder="Email"
 				value={email}
 				handleTextChange={setEmail}
+				isEmail={true}
 			/>
 			<Input text="Enter your password: "
 				placeholder="Password"

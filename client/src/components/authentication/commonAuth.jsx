@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import TextInput from "../common/TextInput";
 
-export const Input = ({ text, placeholder, value, handleTextChange, isPassword = false }) => (
+export const Input = ({ text, placeholder, value, handleTextChange, isPassword = false, isEmail = false }) => (
 	<View>
 		<Text>{text}</Text>
 		<TextInput
@@ -11,6 +11,7 @@ export const Input = ({ text, placeholder, value, handleTextChange, isPassword =
 			value={value}
 			secureTextEntry={isPassword}
 			autoCapitalize="none"
+			keyboardType={isEmail ? "email-address" : undefined}
 		/>
 	</View>
 );

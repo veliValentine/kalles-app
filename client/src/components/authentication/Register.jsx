@@ -46,11 +46,13 @@ const Register = ({ register, error }) => {
 					placeholder="Email"
 					value={email}
 					handleTextChange={setEmail}
+					isEmail={true}
 				/>
 				<Input text="Enter your email again: "
 					placeholder="Email again"
 					value={emailAgain}
 					handleTextChange={setEmailAgain}
+					isEmail={true}
 				/>
 				<Input text="Enter your password: "
 					placeholder="Password"
