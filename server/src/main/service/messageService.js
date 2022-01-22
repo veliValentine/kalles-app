@@ -24,6 +24,10 @@ const saveMessage = async (req) => {
 	const requestMessage = serviceHelpers.getRequestMessage(req);
 	const newMessage = new Message({ ...requestMessage, user: userMongoId });
 	const savedMessage = await newMessage.save();
+
+	const { _id: messageMongoId } = savedMessage;
+	await userService.addMessageToUser(userId, messageMongoId);
+
 	return savedMessage;
 };
 
