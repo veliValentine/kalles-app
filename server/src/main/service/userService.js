@@ -70,6 +70,18 @@ const upgradeUserToAdmin = async (userId) => {
 	return savedUser;
 };
 
+const addMessageToUser = async (userId, messageMongoId) => {
+	const user = await findUserById(userId);
+	user.messages = user.messages.concat(messageMongoId);
+	await user.save();
+};
+
+const addLikedMessageToUser = async (userId, messageMongoId) => {
+	const user = await findUserById(userId);
+	user.liked = user.liked.concat(messageMongoId);
+	await user.save();
+};
+
 module.exports = {
 	getAllUsers,
 	findUserById,
@@ -79,4 +91,6 @@ module.exports = {
 	saveUser,
 	getLoggedUserMongoId,
 	upgradeUserToAdmin,
+	addMessageToUser,
+	addLikedMessageToUser,
 };
