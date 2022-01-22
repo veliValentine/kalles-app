@@ -1,11 +1,13 @@
 import React from "react";
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useHistory } from "react-router-native";
+import useUserContent from "../hooks/useUserContent";
 import ItemSeparator from "./common/ItemSeparator";
 import LoadingScreen from "./LoadingScreen";
 
-const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
-	const usersMessages = messages.filter(({ username }) => username === user.username);
+const UserInfoPage = ({ user, logout }) => {
+	const [loading, , usersMessages, likedMessages] = useUserContent(user);
+
 	const loadingMessageStyles = {
 		container: styles.container,
 		text: {}
@@ -13,9 +15,12 @@ const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
 	return (
 		<View>
 			<UserInfo user={user} />
-			{loadingMessages ?
+			{loading ?
 				<LoadingScreen message={"Loading messages..."} styles={loadingMessageStyles} /> :
-				<UserMessages messages={usersMessages} />
+				<View>
+					<ListMessages messages={usersMessages} text="My messages:" />
+					<ListMessages messages={likedMessages} text="Liked messages:" />
+				</View>
 			}
 			<Button onPress={() => logout()} title="logout" />
 		</View>
@@ -29,11 +34,11 @@ const UserInfo = ({ user }) => (
 	</View>
 );
 
-const UserMessages = ({ messages = [] }) => {
+const ListMessages = ({ messages = [], text = "" }) => {
 	if (messages.length < 1) return null;
 	return (
 		<View style={styles.userMessagesContainer}>
-			<Text style={styles.textMyMessages}>My messages:</Text>
+			<Text style={styles.textMyMessages}>{text}</Text>
 			<FlatList
 				data={messages}
 				keyExtractor={(item) => item.id}

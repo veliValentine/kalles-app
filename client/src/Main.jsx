@@ -26,8 +26,6 @@ const Main = () => {
 
 	if (!location) return <LoadingScreen message={"No location available"} />;
 
-	const reloadMessages = () => getMessages();
-
 	const errorMessage = userError || messageError || null;
 
 	return (
@@ -38,7 +36,7 @@ const Main = () => {
 				<Authentication containerStyle={styles.container} userLogin={login} userRegisteration={register} /> :
 				<Switch>
 					<Route path="/userinfo" exact>
-						<UserInfoPage user={user} logout={logout} messages={messages} loadingMessages={loadingMessages} />
+						<UserInfoPage user={user} logout={logout}/>
 					</Route>
 					<Route path="/message/:id" exact>
 						<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
@@ -52,7 +50,7 @@ const Main = () => {
 					<Route path={["/map", "/map/:latitude/:longitude"]} exact key="default-map">
 						<MapPage
 							messages={messages}
-							reloadMessages={reloadMessages}
+							reloadMessages={getMessages}
 							location={location}
 							changeLocation={changeLocation}
 						/>
