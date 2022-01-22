@@ -8,14 +8,13 @@ import { createUser, getUser } from "../service/userService";
 
 const useUser = () => {
 	const [user, setUser] = useState(null);
-	const [token, setToken] = useState(null);
 	const [isLoading, startLoading, stopLoading] = useLoading();
 	const [error, updateError] = useError();
 
 	const fetchUser = async () => {
-		if (user && user.id && token) {
+		if (user && user.id && user.token) {
 			startLoading();
-			await getUserFromServer(user.id, token);
+			await getUserFromServer(user.id, user.token);
 			stopLoading();
 		}
 	};
@@ -29,8 +28,7 @@ const useUser = () => {
 	const getUserFromServer = async (uid, accessToken) => {
 		try {
 			const user = await getUser(accessToken, uid);
-			setUser(user);
-			setToken(accessToken);
+			saveUser(user, accessToken);
 		} catch (error) {
 			handleApiErrors(error);
 		}
@@ -40,13 +38,20 @@ const useUser = () => {
 		startLoading();
 		try {
 			const user = await createUser(accessToken, uid, username);
-			setUser(user);
-			setToken(accessToken);
+			saveUser(user, accessToken);
 		} catch (error) {
 			handleApiErrors(error);
 		}
 
 		stopLoading();
+	};
+
+	const saveUser = (user, token) => {
+		const userWithToken = {
+			...user,
+			token,
+		};
+		setUser(userWithToken);
 	};
 
 	const handleApiErrors = (error) => {
@@ -60,7 +65,7 @@ const useUser = () => {
 		setUser(null);
 	};
 
-	return [user, fetchUser, login, register, logout, isLoading, error];
+	return [isLoading, error, user, fetchUser, login, register, logout];
 };
 
 export default useUser;
