@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 161  | ---         |
-| Client | 74   | 22.01.2022  |
+| Total  | 163  | ---         |
+| Client | 76   | 22.01.2022  |
 | Server | 87   | 22.01.2022  |
 
 ## Client
@@ -79,8 +79,10 @@
 | 20.01.2022 | 2    | Feat: Register & login form                                         |
 |    sum     | 70   | ----------- sum --------------                                      |
 | 20.01.2022 | 1    | Feat: User service                                                  |
-| 22.01.2022 | 3    | Refactor: use new endpoints |
-|    sum     | 74   | ----------- sum --------------                                      |
+| 22.01.2022 | 3    | Refactor: use new endpoints                                         |
+| 22.01.2022 | 1    | Feat: use user contents                                             |
+| 22.01.2022 | 1    | Feat: disable like button, init updating token                      |
+|    sum     | 76   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
@@ -160,7 +162,7 @@
 | 06.01.2022 | 1    | Refactor: mongo uri, Fix: dublicate user id, Feat: one like per user      |
 | 08.01.2022 | 2    | fix test                                                                  |
 | 08.01.2022 | 1    | publish server 0.3.0                                                      |
-| 22.01.2022 | 1    | fix: model relations, publish server 0.3.1                                                      |
+| 22.01.2022 | 1    | fix: model relations, publish server 0.3.1                                |
 |    sum     | 87   | ---------- sum ----------                                                 |
 
 | | | |
