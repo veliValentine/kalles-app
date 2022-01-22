@@ -34,7 +34,7 @@ const MessageNotFound = ({ id }) => {
 const MessageFound = ({ message: messageObject, likeMessage, deleteMessage, user }) => {
 	const history = useHistory();
 	const { message, username, likes, createDay, id } = messageObject;
-	const userAlreadyLikeMessage = (user && user.likedMessages && user.likedMessages.includes(id));
+	const userAlreadyLikeMessage = (user && user.liked && user.liked.includes(id));
 	const [disableLike, setDisableLike] = useState(userAlreadyLikeMessage);
 
 	const handleLike = () => {
