@@ -26,3 +26,23 @@ export const createUser = async (token = throwUndefined(), id = throwUndefined()
 		apiError(error);
 	}
 };
+
+export const getUsersMessages = async (token = throwUndefined(), id = throwUndefined()) => {
+	try {
+		const options = getDefaultOptions(token);
+		const { data } = await instance.get(`${USERS_API}/${id}/messages`, options);
+		return data;
+	} catch (error) {
+		apiError(error);
+	}
+};
+
+export const getUsersLikedMessages = async (token = throwUndefined(), id = throwUndefined()) => {
+	try {
+		const options = getDefaultOptions(token);
+		const { data } = await instance.get(`${USERS_API}/${id}/liked`, options);
+		return data;
+	} catch (error) {
+		apiError(error);
+	}
+};

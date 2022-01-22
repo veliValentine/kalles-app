@@ -4,7 +4,7 @@ import useError from "./useError";
 import useLoading from "./useLoading";
 
 import ServerError from "../models/error/ServerError";
-import { createUser, getUser } from "../service/userService";
+import { createUser, getUser, getUsersLikedMessages } from "../service/userService";
 
 const useUser = () => {
 	const [user, setUser] = useState(null);
@@ -46,6 +46,26 @@ const useUser = () => {
 		stopLoading();
 	};
 
+	const getUsersMessages = async () => {
+		if (user && user.token && user.id) {
+			try {
+				return await getUsersMessages(user.token, user.id);
+			} catch (error) {
+				handleApiErrors(error);
+			}
+		}
+	};
+
+	const getLikedMessages = async () => {
+		if (user && user.token && user.id) {
+			try {
+				return await getUsersLikedMessages(user.token, user.id);
+			} catch (error) {
+				handleApiErrors(error);
+			}
+		}
+	};
+
 	const saveUser = (user, token) => {
 		const userWithToken = {
 			...user,
@@ -65,7 +85,7 @@ const useUser = () => {
 		setUser(null);
 	};
 
-	return [isLoading, error, user, fetchUser, login, register, logout];
+	return [isLoading, error, user, fetchUser, login, register, logout, getUsersMessages, getLikedMessages];
 };
 
 export default useUser;
