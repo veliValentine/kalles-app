@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StorageService = (item = throwError()) => {
 	const nameSpace = `kalle-studio:${item}`;
@@ -8,7 +8,7 @@ const StorageService = (item = throwError()) => {
 		return JSON.parse(jsonValue);
 	};
 
-	const saveItem = async (object = throwError('Nothing to')) => {
+	const saveItem = async (object = throwError("Nothing to")) => {
 		const stringObject = JSON.stringify(object);
 		await AsyncStorage.setItem(nameSpace, stringObject);
 	};
@@ -24,6 +24,6 @@ const StorageService = (item = throwError()) => {
 	};
 };
 
-const throwError = (message = 'No item given') => { throw new Error(message); };
+const throwError = (message = "No item given") => { throw new Error(message); };
 
 export default StorageService;

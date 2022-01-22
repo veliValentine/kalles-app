@@ -5,11 +5,11 @@
 	- [Server](#server)
 
 ## Total
-|  day   | time | time used to |
-| :----: | :--- | :----------- |
-| Total  | 111  | ---          |
-| Client | 62   | 4.10.2021    |
-| Server | 49   | 31.8.2021    |
+|  day   | time | last update |
+| :----: | :--- | :---------- |
+| Total  | 163  | ---         |
+| Client | 76   | 22.01.2022  |
+| Server | 87   | 22.01.2022  |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -69,8 +69,20 @@
 | 16.9.2021  | 1    | build expo app pipeline                                             |
 | 16.9.2021  | 1    | disable like button, show owned messages                            |
 | 17.9.2021  | 1    | loading functionality                                               |
+|    sum     | 60   | ----------- sum --------------                                      |
 | 4.10.2021  | 2    | refactor: server error handling, feat: error screen                 |
-|    sum     | 62   | ----------- sum --------------                                      |
+| 24.11.2021 | 1    | testing firebase login                                              |
+| 08.01.2022 | 1    | planning client-0.4.0                                               |
+| 19.01.2022 | 1    | client dependencies update                                          |
+| 19.01.2022 | 1    | firebase server                                                     |
+| 19.01.2022 | 2    | login and register page                                             |
+| 20.01.2022 | 2    | Feat: Register & login form                                         |
+|    sum     | 70   | ----------- sum --------------                                      |
+| 20.01.2022 | 1    | Feat: User service                                                  |
+| 22.01.2022 | 3    | Refactor: use new endpoints                                         |
+| 22.01.2022 | 1    | Feat: use user contents                                             |
+| 22.01.2022 | 1    | Feat: disable like button, init updating token                      |
+|    sum     | 76   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
@@ -121,7 +133,36 @@
 | 22.8.2021  | 2    | Deploy v.0.2.0                                                            |
 | 31.8.2021  | 1    | Deploy test server for client usage                                       |
 | 23.10.2021 | 2    | 0.3.0 planning and documenting                                            |
-|    sum     | 49   | ---------- sum ----------                                                 |
-
+| 23.10.2021 | 1    | Setting up firebase. Planning firebase <-> Server roles                   |
+|    sum     | 50   | ---------- sum ----------                                                 |
+| 01.12.2021 | 1    | setting firebase                                                          |
+| 07.12.2021 | 2    | Reading uid from jwt token                                                |
+| 08.12.2021 | 1    | Update mongoose version                                                   |
+| 08.12.2021 | 1    | User schema                                                               |
+| 08.12.2021 | 1    | Read message timeout from env. Refactor project. Updated documentation    |
+| 11.12.2021 | 2    | get logged user middleware                                                |
+| 11.12.2021 | 1    | get users API                                                             |
+| 11.12.2021 | 2    | read mongoose dokumentation, get users messages and liked messages API    |
+|    sum     | 61   | ---------- sum ----------                                                 |
+| 12.12.2021 | 1    | create user API                                                           |
+| 14.12.2021 | 2    | Test create user API                                                      |
+| 14.12.2021 | 1    | Fix: liking message returns distance                                      |
+| 15.12.2021 | 4    | Refactor: models and services according to new schema                     |
+| 17.12.2021 | 1    | Create project using github project beta                                  |
+|    sum     | 70   | ---------- sum ----------                                                 |
+| 17.12.2021 | 2    | Fix: updating models broke everything                                     |
+| 18.12.2021 | 2    | API documentation                                                         |
+| 25.12.2021 | 2    | Fix: message testing according to new schema                              |
+| 25.12.2021 | 1    | Feat: authenticate GET messages endpoint                                  |
+| 27.12.2021 | 1    | Feat: authenticate Post messages endpoint and refactoring                 |
+| 06.01.2022 | 2    | Protect endpoints                                                         |
+|    sum     | 80   | ---------- sum ----------                                                 |
+| 06.01.2022 | 1    | Auth api                                                                  |
+| 06.01.2022 | 1    | Upgrade admin endpoint                                                    |
+| 06.01.2022 | 1    | Refactor: mongo uri, Fix: dublicate user id, Feat: one like per user      |
+| 08.01.2022 | 2    | fix test                                                                  |
+| 08.01.2022 | 1    | publish server 0.3.0                                                      |
+| 22.01.2022 | 1    | fix: model relations, publish server 0.3.1                                |
+|    sum     | 87   | ---------- sum ----------                                                 |
 
 | | | |

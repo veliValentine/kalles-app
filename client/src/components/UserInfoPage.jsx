@@ -1,11 +1,13 @@
-import React from 'react';
-import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useHistory } from 'react-router-native';
-import ItemSeparator from './common/ItemSeparator';
-import LoadingScreen from './LoadingScreen';
+import React from "react";
+import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useHistory } from "react-router-native";
+import useUserContent from "../hooks/useUserContent";
+import ItemSeparator from "./common/ItemSeparator";
+import LoadingScreen from "./LoadingScreen";
 
-const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
-	const usersMessages = messages.filter(({ username }) => username === user.username);
+const UserInfoPage = ({ user, logout }) => {
+	const [loading, , usersMessages, likedMessages] = useUserContent(user);
+
 	const loadingMessageStyles = {
 		container: styles.container,
 		text: {}
@@ -13,9 +15,12 @@ const UserInfoPage = ({ user, logout, messages, loadingMessages }) => {
 	return (
 		<View>
 			<UserInfo user={user} />
-			{loadingMessages ?
-				<LoadingScreen message={'Loading messages...'} styles={loadingMessageStyles} /> :
-				<UserMessages messages={usersMessages} />
+			{loading ?
+				<LoadingScreen message={"Loading messages..."} styles={loadingMessageStyles} /> :
+				<View>
+					<ListMessages messages={usersMessages} text="My messages:" />
+					<ListMessages messages={likedMessages} text="Liked messages:" />
+				</View>
 			}
 			<Button onPress={() => logout()} title="logout" />
 		</View>
@@ -29,11 +34,11 @@ const UserInfo = ({ user }) => (
 	</View>
 );
 
-const UserMessages = ({ messages = [] }) => {
+const ListMessages = ({ messages = [], text = "" }) => {
 	if (messages.length < 1) return null;
 	return (
 		<View style={styles.userMessagesContainer}>
-			<Text style={styles.textMyMessages}>My messages:</Text>
+			<Text style={styles.textMyMessages}>{text}</Text>
 			<FlatList
 				data={messages}
 				keyExtractor={(item) => item.id}
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 10,
 		margin: 10,
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		borderRadius: 10
 	},
 	userMessagesContainer: {
@@ -74,18 +79,18 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		padding: 10,
-		color: 'black',
+		color: "black",
 		marginRight: 20,
 	},
 	textMyMessages: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		padding: 5,
 		borderRadius: 5,
 		marginBottom: 5,
-		fontWeight: 'bold'
+		fontWeight: "bold"
 	},
 	messageContainer: {
-		backgroundColor: 'white',
+		backgroundColor: "white",
 		padding: 5,
 		borderRadius: 5
 	},

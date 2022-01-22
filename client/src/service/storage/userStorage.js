@@ -1,7 +1,7 @@
-import StorageService from './storageService';
-import validateUser from '../../utils/validators';
+import StorageService from "./storageService";
+import validateUser from "../../utils/validators";
 
-const storage = StorageService('user');
+const storage = StorageService("user");
 
 const UserStorage = () => {
 	const getUser = async () => {

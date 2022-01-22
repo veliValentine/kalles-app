@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import MapView from "react-native-maps";
 
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
-import { useParams } from 'react-router-native';
-import { ReloadButton, UserLocationButton } from './MapButtons';
-import Marker from './Marker';
+import { useParams } from "react-router-native";
+import { ReloadButton, UserLocationButton } from "./MapButtons";
+import Marker from "./Marker";
 
 // https://github.com/react-native-maps/react-native-maps
 const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
@@ -35,7 +35,7 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
 		if (event && event.nativeEvent && event.nativeEvent.coordinate) {
 			changeLocation(event.nativeEvent.coordinate);
 		} else {
-			console.log('No location available - MapPage.jsx');
+			console.log("No location available - MapPage.jsx");
 		}
 	};
 	const moveToUserLocation = () => {
@@ -74,8 +74,8 @@ const Map = ({ region, handleLocationChange, markers }) => (
 
 const styles = StyleSheet.create({
 	map: {
-		width: Dimensions.get('window').width - 1,
-		height: Dimensions.get('window').height - Constants.statusBarHeight - 60,
+		width: Dimensions.get("window").width - 1,
+		height: Dimensions.get("window").height - Constants.statusBarHeight - 60,
 	},
 });
 
