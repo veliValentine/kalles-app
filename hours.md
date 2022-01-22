@@ -5,11 +5,11 @@
 	- [Server](#server)
 
 ## Total
-|  day   | time | time used to |
-| :----: | :--- | :----------- |
-| Total  | 149  | ---          |
-| Client | 63   | 24.11.2021   |
-| Server | 86   | 08.01.2022   |
+|  day   | time | last update |
+| :----: | :--- | :---------- |
+| Total  | 160  | ---         |
+| Client | 74   | 22.01.2022  |
+| Server | 86   | 08.01.2022  |
 
 ## Client
 |    day     | time | time used to                                                        |
@@ -72,7 +72,15 @@
 |    sum     | 60   | ----------- sum --------------                                      |
 | 4.10.2021  | 2    | refactor: server error handling, feat: error screen                 |
 | 24.11.2021 | 1    | testing firebase login                                              |
-|    sum     | 63   | ----------- sum --------------                                      |
+| 08.01.2022 | 1    | planning client-0.4.0                                               |
+| 19.01.2022 | 1    | client dependencies update                                          |
+| 19.01.2022 | 1    | firebase server                                                     |
+| 19.01.2022 | 2    | login and register page                                             |
+| 20.01.2022 | 2    | Feat: Register & login form                                         |
+|    sum     | 70   | ----------- sum --------------                                      |
+| 20.01.2022 | 1    | Feat: User service                                                  |
+| 22.01.2022 | 3    | Refactor: use new endpoints |
+|    sum     | 74   | ----------- sum --------------                                      |
 
 | | | |
 ## Server
