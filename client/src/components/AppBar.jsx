@@ -37,14 +37,16 @@ const styles = StyleSheet.create({
 		backgroundColor: "black",
 		flexDirection: "row",
 		padding: 10,
-		height: 55
+		height: APP_BAR_HEIGHT
 	},
 	text: {
 		padding: 10,
 		color: "white",
 		marginRight: 20,
-		fontWeight: "bold",
+		fontWeight: "bold"
 	},
 });
+
+export const APP_BAR_HEIGHT = 60;
 
 export default AppBar;
