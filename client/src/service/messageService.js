@@ -1,59 +1,52 @@
-import { HTTP_CREATED, throwInvalidresponse, postJsonOption, deleteJsonOption, HTTP_NO_CONTENT, handleServerError } from "./serviceHelper";
+import { apiError, getDefaultOptions, throwUndefined } from "./serviceHelper";
 import { parseLocation } from "../utils";
-import { SERVER_URL_BASE } from "../utils/URL";
 
-const MESSAGE_URL = `${SERVER_URL_BASE}/messages`;
+const MESSAGES_API = "/messages";
 
-export const fetchMessages = async (location) => {
-	let responseJSON;
+import instance from "../service/instance/apiInstance";
+
+export const getMessages = async (token, location = throwUndefined()) => {
 	try {
-		const URL = coordinateQueryURL(location);
-		const response = await fetch(URL);
-		responseJSON = await response.json();
-		throwInvalidresponse(response);
-		return responseJSON;
+		const options = getDefaultOptions(token);
+		const locationParams = coordinateQueryParams(location);
+		const { data } = await instance.get(`${MESSAGES_API}/?${locationParams}`, options);
+		return data;
 	} catch (error) {
-		handleServerError(error, responseJSON);
+		apiError(error);
 	}
 };
 
-const coordinateQueryURL = (location) => {
-	const { latitude, longitude } = parseLocation(location, "messageService.js");
-	return `${MESSAGE_URL}?latitude=${latitude}&longitude=${longitude}`;
-};
-
-export const postMessage = async (message) => {
-	let responseJSON;
+export const addMessage = async (token, message) => {
 	try {
-		const response = await fetch(MESSAGE_URL, postJsonOption(message));
-		responseJSON = await response.json();
-		throwInvalidresponse(response, HTTP_CREATED);
-		return responseJSON;
+		const options = getDefaultOptions(token);
+		const { data } = await instance.post(`${MESSAGES_API}`, message, options);
+		return data;
 	} catch (error) {
-		handleServerError(error, responseJSON);
+		apiError(error);
 	}
 };
 
-export const postLike = async (messageId) => {
-	let responseJson;
+export const likeMessage = async (token, id, location) => {
 	try {
-		const response = await fetch(`${MESSAGE_URL}/${messageId}/like`, postJsonOption());
-		responseJson = await response.json();
-		throwInvalidresponse(response);
-		return responseJson.likes ? responseJson.likes : 1;
+		const options = getDefaultOptions(token);
+		const locationParams = coordinateQueryParams(location);
+		const { data } = await instance.post(`${MESSAGES_API}/${id}/like?${locationParams}`, null, options);
+		return data;
 	} catch (error) {
-		handleServerError(error, responseJson);
+		apiError(error);
 	}
 };
 
-export const deleteMessage = async (messageId) => {
-	let response;
+export const deleteMessage = async (token, id) => {
 	try {
-		response = await fetch(`${MESSAGE_URL}/${messageId}`, deleteJsonOption());
-		throwInvalidresponse(response, HTTP_NO_CONTENT);
-		return;
+		const options = getDefaultOptions(token);
+		await instance.delete(`${MESSAGES_API}/${id}`, options);
 	} catch (error) {
-		const responseJson = await response.json();
-		handleServerError(error, responseJson);
+		apiError(error);
 	}
+};
+
+const coordinateQueryParams = (location) => {
+	const { latitude, longitude } = parseLocation(location);
+	return `latitude=${latitude}&longitude=${longitude}`;
 };
