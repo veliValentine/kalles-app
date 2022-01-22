@@ -55,7 +55,7 @@ const useMessages = (currentLocation, fetchUser, user) => {
 
 	const likeMessage = async (messageId) => {
 		try {
-			const likedMessage = await serviceLikeMessage(token, messageId, location);
+			const likedMessage = await serviceLikeMessage(token, messageId, currentLocation);
 			const newMessages = messages.map((message) => (message.id === likedMessage.id ? likedMessage : message));
 			setMessages(newMessages);
 			fetchUser();
@@ -82,6 +82,10 @@ const useMessages = (currentLocation, fetchUser, user) => {
 		if (error instanceof LocationError) {
 			return updateError("There was an error with the location");
 		}
+		console.log(JSON.stringify({
+			error: error.name,
+			message: error.message,
+		}));
 		updateError("An unexpected error happened!");
 	};
 
