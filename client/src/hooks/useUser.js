@@ -3,11 +3,11 @@ import { useState } from "react";
 import useError from "./useError";
 import useLoading from "./useLoading";
 
-import ServerError from "../models/error/ServerError";
-import { createUser, getUser, getUsersMessages, getUsersLikedMessages } from "../service/userService";
+import { createUser, getUser } from "../service/userService";
+import { handleApiErrors } from "../utils/errors";
 
 const useUser = () => {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState();
 	const [isLoading, startLoading, stopLoading] = useLoading();
 	const [error, updateError] = useError();
 
@@ -30,7 +30,7 @@ const useUser = () => {
 			const user = await getUser(accessToken, uid);
 			saveUser(user, accessToken);
 		} catch (error) {
-			handleApiErrors(error);
+			handleApiErrors(error, updateError);
 		}
 	};
 
@@ -40,34 +40,13 @@ const useUser = () => {
 			const user = await createUser(accessToken, uid, username);
 			saveUser(user, accessToken);
 		} catch (error) {
-			handleApiErrors(error);
+			handleApiErrors(error, updateError);
 		}
-
 		stopLoading();
 	};
 
 	const logout = () => {
 		setUser(null);
-	};
-
-	const getUsersMessagesFromServer = async () => {
-		if (isLoggedUser()) {
-			try {
-				return await getUsersMessages(user.token, user.id);
-			} catch (error) {
-				handleApiErrors(error);
-			}
-		}
-	};
-
-	const getLikedMessagesFromServer = async () => {
-		if (isLoggedUser()) {
-			try {
-				return await getUsersLikedMessages(user.token, user.id);
-			} catch (error) {
-				handleApiErrors(error);
-			}
-		}
 	};
 
 	const saveUser = (user, token) => {
@@ -78,16 +57,7 @@ const useUser = () => {
 		setUser(userWithToken);
 	};
 
-	const isLoggedUser = () => user && user.id && user.token;
-
-	const handleApiErrors = (error) => {
-		if (error instanceof ServerError) {
-			return updateError("There was an error with the server");
-		}
-		throw error;
-	};
-
-	return [isLoading, error, user, fetchUser, login, register, logout, getUsersMessagesFromServer, getLikedMessagesFromServer];
+	return [isLoading, error, user, fetchUser, login, register, logout];
 };
 
 export default useUser;
