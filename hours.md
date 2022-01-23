@@ -7,83 +7,86 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 163  | ---         |
-| Client | 76   | 22.01.2022  |
+| Total  | 165  | ---         |
+| Client | 78   | 23.01.2022  |
 | Server | 87   | 22.01.2022  |
 
 ## Client
-|    day     | time | time used to                                                        |
-| :--------: | :--- | :------------------------------------------------------------------ |
-| 22.12.2020 | 2    | created repository, documents, run schedule                         |
-| 25.12.2020 | 1    | init server and client                                              |
-| 25.12.2020 | 1    | Message list                                                        |
-| 25.12.2020 | 1    | New message saves location                                          |
-| 26.12.2020 | 1    | New message form                                                    |
-| 26.12.2020 | 1    | Router and Message view                                             |
-| 27.12.2020 | 1    | Map rendering                                                       |
-| 27.12.2020 | 1    | Current location hook                                               |
-| 15.1.2021  | 1    | Reading react-native-maps api                                       |
-|    sum     | 10   | ----------- sum --------------                                      |
-| 15.1.2021  | 1    | Reading about different local storage options and Async storage API |
-| 15.1.2021  | 2    | refactoring                                                         |
-| 15.1.2021  | 1    | Map marker                                                          |
-| 15.1.2021  | 2    | Storage                                                             |
-| 16.1.2021  | 1    | Fixed bugs                                                          |
-| 16.1.2021  | 1    | Message list shows location of message on map                       |
-| 16.1.2021  | 1    | expo documents and publish                                          |
-| 17.1.2021  | 1    | Handle View when no messages (Message list and single message)      |
-|    sum     | 20   | ----------- sum --------------                                      |
-| 17.1.2021  | 1    | Modified Map reload button and refactoring                          |
-| 17.1.2021  | 1    | Debugging map-component. Show user location button not showing      |
-| 17.1.2021  | 1    | Fixed bug. Map reload button works                                  |
-|  3.3.2021  | 1    | Updated trello backlog                                              |
-|  3.3.2021  | 1    | Chores (Eslint, node_modules)                                       |
-|  3.3.2021  | 1    | zoomin level on specific location                                   |
-|  3.3.2021  | 1    | location updates on change (finally)                                |
-|  4.3.2021  | 1    | Move region to user location                                        |
-|  4.3.2021  | 1    | Version number to appBar and publish 0.1.2                          |
-| 24.4.2021  | 1    | expo documentation & setting up production mode                     |
-|    sum     | 30   | ----------- sum --------------                                      |
-| 24.4.2021  | 1    | GET messages from server                                            |
-| 24.4.2021  | 1    | getting messages from server                                        |
-| 24.4.2021  | 1    | refactor map component                                              |
-| 20.5.2021  | 2    | refactroring                                                        |
-| 24.5.2021  | 2    | Refactor MapPage, Main, message service and MessageForm             |
-| 24.5.2021  | 1    | Fix: Changed component error message after it was unmounted         |
-|  7.6.2021  | 1    | Refactor: Storage                                                   |
-|  7.6.2021  | 1    | Send new message to server                                          |
-|    sum     | 40   | ----------- sum --------------                                      |
-|  7.6.2021  | 1    | Style message popup and view                                        |
-|  8.6.2021  | 2    | Refactoring, client-0.2.0                                           |
-| 23.8.2021  | 1    | Reading expo sdk update documentation. Updating Expo version        |
-| 26.8.2021  | 1    | Refactor: location to use expo-location                             |
-| 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                               |
-| 31.8.2021  | 2    | Refactor: Storage, Feat: username storage                           |
-|  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                          |
-|  4.9.2021  | 1    | user hook                                                           |
-|    sum     | 50   | ----------- sum --------------                                      |
-|  5.9.2021  | 2    | feat: login & logout                                                |
-|  5.9.2021  | 1    | fix: message date, error handling, feat: new message username       |
-|  8.9.2021  | 2    | feat: like/delete buttons and state handling                        |
-| 15.9.2021  | 2    | feat: like/delete server requests                                   |
-| 16.9.2021  | 1    | build expo app pipeline                                             |
-| 16.9.2021  | 1    | disable like button, show owned messages                            |
-| 17.9.2021  | 1    | loading functionality                                               |
-|    sum     | 60   | ----------- sum --------------                                      |
-| 4.10.2021  | 2    | refactor: server error handling, feat: error screen                 |
-| 24.11.2021 | 1    | testing firebase login                                              |
-| 08.01.2022 | 1    | planning client-0.4.0                                               |
-| 19.01.2022 | 1    | client dependencies update                                          |
-| 19.01.2022 | 1    | firebase server                                                     |
-| 19.01.2022 | 2    | login and register page                                             |
-| 20.01.2022 | 2    | Feat: Register & login form                                         |
-|    sum     | 70   | ----------- sum --------------                                      |
-| 20.01.2022 | 1    | Feat: User service                                                  |
-| 22.01.2022 | 3    | Refactor: use new endpoints                                         |
-| 22.01.2022 | 1    | Feat: use user contents                                             |
-| 22.01.2022 | 1    | Feat: disable like button, init updating token                      |
-|    sum     | 76   | ----------- sum --------------                                      |
+|    day     | time | time used to                                                          |
+| :--------: | :--- | :-------------------------------------------------------------------- |
+| 22.12.2020 | 2    | created repository, documents, run schedule                           |
+| 25.12.2020 | 1    | init server and client                                                |
+| 25.12.2020 | 1    | Message list                                                          |
+| 25.12.2020 | 1    | New message saves location                                            |
+| 26.12.2020 | 1    | New message form                                                      |
+| 26.12.2020 | 1    | Router and Message view                                               |
+| 27.12.2020 | 1    | Map rendering                                                         |
+| 27.12.2020 | 1    | Current location hook                                                 |
+| 15.1.2021  | 1    | Reading react-native-maps api                                         |
+|    sum     | 10   | ----------- sum --------------                                        |
+| 15.1.2021  | 1    | Reading about different local storage options and Async storage API   |
+| 15.1.2021  | 2    | refactoring                                                           |
+| 15.1.2021  | 1    | Map marker                                                            |
+| 15.1.2021  | 2    | Storage                                                               |
+| 16.1.2021  | 1    | Fixed bugs                                                            |
+| 16.1.2021  | 1    | Message list shows location of message on map                         |
+| 16.1.2021  | 1    | expo documents and publish                                            |
+| 17.1.2021  | 1    | Handle View when no messages (Message list and single message)        |
+|    sum     | 20   | ----------- sum --------------                                        |
+| 17.1.2021  | 1    | Modified Map reload button and refactoring                            |
+| 17.1.2021  | 1    | Debugging map-component. Show user location button not showing        |
+| 17.1.2021  | 1    | Fixed bug. Map reload button works                                    |
+|  3.3.2021  | 1    | Updated trello backlog                                                |
+|  3.3.2021  | 1    | Chores (Eslint, node_modules)                                         |
+|  3.3.2021  | 1    | zoomin level on specific location                                     |
+|  3.3.2021  | 1    | location updates on change (finally)                                  |
+|  4.3.2021  | 1    | Move region to user location                                          |
+|  4.3.2021  | 1    | Version number to appBar and publish 0.1.2                            |
+| 24.4.2021  | 1    | expo documentation & setting up production mode                       |
+|    sum     | 30   | ----------- sum --------------                                        |
+| 24.4.2021  | 1    | GET messages from server                                              |
+| 24.4.2021  | 1    | getting messages from server                                          |
+| 24.4.2021  | 1    | refactor map component                                                |
+| 20.5.2021  | 2    | refactroring                                                          |
+| 24.5.2021  | 2    | Refactor MapPage, Main, message service and MessageForm               |
+| 24.5.2021  | 1    | Fix: Changed component error message after it was unmounted           |
+|  7.6.2021  | 1    | Refactor: Storage                                                     |
+|  7.6.2021  | 1    | Send new message to server                                            |
+|    sum     | 40   | ----------- sum --------------                                        |
+|  7.6.2021  | 1    | Style message popup and view                                          |
+|  8.6.2021  | 2    | Refactoring, client-0.2.0                                             |
+| 23.8.2021  | 1    | Reading expo sdk update documentation. Updating Expo version          |
+| 26.8.2021  | 1    | Refactor: location to use expo-location                               |
+| 26.8.2021  | 1    | Build: client 0.2.1, planning v 0.3.0                                 |
+| 31.8.2021  | 2    | Refactor: Storage, Feat: username storage                             |
+|  4.9.2021  | 1    | Fix: Initial location, Build: Client 0.2.2                            |
+|  4.9.2021  | 1    | user hook                                                             |
+|    sum     | 50   | ----------- sum --------------                                        |
+|  5.9.2021  | 2    | feat: login & logout                                                  |
+|  5.9.2021  | 1    | fix: message date, error handling, feat: new message username         |
+|  8.9.2021  | 2    | feat: like/delete buttons and state handling                          |
+| 15.9.2021  | 2    | feat: like/delete server requests                                     |
+| 16.9.2021  | 1    | build expo app pipeline                                               |
+| 16.9.2021  | 1    | disable like button, show owned messages                              |
+| 17.9.2021  | 1    | loading functionality                                                 |
+|    sum     | 60   | ----------- sum --------------                                        |
+| 4.10.2021  | 2    | refactor: server error handling, feat: error screen                   |
+| 24.11.2021 | 1    | testing firebase login                                                |
+| 08.01.2022 | 1    | planning client-0.4.0                                                 |
+| 19.01.2022 | 1    | client dependencies update                                            |
+| 19.01.2022 | 1    | firebase server                                                       |
+| 19.01.2022 | 2    | login and register page                                               |
+| 20.01.2022 | 2    | Feat: Register & login form                                           |
+|    sum     | 70   | ----------- sum --------------                                        |
+| 20.01.2022 | 1    | Feat: User service                                                    |
+| 22.01.2022 | 3    | Refactor: use new endpoints                                           |
+| 22.01.2022 | 1    | Feat: use user contents                                               |
+| 22.01.2022 | 1    | Feat: disable like button, init updating token                        |
+| 23.01.2022 | 1    | Feat: use refresh token                                               |
+| 23.01.2022 | 1    | Feat: coordinate update threshold, reload message list. Fix: location |
+|    sum     | 78   | ----------- sum --------------                                        |
 
+16:00
 | | | |
 ## Server
 |    day     | time | time used to                                                              |
