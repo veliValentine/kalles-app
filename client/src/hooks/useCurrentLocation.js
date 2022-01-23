@@ -14,19 +14,23 @@ const useCurrentLocation = () => {
 	}, []);
 
 	const watchLocation = async () => {
+		log("Watch location")
 		startLoading();
 		const callBack = (expoLocation) => {
+			log("callback")
 			validateLocation(expoLocation.coords);
 			stopLoading();
 		};
 		const options = {
 			timeInterval: 1000,
 			distanceInterval: DISTANCE_THRESHOLD_KM * 1000,
+			accuracy: Location.Accuracy.High
 		};
 		await Location.watchPositionAsync(options, callBack);
 	};
 
 	const validateLocation = ({ latitude, longitude }) => {
+		log("validate location")
 		if (!longitude || !latitude) {
 			return;
 		}
@@ -38,8 +42,10 @@ const useCurrentLocation = () => {
 	};
 
 	const updateLocation = ({ latitude, longitude }) => {
+		log("update location")
 		const newLocation = { latitude, longitude };
 		const distance = calculateDistance(newLocation, location);
+		log({ distance, bool: distance > DISTANCE_THRESHOLD_KM})
 		if (longitude && latitude && distance > DISTANCE_THRESHOLD_KM) {
 			setLocation(newLocation);
 		}
@@ -47,5 +53,11 @@ const useCurrentLocation = () => {
 
 	return [location, updateLocation, isLoading];
 };
+
+const log = (...logs) => {
+	if (false) {
+		console.log(...logs);
+	}
+}
 
 export default useCurrentLocation;
