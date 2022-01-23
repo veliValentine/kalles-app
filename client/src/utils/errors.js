@@ -1,5 +1,6 @@
 import LocationError from "../models/error/LocationError";
 import ServerError from "../models/error/ServerError";
+import instance from "../service/instance/apiInstance";
 
 export const handleError = (e, message = "no error hanler message given") => {
 	console.log(message);
@@ -18,9 +19,11 @@ export const handleApiErrors = (error, updateError) => {
 	if (error instanceof LocationError) {
 		return updateError("There was an error with the location");
 	}
-	console.log(JSON.stringify({
-		error: error.name,
-		message: error.message,
-	}));
+	if (error instanceof Error) {
+		console.log(JSON.stringify({
+			error: error.name,
+			message: error.message
+		}));
+	}
 	updateError("An unexpected error happened!");
 };
