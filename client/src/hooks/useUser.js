@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import useError from "./useError";
 import useLoading from "./useLoading";
 
-import { createUser, getUser } from "../service/userService";
+import { clearUserStorageData, createUser, getUser, getUserInfoFromStorage } from "../service/userService";
 import { handleApiErrors } from "../utils/errors";
 
 const useUser = () => {
 	const [user, setUser] = useState();
 	const [isLoading, startLoading, stopLoading] = useLoading();
 	const [error, updateError] = useError();
+
+	useEffect(() => {
+		const timeOutId = setTimeout(setUserFromStorage);
+		return () => clearTimeout(timeOutId);
+	}, []);
+
+	const setUserFromStorage = async () => {
+		const userData = await getUserInfoFromStorage();
+		if (userData) {
+			await login(userData);
+		}
+	};
 
 	const fetchUser = async () => {
 		if (user && user.id && user.token) {
@@ -36,7 +48,8 @@ const useUser = () => {
 		stopLoading();
 	};
 
-	const logout = () => {
+	const logout = async () => {
+		await clearUserStorageData();
 		setUser(null);
 	};
 

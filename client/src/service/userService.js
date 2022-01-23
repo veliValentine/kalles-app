@@ -1,7 +1,13 @@
 import instance from "../service/instance/apiInstance";
+import { refreshAccessToken } from "./firebaseService";
 import { apiError, getDefaultOptions, throwUndefined } from "./serviceHelper";
+import RefreshTokenStorage from "./storage/refreshTokenStorage";
+import UserUidStorage from "./storage/userUidStorage";
 
 const USERS_API = "/users";
+
+const refreshTokenStorage = RefreshTokenStorage();
+const userUidStorage = UserUidStorage();
 
 export const getUser = async (token = throwUndefined(), id = throwUndefined()) => {
 	try {
@@ -45,4 +51,18 @@ export const getUsersLikedMessages = async (token = throwUndefined(), id = throw
 	} catch (error) {
 		apiError(error);
 	}
+};
+
+export const getUserInfoFromStorage = async () => {
+	const refreshToken = await refreshTokenStorage.getToken();
+	const uid = await userUidStorage.getUserUid();
+	if (!refreshToken || !uid) return;
+	const accessToken = await refreshAccessToken(refreshToken);
+	if (!accessToken) return;
+	return { uid, accessToken };
+};
+
+export const clearUserStorageData = async () => {
+	await refreshTokenStorage.removeToken();
+	await userUidStorage.removeUserUid();
 };

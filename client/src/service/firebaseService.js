@@ -2,6 +2,7 @@ import axios from "axios";
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import RefreshTokenStorage from "./storage/refreshTokenStorage";
+import UserUidStorage from "./storage/userUidStorage";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBiEI6KOBj9vIIRiyv89v7rpGFfXAN5hKU"
@@ -12,6 +13,7 @@ if (getApps().length < 1) {
 
 const auth = getAuth();
 const refreshTokenStorage = RefreshTokenStorage();
+const userUidStorage = UserUidStorage();
 
 export const signIn = async (email, password) => {
 	const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -37,9 +39,14 @@ const getUserInfo = (userCredential) => {
 	const { uid, stsTokenManager } = user;
 	const { accessToken, refreshToken } = stsTokenManager;
 	saveRefreshToken(refreshToken);
+	saveUserUid(uid);
 	return { uid, accessToken };
 };
 
 const saveRefreshToken = async (token) => {
 	await refreshTokenStorage.saveToken(token);
+};
+
+const saveUserUid = async (uid) => {
+	await userUidStorage.saveUserUid(uid);
 };

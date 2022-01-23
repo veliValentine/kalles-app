@@ -1,6 +1,5 @@
 import LocationError from "../models/error/LocationError";
 import ServerError from "../models/error/ServerError";
-import instance from "../service/instance/apiInstance";
 
 export const handleError = (e, message = "no error hanler message given") => {
 	console.log(message);
