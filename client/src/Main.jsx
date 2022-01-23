@@ -41,7 +41,7 @@ const Main = () => {
 						<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
 					</Route>
 					<Route path="/messages" exact>
-						<MessageList messages={messages} loadingMessages={loadingMessages} />
+						<MessageList messages={messages} loadingMessages={loadingMessages} getMessages={getMessages} />
 					</Route>
 					<Route path="/newMessage">
 						<MessageForm addMessage={addMessage} currentLocation={location} />

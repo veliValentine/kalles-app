@@ -1,30 +1,25 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, useWindowDimensions } from "react-native";
 import { useHistory } from "react-router-native";
 import { isReadable, readableDistance } from "../utils";
 import ItemSeparator from "./common/ItemSeparator";
-import LoadingScreen from "./LoadingScreen";
 
-const MessageList = ({ messages, loadingMessages }) => {
+const MessageList = ({ messages, loadingMessages, getMessages }) => {
+	const { height } = useWindowDimensions();
 	const history = useHistory();
 	const redirect = (url) => history.push(url);
-	if (loadingMessages) {
-		const loadingStyles = {
-			container: styles.missingContainer,
-			text: {}
-		};
-		return <LoadingScreen message={"Loading messages..."} styles={loadingStyles} />;
-	}
 	if (messages.length < 1) {
 		return <NoMessages redirect={redirect} />;
 	}
 	return (
-		<View style={styles.container}>
+		<View style={{ ...styles.container, height }}>
 			<FlatList
 				data={messages}
 				keyExtractor={(item) => item.id}
 				ItemSeparatorComponent={ItemSeparator}
 				renderItem={({ item }) => <ListItem message={item} redirect={redirect} />}
+				onRefresh={() => getMessages()}
+				refreshing={loadingMessages}
 			/>
 		</View>
 	);
@@ -73,7 +68,7 @@ const ListItem = ({ message, redirect }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 5
+		padding: 5,
 	},
 	messageContainer: {
 		backgroundColor: "white",

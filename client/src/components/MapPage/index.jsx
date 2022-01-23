@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Dimensions, useWindowDimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 import MapView from "react-native-maps";
 
-import Constants from "expo-constants";
 import { APP_BAR_HEIGHT } from "../AppBar";
 
 import { useParams } from "react-router-native";
