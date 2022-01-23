@@ -25,15 +25,6 @@ const useUser = () => {
 		stopLoading();
 	};
 
-	const getUserFromServer = async (uid, accessToken) => {
-		try {
-			const user = await getUser(accessToken, uid);
-			saveUser(user, accessToken);
-		} catch (error) {
-			handleApiErrors(error, updateError);
-		}
-	};
-
 	const register = async ({ uid, accessToken, username }) => {
 		startLoading();
 		try {
@@ -47,6 +38,15 @@ const useUser = () => {
 
 	const logout = () => {
 		setUser(null);
+	};
+
+	const getUserFromServer = async (uid, accessToken) => {
+		try {
+			const user = await getUser(accessToken, uid);
+			saveUser(user, accessToken);
+		} catch (error) {
+			handleApiErrors(error, updateError);
+		}
 	};
 
 	const saveUser = (user, token) => {
