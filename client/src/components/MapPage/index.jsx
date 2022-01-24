@@ -5,11 +5,13 @@ import MapView from "react-native-maps";
 import { APP_BAR_HEIGHT } from "../AppBar";
 
 import { useParams } from "react-router-native";
-import { ReloadButton, UserLocationButton } from "./MapButtons";
+import { NewMessageButton, ReloadButton, UserLocationButton } from "./MapButtons";
 import Marker from "./Marker";
+import { useHistory } from "react-router-native";
 
 // https://github.com/react-native-maps/react-native-maps
 const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
+	const history = useHistory();
 	const userRegion = {
 		latitude: location.latitude,
 		longitude: location.longitude,
@@ -42,6 +44,9 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
 		const seconds = 1 * 1000;
 		mapRef.animateToRegion(userRegion, seconds);
 	};
+
+	const addMessage = () => history.push("/newMessage");
+
 	return (
 		<View>
 			<Map
@@ -51,6 +56,7 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
 			/>
 			<ReloadButton onPress={reloadMessages} />
 			<UserLocationButton onPress={moveToUserLocation} />
+			<NewMessageButton onPress={addMessage} />
 		</View >
 	);
 };
