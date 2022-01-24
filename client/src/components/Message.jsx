@@ -1,3 +1,4 @@
+import { useBackHandler } from "@react-native-community/hooks";
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Button, Alert } from "react-native";
 import { useParams, useHistory } from "react-router-native";
@@ -7,6 +8,13 @@ import LoadingScreen from "./LoadingScreen";
 
 const Message = ({ messages, likeMessage, deleteMessage, user }) => {
 	const { id } = useParams();
+	const history = useHistory();
+
+	useBackHandler(() => {
+		history.goBack();
+		return true;
+	});
+
 	if (!messages) {
 		return <LoadingScreen message={"getting messages"} />;
 	}
