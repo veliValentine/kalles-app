@@ -7,7 +7,7 @@ export const ReloadButton = ({ onPress }) => (
 		containerStyle={{ ...styles.container, ...styles.reloadContainer }}
 		buttonStyle={{ ...styles.button }}
 		textStyle={{ ...styles.text }}
-		buttonText="Reload messages"
+		buttonText="Reload"
 	/>
 );
 
