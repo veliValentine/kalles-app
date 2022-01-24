@@ -1,6 +1,8 @@
+import { useBackHandler } from "@react-native-community/hooks";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, useWindowDimensions } from "react-native";
 import { useHistory } from "react-router-native";
+import { MAP_PAGE } from "../service/navigationService";
 import { isReadable, readableDistance } from "../utils";
 import ItemSeparator from "./common/ItemSeparator";
 
@@ -8,6 +10,12 @@ const MessageList = ({ messages, loadingMessages, getMessages }) => {
 	const { height } = useWindowDimensions();
 	const history = useHistory();
 	const redirect = (url) => history.push(url);
+
+	useBackHandler(() => {
+		redirect(MAP_PAGE);
+		return true;
+	});
+
 	if (messages.length < 1) {
 		return <NoMessages redirect={redirect} />;
 	}

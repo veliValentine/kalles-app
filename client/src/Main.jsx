@@ -16,6 +16,7 @@ import Authentication from "./components/authentication";
 import useMessages from "./hooks/useMessages";
 import useCurrentLocation from "./hooks/useCurrentLocation";
 import useUser from "./hooks/useUser";
+import { MAP_PAGE } from "./service/navigationService";
 
 const Main = () => {
 	const [loadingUser, userError, user, fetchUser, login, register, logout] = useUser();
@@ -46,7 +47,7 @@ const Main = () => {
 					<Route path="/newMessage">
 						<MessageForm addMessage={addMessage} currentLocation={location} />
 					</Route>
-					<Route path={["/map", "/map/:latitude/:longitude"]} exact key="default-map">
+					<Route path={[MAP_PAGE, "/map/:latitude/:longitude"]} exact key="default-map">
 						<MapPage
 							messages={messages}
 							reloadMessages={getMessages}
@@ -54,7 +55,7 @@ const Main = () => {
 							changeLocation={changeLocation}
 						/>
 					</Route>
-					<Redirect to="/map" />
+					<Redirect to={MAP_PAGE} />
 				</Switch>
 			}
 		</View>
