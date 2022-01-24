@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 168  | ---         |
-| Client | 81   | 24.01.2022  |
+| Total  | 169  | ---         |
+| Client | 82   | 24.01.2022  |
 | Server | 87   | 22.01.2022  |
 
 ## Client
@@ -89,7 +89,8 @@
 | 24.01.2022 | 1    | Feat: back handling                                                   |
 |    sum     | 80   | ----------- sum --------------                                        |
 | 24.01.2022 | 1    | Feat: loading messages and loading screen. Clean up                   |
-|    sum     | 81   | ----------- sum --------------                                        |
+| 24.01.2022 | 1    | Documentation and publish 0.5.0                                       |
+|    sum     | 82   | ----------- sum --------------                                        |
 
 | | | |
 ## Server
