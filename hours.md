@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 165  | ---         |
-| Client | 78   | 23.01.2022  |
+| Total  | 168  | ---         |
+| Client | 81   | 24.01.2022  |
 | Server | 87   | 22.01.2022  |
 
 ## Client
@@ -85,8 +85,12 @@
 | 23.01.2022 | 1    | Feat: use refresh token                                               |
 | 23.01.2022 | 1    | Feat: coordinate update threshold, reload message list. Fix: location |
 |    sum     | 78   | ----------- sum --------------                                        |
+| 24.01.2022 | 1    | Faet: New message button                                              |
+| 24.01.2022 | 1    | Feat: back handling                                                   |
+|    sum     | 80   | ----------- sum --------------                                        |
+| 24.01.2022 | 1    | Feat: loading messages and loading screen. Clean up                   |
+|    sum     | 81   | ----------- sum --------------                                        |
 
-16:00
 | | | |
 ## Server
 |    day     | time | time used to                                                              |
