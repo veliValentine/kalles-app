@@ -12,7 +12,7 @@ import { handleApiErrors } from "../utils/errors";
 
 const useMessages = (currentLocation, fetchUser, user) => {
 	const token = user && user.token;
-	const [messages, setMessages] = useState([]);
+	const [messages, setMessages] = useState();
 	const [isLoading, startLoading, stopLoading] = useLoading();
 	const [error, updateError] = useError();
 
@@ -28,6 +28,7 @@ const useMessages = (currentLocation, fetchUser, user) => {
 				setMessages(messages.sort(sortByDistances));
 			} catch (error) {
 				handleApiErrors(error, updateError);
+				setMessages([]);
 			}
 			stopLoading();
 		}

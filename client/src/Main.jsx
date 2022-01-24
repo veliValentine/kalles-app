@@ -22,7 +22,9 @@ const Main = () => {
 	const [loadingUser, userError, user, fetchUser, login, register, logout] = useUser();
 	const [location, changeLocation, loadingLocation] = useCurrentLocation();
 	const [loadingMessages, messageError, messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, fetchUser, user);
+
 	if (loadingLocation || !location) return <LoadingScreen message={"Loading location..."} />;
+	if (loadingMessages && !messages) return <LoadingScreen message={"Loading messages..."} />;
 
 	if (!location) return <LoadingScreen message={"No location available"} />;
 
