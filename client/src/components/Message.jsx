@@ -55,7 +55,7 @@ const MessageFound = ({ message: messageObject, likeMessage, deleteMessage, user
 	};
 
 	const dateString = createDay ? readableTime(createDay) : null;
-	const isUsersMessage = username === (user && user.username);
+	const isUsersMessage = user && user.messages && user.messages.includes(id);
 
 	return (
 		<View style={styles.container}>
