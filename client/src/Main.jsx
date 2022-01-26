@@ -25,7 +25,6 @@ const Main = () => {
 
 	const noLocation = !location;
 	if (loadingLocation || noLocation) return <LoadingScreen message={"Loading location..."} />;
-	if (loadingMessages && !messages) return <LoadingScreen message={"Loading messages..."} />;
 
 	if (noLocation) return <LoadingScreen message={"No location available"} />;
 
