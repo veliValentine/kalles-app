@@ -32,6 +32,9 @@ const Register = ({ register, error, loading }) => {
 			}
 		}
 	};
+
+	const errorMessage = error || validationError;
+
 	return (
 		<View style={styles.container}>
 			<ScrollView>
@@ -65,13 +68,16 @@ const Register = ({ register, error, loading }) => {
 					handleTextChange={setPasswordAgain}
 					isPassword={true}
 				/>
-				<ErrorComponent errorMessage={error || validationError} />
-				<Button
-					onPress={handleRegister}
-					title="register"
-					disabled={loading}
-				/>
 			</ScrollView>
+			{errorMessage ?
+				<ErrorComponent errorMessage={errorMessage} /> :
+				null
+			}
+			<Button
+				onPress={handleRegister}
+				title="register"
+				disabled={loading}
+			/>
 		</View>
 	);
 };
