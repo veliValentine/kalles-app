@@ -23,7 +23,7 @@
       "favicon": "./assets/favicon.png"
     },
     "privacy": "unlisted",
-    "description": "0.5.0",
+    "description": "0.5.1",
     "android": {
       "package": "com.velivalentine.kallesstudios"
     }
