@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 169  | ---         |
-| Client | 82   | 24.01.2022  |
+| Total  | 173  | ---         |
+| Client | 86   | 24.01.2022  |
 | Server | 87   | 22.01.2022  |
 
 ## Client
@@ -90,7 +90,10 @@
 |    sum     | 80   | ----------- sum --------------                                        |
 | 24.01.2022 | 1    | Feat: loading messages and loading screen. Clean up                   |
 | 24.01.2022 | 1    | Documentation and publish 0.5.0                                       |
-|    sum     | 82   | ----------- sum --------------                                        |
+| 24.01.2022 | 1    | Debug: why production mode fails                                      |
+| 26.01.2022 | 2    | Debug: why production mode fails v2                                   |
+| 26.01.2022 | 1    | Fix: bugs                                                             |
+|    sum     | 86   | ----------- sum --------------                                        |
 
 | | | |
 ## Server
