@@ -17,7 +17,7 @@ export const parseLocation = (location, fileLocation = "no file location given")
 
 export const readableDistance = (distance) => {
 	if (distance >= 1.0) return `${distance}km`;
-	return `${Math.round(distance * 1000)}m`;
+	return `${Math.round(distance * 1000)} meters`;
 };
 
 export const readableTime = (time = new Date()) => {

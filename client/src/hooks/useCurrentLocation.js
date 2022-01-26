@@ -3,7 +3,7 @@ import { calculateDistance } from "../utils";
 import * as Location from "expo-location";
 import useLoading from "./useLoading";
 
-const DISTANCE_THRESHOLD_KM = 0.01;
+const DISTANCE_THRESHOLD_KM = 0.001;
 
 const useCurrentLocation = () => {
 	const [location, setLocation] = useState();
@@ -22,6 +22,7 @@ const useCurrentLocation = () => {
 		const options = {
 			timeInterval: 1000,
 			distanceInterval: DISTANCE_THRESHOLD_KM * 1000,
+			accuracy: Location.Accuracy.High
 		};
 		await Location.watchPositionAsync(options, callBack);
 	};

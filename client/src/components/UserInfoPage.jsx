@@ -1,12 +1,20 @@
+import { useBackHandler } from "@react-native-community/hooks";
 import React from "react";
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useHistory } from "react-router-native";
 import useUserContent from "../hooks/useUserContent";
+import { MAP_PAGE } from "../service/navigationService";
 import ItemSeparator from "./common/ItemSeparator";
 import LoadingScreen from "./LoadingScreen";
 
 const UserInfoPage = ({ user, logout }) => {
 	const [loading, , usersMessages, likedMessages] = useUserContent(user);
+	const history = useHistory();
+
+	useBackHandler(() => {
+		history.push(MAP_PAGE);
+		return true;
+	});
 
 	const loadingMessageStyles = {
 		container: styles.container,

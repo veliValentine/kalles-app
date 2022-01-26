@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
-import { useState } from "react/cjs/react.development";
 import Error from "../common/Error";
 import { Input, styles } from "./commonAuth";
 

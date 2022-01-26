@@ -16,14 +16,17 @@ import Authentication from "./components/authentication";
 import useMessages from "./hooks/useMessages";
 import useCurrentLocation from "./hooks/useCurrentLocation";
 import useUser from "./hooks/useUser";
+import { MAP_PAGE } from "./service/navigationService";
 
 const Main = () => {
 	const [loadingUser, userError, user, fetchUser, login, register, logout] = useUser();
 	const [location, changeLocation, loadingLocation] = useCurrentLocation();
 	const [loadingMessages, messageError, messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, fetchUser, user);
-	if (loadingLocation || !location) return <LoadingScreen message={"Loading location..."} />;
 
-	if (!location) return <LoadingScreen message={"No location available"} />;
+	const noLocation = !location;
+	if (loadingLocation || noLocation) return <LoadingScreen message={"Loading location..."} />;
+
+	if (noLocation) return <LoadingScreen message={"No location available"} />;
 
 	const errorMessage = userError || messageError || null;
 
@@ -41,12 +44,12 @@ const Main = () => {
 						<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
 					</Route>
 					<Route path="/messages" exact>
-						<MessageList messages={messages} loadingMessages={loadingMessages} />
+						<MessageList messages={messages} loadingMessages={loadingMessages} getMessages={getMessages} />
 					</Route>
 					<Route path="/newMessage">
 						<MessageForm addMessage={addMessage} currentLocation={location} />
 					</Route>
-					<Route path={["/map", "/map/:latitude/:longitude"]} exact key="default-map">
+					<Route path={[MAP_PAGE, "/map/:latitude/:longitude"]} exact key="default-map">
 						<MapPage
 							messages={messages}
 							reloadMessages={getMessages}
@@ -54,7 +57,7 @@ const Main = () => {
 							changeLocation={changeLocation}
 						/>
 					</Route>
-					<Redirect to="/map" />
+					<Redirect to={MAP_PAGE} />
 				</Switch>
 			}
 		</View>

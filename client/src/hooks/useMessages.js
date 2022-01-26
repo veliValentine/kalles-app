@@ -28,6 +28,7 @@ const useMessages = (currentLocation, fetchUser, user) => {
 				setMessages(messages.sort(sortByDistances));
 			} catch (error) {
 				handleApiErrors(error, updateError);
+				setMessages([]);
 			}
 			stopLoading();
 		}

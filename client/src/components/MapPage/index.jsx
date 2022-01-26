@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 import MapView from "react-native-maps";
 
-import Constants from "expo-constants";
+import { APP_BAR_HEIGHT } from "../AppBar";
 
 import { useParams } from "react-router-native";
-import { ReloadButton, UserLocationButton } from "./MapButtons";
+import { NewMessageButton, ReloadButton, UserLocationButton } from "./MapButtons";
 import Marker from "./Marker";
+import { useHistory } from "react-router-native";
 
 // https://github.com/react-native-maps/react-native-maps
 const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
+	const history = useHistory();
 	const userRegion = {
 		latitude: location.latitude,
 		longitude: location.longitude,
@@ -42,6 +44,9 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
 		const seconds = 1 * 1000;
 		mapRef.animateToRegion(userRegion, seconds);
 	};
+
+	const addMessage = () => history.push("/newMessage");
+
 	return (
 		<View>
 			<Map
@@ -51,32 +56,34 @@ const MapPage = ({ messages, reloadMessages, location, changeLocation }) => {
 			/>
 			<ReloadButton onPress={reloadMessages} />
 			<UserLocationButton onPress={moveToUserLocation} />
+			<NewMessageButton onPress={addMessage} />
 		</View >
 	);
 };
 
 let mapRef;
-const Map = ({ region, handleLocationChange, markers }) => (
-	<MapView
-		style={styles.map}
-		ref={(map) => { mapRef = map; }}
-		showsUserLocation={true}
-		showsMyLocationButton={false}//minZoomLevel={13}
-		showsBuildings={false}
-		showsTraffic={false}
-		toolbarEnabled={false}
-		initialRegion={region}
-		onUserLocationChange={handleLocationChange}
-	>
-		{markers}
-	</MapView>
-);
-
-const styles = StyleSheet.create({
-	map: {
-		width: Dimensions.get("window").width - 1,
-		height: Dimensions.get("window").height - Constants.statusBarHeight - 60,
-	},
-});
+const Map = ({ region, handleLocationChange, markers }) => {
+	const windowWidth = useWindowDimensions().width;
+	const windowHeight = useWindowDimensions().height;
+	const mapStyles = {
+		width: windowWidth - 1,
+		height: windowHeight - APP_BAR_HEIGHT + 1,
+	};
+	return (
+		<MapView
+			style={mapStyles}
+			ref={(map) => { mapRef = map; }}
+			showsUserLocation={true}
+			showsMyLocationButton={false}//minZoomLevel={13}
+			showsBuildings={false}
+			showsTraffic={false}
+			toolbarEnabled={false}
+			initialRegion={region}
+			onUserLocationChange={handleLocationChange}
+		>
+			{markers}
+		</MapView>
+	);
+};
 
 export default MapPage;

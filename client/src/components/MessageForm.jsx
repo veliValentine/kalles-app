@@ -1,7 +1,9 @@
+import { useBackHandler } from "@react-native-community/hooks";
 import React, { useState } from "react";
 import { Text, StyleSheet, View, Button } from "react-native";
 import { useHistory } from "react-router-native";
 import useError from "../hooks/useError";
+import { MAP_PAGE } from "../service/navigationService";
 import Error from "./common/Error";
 import TextInput from "./common/TextInput";
 
@@ -9,6 +11,11 @@ const MessageForm = ({ addMessage }) => {
 	const [message, setMessage] = useState("");
 	const [error, updateError] = useError();
 	const history = useHistory();
+
+	useBackHandler(() => {
+		history.push(MAP_PAGE);
+		return true;
+	});
 
 	const newMessage = () => {
 		const messageData = message.trim();

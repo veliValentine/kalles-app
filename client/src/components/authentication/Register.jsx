@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, ScrollView, Text, View } from "react-native";
-import { useState } from "react/cjs/react.development";
 import useError from "../../hooks/useError";
 import ErrorComponent from "../common/Error";
 import { Input, styles } from "./commonAuth";
@@ -33,6 +32,9 @@ const Register = ({ register, error, loading }) => {
 			}
 		}
 	};
+
+	const errorMessage = error || validationError;
+
 	return (
 		<View style={styles.container}>
 			<ScrollView>
@@ -66,13 +68,16 @@ const Register = ({ register, error, loading }) => {
 					handleTextChange={setPasswordAgain}
 					isPassword={true}
 				/>
-				<ErrorComponent errorMessage={error || validationError} />
-				<Button
-					onPress={handleRegister}
-					title="register"
-					disabled={loading}
-				/>
 			</ScrollView>
+			{errorMessage ?
+				<ErrorComponent errorMessage={errorMessage} /> :
+				null
+			}
+			<Button
+				onPress={handleRegister}
+				title="register"
+				disabled={loading}
+			/>
 		</View>
 	);
 };

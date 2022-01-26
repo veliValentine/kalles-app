@@ -18,9 +18,11 @@ export const handleApiErrors = (error, updateError) => {
 	if (error instanceof LocationError) {
 		return updateError("There was an error with the location");
 	}
-	console.log(JSON.stringify({
-		error: error.name,
-		message: error.message,
-	}));
+	if (error instanceof Error) {
+		console.log(JSON.stringify({
+			error: error.name,
+			message: error.message
+		}));
+	}
 	updateError("An unexpected error happened!");
 };
