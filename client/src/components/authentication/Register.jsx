@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, ScrollView, Text, View } from "react-native";
-import { useState } from "react/cjs/react.development";
 import useError from "../../hooks/useError";
 import ErrorComponent from "../common/Error";
 import { Input, styles } from "./commonAuth";
