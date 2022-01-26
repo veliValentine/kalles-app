@@ -10,7 +10,7 @@ const wakeApiServer = async () => {
 };
 
 const App = () => {
-	useEffect(wakeApiServer, []);
+	useEffect(() => { wakeApiServer(); }, []);
 	return (
 		<NativeRouter>
 			<Main />
