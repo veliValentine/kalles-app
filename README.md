@@ -6,6 +6,31 @@ The application is a full stack location based messaging application, where user
 
 The application currently runs only on expo-go. Follow [get started](./GET_STARTED.md) documentation to try it out!
 
+## Table of contents
+- [kalles-app](#kalles-app)
+	- [Table of contents](#table-of-contents)
+	- [Get started](#get-started)
+	- [Hours](#hours)
+	- [Client side source code](#client-side-source-code)
+		- [Expo instance](#expo-instance)
+	- [Server(API) source code](#serverapi-source-code)
+		- [Server instances](#server-instances)
+			- [Test server](#test-server)
+			- [Production server](#production-server)
+	- [Pipelines and github actions](#pipelines-and-github-actions)
+		- [Publish pipeline](#publish-pipeline)
+			- [Server](#server)
+			- [Client](#client)
+		- [Test/lint action](#testlint-action)
+
+## Get started
+
+[Read get started documentation here](./GET_STARTED.md)
+
+## Hours
+
+[The project hours can be found here](./hours.md)
+
 ## Client side source code
 [client source code](./client)
 
@@ -23,16 +48,25 @@ Expo project: https://expo.dev/@velivalentine/kalles-studios
 Server is build using docker and node. It is running at heroku servers.
 
 ### Server instances
+#### Test server
 Instance of test server can be found [https://kalle-studio-test.herokuapp.com/api/v1/health](https://kalle-studio-test.herokuapp.com/api/v1/health)
 
+#### Production server
 Instance of server can be found [https://kalle-studio.herokuapp.com/api/v1/health](https://kalle-studio.herokuapp.com/api/v1/health)
 
 Only difference with these are the database they are connected to.
 
-## Get started
+## Pipelines and github actions
+There are three publish pipelines and one test/lint github action.
 
-[Read get started documentation here](./GET_STARTED.md)
+### Publish pipeline
+#### Server
+When pull request is merged to master branch a server-build action triggers. This action builds server container based on [Dockerfile](./server/Dockerfile) and publish it to [test server](#test-server).
 
-## Hours
+When pull request is merged to production branch a server-build action triggers. This action builds server container based on [Dockerfile](./server/Dockerfile) and publish it to [production server](#production-server).
 
-[The project hours can be found here](./hours.md)
+#### Client
+When pull request is merger to master branch a build action is triggered. This action builds and publish the [client side](./client) to expo servers.
+
+### Test/lint action
+Server code has lint/test action. When creating a pull request this action is triggered. It runs eslint command on [server code](./server) and all server tests.
