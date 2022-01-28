@@ -19,6 +19,7 @@ This api is build with
 		- [Test server](#test-server)
 		- [Production server](#production-server)
 	- [Database](#database)
+	- [Api documentation](#api-documentation)
 
 ## Get started
 1. Install supported node and npm versions
@@ -86,3 +87,10 @@ Only difference with these are the database they are connected to.
 [Mongo db](https://www.mongodb.com/) is used for data persistence.
 
 Picture of database [schema can be found here](https://github.com/veliValentine/kalles-app/wiki/Models).
+
+## Api documentation
+User api documentation [can be found here](./documentation/api/USER_API.md)
+
+Message api documentation [can be found here](./documentation/api/MESSAGE_API.md)
+
+Auth api documentation [can be found here](./documentation/api/AUTH_API.md)
