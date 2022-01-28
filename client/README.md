@@ -2,6 +2,8 @@
 
 Front end of kalle-studio react-native full stack application.
 
+Project is build with expo. It uses skd version 44 which should be valid for summer 2022.
+
 ## Get started
 1. Install expo client: `npm i --global expo-cli`
 2. Install dependencies: `npm i`
