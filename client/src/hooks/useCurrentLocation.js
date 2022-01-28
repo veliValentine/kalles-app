@@ -10,13 +10,25 @@ const useCurrentLocation = () => {
 	const [isLoading, startLoading, stopLoading] = useLoading();
 
 	useEffect(() => {
+		getInitialLocation();
 		watchLocation();
 	}, []);
+
+	const getInitialLocation = async () => {
+		startLoading();
+		const expoLocation = await Location.getLastKnownPositionAsync();
+		if (expoLocation && expoLocation.coords) {
+			validateLocation(expoLocation.coords);
+		}
+		stopLoading();
+	};
 
 	const watchLocation = async () => {
 		startLoading();
 		const callBack = (expoLocation) => {
-			validateLocation(expoLocation.coords);
+			if (expoLocation && expoLocation.coords) {
+				validateLocation(expoLocation.coords);
+			}
 			stopLoading();
 		};
 		const options = {
