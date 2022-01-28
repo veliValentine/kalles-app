@@ -14,12 +14,12 @@ import Router from "./components/Router";
 
 const Main = () => {
 	const [loadingUser, userError, user, fetchUser, login, register, logout] = useUser();
-	const [location, changeLocation, loadingLocation] = useCurrentLocation();
+	const [loadingLocation, locationError, location, changeLocation] = useCurrentLocation();
 	const [loadingMessages, messageError, messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, fetchUser, user);
 
 	const noLocation = !location;
 
-	const errorMessage = userError || messageError || null;
+	const errorMessage = userError || locationError || messageError || null;
 
 	if (loadingLocation || noLocation) {
 		return (
