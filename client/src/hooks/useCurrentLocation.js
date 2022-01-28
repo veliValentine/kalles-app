@@ -48,7 +48,7 @@ const useCurrentLocation = () => {
 			if (error instanceof Error && error.message === "Location request failed due to unsatisfied device settings.") {
 				updateError(error.message);
 			} else {
-				updateError("Unexpected exeption happened while updating location.")
+				updateError("Unexpected exeption happened while updating location.");
 			}
 		}
 	};
