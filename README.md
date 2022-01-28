@@ -14,9 +14,6 @@ The application currently runs only on expo-go. Follow [get started](./GET_START
 	- [Client side source code](#client-side-source-code)
 		- [Expo instance](#expo-instance)
 	- [Server(API) source code](#serverapi-source-code)
-		- [Server instances](#server-instances)
-			- [Test server](#test-server)
-			- [Production server](#production-server)
 	- [Pipelines and github actions](#pipelines-and-github-actions)
 		- [Publish pipeline](#publish-pipeline)
 			- [Server](#server)
@@ -47,23 +44,14 @@ Expo project: https://expo.dev/@velivalentine/kalles-studios
 
 Server is build using docker and node. It is running at heroku servers.
 
-### Server instances
-#### Test server
-Instance of test server can be found [https://kalle-studio-test.herokuapp.com/api/v1/health](https://kalle-studio-test.herokuapp.com/api/v1/health)
-
-#### Production server
-Instance of server can be found [https://kalle-studio.herokuapp.com/api/v1/health](https://kalle-studio.herokuapp.com/api/v1/health)
-
-Only difference with these are the database they are connected to.
-
 ## Pipelines and github actions
 There are three publish pipelines and one test/lint github action.
 
 ### Publish pipeline
 #### Server
-When pull request is merged to master branch a server-build action triggers. This action builds server container based on [Dockerfile](./server/Dockerfile) and publish it to [test server](#test-server).
+When pull request is merged to master branch a server-build action triggers. This action builds server container based on [Dockerfile](./server/Dockerfile) and publish it to [test server](./server/README.md#test-server).
 
-When pull request is merged to production branch a server-build action triggers. This action builds server container based on [Dockerfile](./server/Dockerfile) and publish it to [production server](#production-server).
+When pull request is merged to production branch a server-build action triggers. This action builds server container based on [Dockerfile](./server/Dockerfile) and publish it to [production server](./server/README.md#production-server).
 
 #### Client
 When pull request is merger to master branch a build action is triggered. This action builds and publish the [client side](./client) to expo servers.
