@@ -7,8 +7,8 @@
 ## Total
 |  day   | time | last update |
 | :----: | :--- | :---------- |
-| Total  | 173  | ---         |
-| Client | 86   | 24.01.2022  |
+| Total  | 174  | ---         |
+| Client | 87   | 28.01.2022  |
 | Server | 87   | 22.01.2022  |
 
 ## Client
@@ -93,7 +93,8 @@
 | 24.01.2022 | 1    | Debug: why production mode fails                                      |
 | 26.01.2022 | 2    | Debug: why production mode fails v2                                   |
 | 26.01.2022 | 1    | Fix: bugs                                                             |
-|    sum     | 86   | ----------- sum --------------                                        |
+| 28.01.2022 | 1    | Feat: location error handling                                         |
+|    sum     | 87   | ----------- sum --------------                                        |
 
 | | | |
 ## Server
