@@ -24,45 +24,99 @@ const Main = () => {
 	const [loadingMessages, messageError, messages, getMessages, addMessage, likeMessage, deleteMessage] = useMessages(location, fetchUser, user);
 
 	const noLocation = !location;
-	if (loadingLocation || noLocation) return <LoadingScreen message={"Loading location..."} />;
-
-	if (noLocation) return <LoadingScreen message={"No location available"} />;
 
 	const errorMessage = userError || messageError || null;
 
+	if (loadingLocation || noLocation) {
+		return (
+			<MainPage user={user} errorMessage={errorMessage} >
+				<LoadingScreen message={"Loading location..."} />
+			</MainPage>
+		);
+	}
+	if (noLocation) {
+		return (
+			<MainPage user={user} errorMessage={errorMessage} >
+				<LoadingScreen message={"No location available"} />
+			</MainPage>
+		);
+	}
+	if (!user) {
+		return (
+			<MainPage user={user} errorMessage={errorMessage} >
+				<Authentication containerStyle={styles.container} userLogin={login} userRegisteration={register} loading={loadingUser} />
+			</MainPage>
+		);
+	}
 	return (
-		<View style={styles.container}>
-			<AppBar user={user} />
-			<ErrorScreen errorMessage={errorMessage} />
-			{!user ?
-				<Authentication containerStyle={styles.container} userLogin={login} userRegisteration={register} loading={loadingUser} /> :
-				<Switch>
-					<Route path="/userinfo" exact>
-						<UserInfoPage user={user} logout={logout} />
-					</Route>
-					<Route path="/message/:id" exact>
-						<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
-					</Route>
-					<Route path="/messages" exact>
-						<MessageList messages={messages} loadingMessages={loadingMessages} getMessages={getMessages} />
-					</Route>
-					<Route path="/newMessage">
-						<MessageForm addMessage={addMessage} currentLocation={location} />
-					</Route>
-					<Route path={[MAP_PAGE, "/map/:latitude/:longitude"]} exact key="default-map">
-						<MapPage
-							messages={messages}
-							reloadMessages={getMessages}
-							location={location}
-							changeLocation={changeLocation}
-						/>
-					</Route>
-					<Redirect to={MAP_PAGE} />
-				</Switch>
-			}
-		</View>
+		<MainPage user={user} errorMessage={errorMessage} >
+			<Router
+				user={user}
+				logout={logout}
+				messages={messages}
+				likeMessage={likeMessage}
+				deleteMessage={deleteMessage}
+				loadingMessages={loadingMessages}
+				getMessages={getMessages}
+				addMessage={addMessage}
+				location={location}
+				changeLocation={changeLocation}
+				errorMessage
+			/>
+		</MainPage>
 	);
 };
+
+const Router = ({
+	user,
+	logout,
+	messages,
+	likeMessage,
+	deleteMessage,
+	loadingMessages,
+	getMessages,
+	addMessage,
+	location,
+	changeLocation
+}) => (
+	<Switch>
+		<Route path="/userinfo" exact>
+			<UserInfoPage user={user} logout={logout} />
+		</Route>
+		<Route path="/message/:id" exact>
+			<Message messages={messages} likeMessage={likeMessage} deleteMessage={deleteMessage} user={user} />
+		</Route>
+		<Route path="/messages" exact>
+			<MessageList messages={messages} loadingMessages={loadingMessages} getMessages={getMessages} />
+		</Route>
+		<Route path="/newMessage">
+			<MessageForm addMessage={addMessage} currentLocation={location} />
+		</Route>
+		<Route path={[MAP_PAGE, "/map/:latitude/:longitude"]} exact key="default-map">
+			<MapPage
+				messages={messages}
+				reloadMessages={getMessages}
+				location={location}
+				changeLocation={changeLocation}
+			/>
+		</Route>
+		<Redirect to={MAP_PAGE} />
+	</Switch>
+);
+
+const MainPage = ({ user, errorMessage, children }) => (
+	<View style={styles.container}>
+		<Header user={user} errorMessage={errorMessage} />
+		{children}
+	</View>
+);
+
+const Header = ({ user, errorMessage }) => (
+	<View>
+		<AppBar user={user} />
+		<ErrorScreen errorMessage={errorMessage} />
+	</View>
+);
 
 const styles = StyleSheet.create({
 	container: {
