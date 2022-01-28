@@ -5,11 +5,11 @@
 	- [Server](#server)
 
 ## Total
-|  day   | time | last update |
-| :----: | :--- | :---------- |
-| Total  | 174  | ---         |
-| Client | 87   | 28.01.2022  |
-| Server | 87   | 22.01.2022  |
+|  day   | time  | last update |
+| :----: | :---- | :---------- |
+| Total  | 175.5 | ---         |
+| Client | 88    | 28.01.2022  |
+| Server | 87.5  | 22.01.2022  |
 
 ## Client
 |    day     | time | time used to                                                          |
@@ -84,7 +84,6 @@
 | 22.01.2022 | 1    | Feat: disable like button, init updating token                        |
 | 23.01.2022 | 1    | Feat: use refresh token                                               |
 | 23.01.2022 | 1    | Feat: coordinate update threshold, reload message list. Fix: location |
-|    sum     | 78   | ----------- sum --------------                                        |
 | 24.01.2022 | 1    | Faet: New message button                                              |
 | 24.01.2022 | 1    | Feat: back handling                                                   |
 |    sum     | 80   | ----------- sum --------------                                        |
@@ -94,9 +93,9 @@
 | 26.01.2022 | 2    | Debug: why production mode fails v2                                   |
 | 26.01.2022 | 1    | Fix: bugs                                                             |
 | 28.01.2022 | 1    | Feat: location error handling                                         |
-|    sum     | 87   | ----------- sum --------------                                        |
+| 28.01.2022 | 1    | Documentation                                                         |
+|    sum     | 88   | ----------- sum --------------                                        |
 
-| | | |
 ## Server
 |    day     | time | time used to                                                              |
 | :--------: | :--- | :------------------------------------------------------------------------ |
@@ -175,6 +174,5 @@
 | 08.01.2022 | 2    | fix test                                                                  |
 | 08.01.2022 | 1    | publish server 0.3.0                                                      |
 | 22.01.2022 | 1    | fix: model relations, publish server 0.3.1                                |
-|    sum     | 87   | ---------- sum ----------                                                 |
-
-| | | |
+| 28.01.2022 | 0.5  | document: server readme                                                   |
+|    sum     | 87.5 | ---------- sum ----------                                                 |
